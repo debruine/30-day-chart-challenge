@@ -12,7 +12,7 @@ I've been wanting to get more familiar with treemap plots. I always like to star
 
 Make a school with 5 grades, 1-4 classes per grade, and 15-35 students per class.
 
-```{r}
+```{r pth-data-sim}
 set.seed(8675309) # for reproducible data simulation
 
 school <- add_random(grade = 5) %>%
@@ -24,7 +24,7 @@ school <- add_random(grade = 5) %>%
 
 The basic version is OK, but I think we can do better here.
 
-```{r}
+```{r pth-treemap-basic}
 school %>% 
   count(grade, class) %>%
   treemap(
@@ -35,7 +35,7 @@ school %>%
 
 First, I'll adjust the label size and alignment. I adapted this code from a book that Emily Nordmann and I recently wrote: [Applied Data Skills](https://psyteachr.github.io/ads-v1/custom.html#treemap). For `fontsize.labels` and `align.labels`, I added vector names to help me remember which is which, but the names aren't used by `treemap()` at all, just the order.
 
-```{r}
+```{r pth-treemap-labels}
 school %>% 
   count(grade, class) %>%
   treemap(
@@ -54,7 +54,7 @@ school %>%
 
 I'd like to use the #30DayChartChallenge theme colours for my plots, so let's set that up. I'm going to name the colours after the chapter they represent.
 
-```{r}
+```{r pth-dcc-colours}
 dcc_theme <- list(
   comp = "#4864DB", # ~royalblue
   dist = "#10D4CF", # ~darkturquoise
@@ -64,7 +64,7 @@ dcc_theme <- list(
 )
 ```
 
-```{r}
+```{r pth-treemap-colours}
 school %>% 
   count(grade, class) %>%
   treemap(
@@ -86,7 +86,7 @@ Now I want to upgrade the labels. It's probably easiest to do this in the data u
 
 I'm also going to remove the transparent grey label background with `bg.labels = 0`, make the class labels a little bigger and aligned to the bottom right, give them some padding with `xmod.labels` and `ymod.labels`, make the borders thicker (it's starting to look like a Mondrian!) and adjust the figure width and height.
 
-```{r, fig.width = 8, fig.height = 5}
+```{r pth-treemap-final, fig.width = 8, fig.height = 5}
 school %>% 
   count(grade, class) %>%
   mutate(grade = gsub("grade", "P", grade)) %>%
