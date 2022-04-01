@@ -6,16 +6,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>1 Part-to-whole | 30-day Chart Challenge</title>
 <meta name="author" content="Lisa DeBruine">
-<meta name="description" content="library(treemap) library(faux) library(tidyverse) I've been wanting to get more familiar with treemap plots. I always like to start my exploration with simulated data. The mixed design simulation...">
+<meta name="description" content="library(treemap) library(faux) library(tidyverse) I've been wanting to get more familiar with treemap plots.  1.1 Simulate data I always like to start my exploration with simulated data. The mixed...">
 <meta name="generator" content="bookdown 0.24 with bs4_book()">
 <meta property="og:title" content="1 Part-to-whole | 30-day Chart Challenge">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://debruine.github.io/30-day-chart-challenge/part-to-whole.html">
 <meta property="og:image" content="https://debruine.github.io/30-day-chart-challenge/images/logos/logo.png">
-<meta property="og:description" content="library(treemap) library(faux) library(tidyverse) I've been wanting to get more familiar with treemap plots. I always like to start my exploration with simulated data. The mixed design simulation...">
+<meta property="og:description" content="library(treemap) library(faux) library(tidyverse) I've been wanting to get more familiar with treemap plots.  1.1 Simulate data I always like to start my exploration with simulated data. The mixed...">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="1 Part-to-whole | 30-day Chart Challenge">
-<meta name="twitter:description" content="library(treemap) library(faux) library(tidyverse) I've been wanting to get more familiar with treemap plots. I always like to start my exploration with simulated data. The mixed design simulation...">
+<meta name="twitter:description" content="library(treemap) library(faux) library(tidyverse) I've been wanting to get more familiar with treemap plots.  1.1 Simulate data I always like to start my exploration with simulated data. The mixed...">
 <meta name="twitter:image" content="https://debruine.github.io/30-day-chart-challenge/images/logos/logo.png">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.11/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
@@ -104,8 +104,13 @@
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">treemap</span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/debruine/faux">faux</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></code></pre></div>
-<p>I've been wanting to get more familiar with treemap plots. I always like to start my exploration with simulated data. The mixed design simulation functions below are from <a href="https://debruine.github.io/faux/articles/sim_mixed.html">faux</a>.</p>
-<p>Make a school with 5 grades, 1-4 classes per grade, and 15-35 students per class.</p>
+<p>I've been wanting to get more familiar with treemap plots.</p>
+<div id="simulate-data" class="section level2" number="1.1">
+<h2>
+<span class="header-section-number">1.1</span> Simulate data<a class="anchor" aria-label="anchor" href="#simulate-data"><i class="fas fa-link"></i></a>
+</h2>
+<p>I always like to start my exploration with simulated data. The mixed design simulation functions below are from <a href="https://debruine.github.io/faux/articles/sim_mixed.html">faux</a>.</p>
+<p>Make a school with 5 grades, 1-4 classes per grade, and 15-35 students per class. Get some random names from the 2010 Scottish babies.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">8675309</span><span class="op">)</span> <span class="co"># for reproducible data simulation</span>
 
@@ -113,7 +118,122 @@
   <span class="fu"><a href="https://rdrr.io/pkg/faux/man/add_random.html">add_random</a></span><span class="op">(</span>class <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span>, <span class="cn">TRUE</span><span class="op">)</span>, 
              .nested_in <span class="op">=</span> <span class="st">"grade"</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/faux/man/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://rdrr.io/pkg/faux/man/add_random.html">add_random</a></span><span class="op">(</span>student <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fl">15</span><span class="op">:</span><span class="fl">35</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span>, <span class="cn">TRUE</span><span class="op">)</span>, 
-             .nested_in <span class="op">=</span> <span class="st">"class"</span><span class="op">)</span></code></pre></div>
+             .nested_in <span class="op">=</span> <span class="st">"class"</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/faux/man/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/mutate.html">mutate</a></span><span class="op">(</span>name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span>,
+                       x <span class="op">=</span> <span class="fu">ukbabynames</span><span class="fu">::</span><span class="va"><a href="https://mine-cetinkaya-rundel.github.io/ukbabynames/reference/scotbabynames.html">scotbabynames</a></span> <span class="op"><a href="https://rdrr.io/pkg/faux/man/pipe.html">%&gt;%</a></span>
+                         <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/filter.html">filter</a></span><span class="op">(</span><span class="va">year</span> <span class="op">==</span> <span class="fl">2010</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/faux/man/pipe.html">%&gt;%</a></span>
+                         <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/pull.html">pull</a></span><span class="op">(</span><span class="va">name</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">school</span><span class="op">)</span></code></pre></div>
+<div class="kable-table">
+<div class="inline-table"><table class="table table-sm">
+<thead><tr>
+<th style="text-align:left;">
+grade
+</th>
+<th style="text-align:left;">
+class
+</th>
+<th style="text-align:left;">
+student
+</th>
+<th style="text-align:left;">
+name
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+grade1
+</td>
+<td style="text-align:left;">
+class01
+</td>
+<td style="text-align:left;">
+student001
+</td>
+<td style="text-align:left;">
+Bobby
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+grade1
+</td>
+<td style="text-align:left;">
+class01
+</td>
+<td style="text-align:left;">
+student002
+</td>
+<td style="text-align:left;">
+Chloe-Ann
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+grade1
+</td>
+<td style="text-align:left;">
+class01
+</td>
+<td style="text-align:left;">
+student003
+</td>
+<td style="text-align:left;">
+Laggan
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+grade1
+</td>
+<td style="text-align:left;">
+class01
+</td>
+<td style="text-align:left;">
+student004
+</td>
+<td style="text-align:left;">
+Isha
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+grade1
+</td>
+<td style="text-align:left;">
+class01
+</td>
+<td style="text-align:left;">
+student005
+</td>
+<td style="text-align:left;">
+Neva
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+grade1
+</td>
+<td style="text-align:left;">
+class01
+</td>
+<td style="text-align:left;">
+student006
+</td>
+<td style="text-align:left;">
+Khoray
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div id="basic-treemap" class="section level2" number="1.2">
+<h2>
+<span class="header-section-number">1.2</span> Basic Treemap<a class="anchor" aria-label="anchor" href="#basic-treemap"><i class="fas fa-link"></i></a>
+</h2>
 <p>The basic version is OK, but I think we can do better here.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">school</span> <span class="op"><a href="https://rdrr.io/pkg/faux/man/pipe.html">%&gt;%</a></span> 
@@ -123,7 +243,13 @@
     vSize <span class="op">=</span> <span class="st">"n"</span>
   <span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="30DCC_files/figure-html/pth-treemap-basic-1.png" width="100%" style="display: block; margin: auto;"></div>
+</div>
+<div id="adjust-labels" class="section level2" number="1.3">
+<h2>
+<span class="header-section-number">1.3</span> Adjust Labels<a class="anchor" aria-label="anchor" href="#adjust-labels"><i class="fas fa-link"></i></a>
+</h2>
 <p>First, I'll adjust the label size and alignment. I adapted this code from a book that Emily Nordmann and I recently wrote: <a href="https://psyteachr.github.io/ads-v1/custom.html#treemap">Applied Data Skills</a>. For <code>fontsize.labels</code> and <code>align.labels</code>, I added vector names to help me remember which is which, but the names aren't used by <code><a href="https://rdrr.io/pkg/treemap/man/treemap.html">treemap()</a></code> at all, just the order.</p>
+<p>The class labels aligned to the bottom right are too close to the edges, so give them some padding with <code>xmod.labels</code> and <code>ymod.labels</code>. I'm also going to remove the transparent grey label background with <code>bg.labels = 0</code></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">school</span> <span class="op"><a href="https://rdrr.io/pkg/faux/man/pipe.html">%&gt;%</a></span> 
   <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/count.html">count</a></span><span class="op">(</span><span class="va">grade</span>, <span class="va">class</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/faux/man/pipe.html">%&gt;%</a></span>
@@ -132,14 +258,23 @@
     vSize <span class="op">=</span> <span class="st">"n"</span>, 
     title <span class="op">=</span> <span class="st">""</span>,
     <span class="co"># set different label sizes for each type of label</span>
-    fontsize.labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>grade <span class="op">=</span> <span class="fl">30</span>, class <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>, 
+    fontsize.labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>grade <span class="op">=</span> <span class="fl">30</span>, class <span class="op">=</span> <span class="fl">15</span><span class="op">)</span>, 
+    <span class="co"># remove shaded background</span>
+    bg.labels <span class="op">=</span> <span class="fl">0</span>,
     <span class="co"># set different alignments for two label types</span>
     align.labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
       grade <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"top"</span><span class="op">)</span>, 
-      class <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"center"</span>, <span class="st">"center"</span><span class="op">)</span>
-    <span class="op">)</span> 
+      class <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"right"</span>, <span class="st">"bottom"</span><span class="op">)</span>
+    <span class="op">)</span>,
+    xmod.labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="op">-</span><span class="fl">.1</span><span class="op">)</span>, <span class="co"># nudge class labels left</span>
+    ymod.labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">.1</span><span class="op">)</span>   <span class="co"># nudge class labels up</span>
   <span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="30DCC_files/figure-html/pth-treemap-labels-1.png" width="100%" style="display: block; margin: auto;"></div>
+</div>
+<div id="colour-scheme" class="section level2" number="1.4">
+<h2>
+<span class="header-section-number">1.4</span> Colour scheme<a class="anchor" aria-label="anchor" href="#colour-scheme"><i class="fas fa-link"></i></a>
+</h2>
 <p>I'd like to use the #30DayChartChallenge theme colours for my plots, so let's set that up. I'm going to name the colours after the chapter they represent.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">dcc_theme</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
@@ -157,48 +292,55 @@
     vSize <span class="op">=</span> <span class="st">"n"</span>, 
     title <span class="op">=</span> <span class="st">""</span>,
     palette <span class="op">=</span> <span class="va">dcc_theme</span>,
-    <span class="co"># set different label sizes for each type of label</span>
     fontsize.labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>grade <span class="op">=</span> <span class="fl">30</span>, class <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>, 
-    <span class="co"># set different alignments for two label types</span>
+    bg.labels <span class="op">=</span> <span class="fl">0</span>,
     align.labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
       grade <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"top"</span><span class="op">)</span>, 
       class <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"center"</span>, <span class="st">"center"</span><span class="op">)</span>
-    <span class="op">)</span> 
+    <span class="op">)</span>,
+    xmod.labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="op">-</span><span class="fl">.1</span><span class="op">)</span>,
+    ymod.labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">.1</span><span class="op">)</span>
   <span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="30DCC_files/figure-html/pth-treemap-colours-1.png" width="100%" style="display: block; margin: auto;"></div>
+</div>
+<div id="change-text" class="section level2" number="1.5">
+<h2>
+<span class="header-section-number">1.5</span> Change text<a class="anchor" aria-label="anchor" href="#change-text"><i class="fas fa-link"></i></a>
+</h2>
 <p>Now I want to upgrade the labels. It's probably easiest to do this in the data using <code><a href="https://rdrr.io/pkg/dplyr/man/mutate.html">mutate()</a></code>. I'll set them to the kind of primary school grade labels we use in Scotland, where each grade is P1, P2, ... and each class within a grade gets a letter suffix.</p>
-<p>I'm also going to remove the transparent grey label background with <code>bg.labels = 0</code>, make the class labels a little bigger and aligned to the bottom right, give them some padding with <code>xmod.labels</code> and <code>ymod.labels</code>, make the borders thicker (it's starting to look like a Mondrian!) and adjust the figure width and height.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">school</span> <span class="op"><a href="https://rdrr.io/pkg/faux/man/pipe.html">%&gt;%</a></span> 
+<code class="sourceCode R"><span class="va">school2</span> <span class="op">&lt;-</span> <span class="va">school</span> <span class="op"><a href="https://rdrr.io/pkg/faux/man/pipe.html">%&gt;%</a></span> 
   <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/count.html">count</a></span><span class="op">(</span><span class="va">grade</span>, <span class="va">class</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/faux/man/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/mutate.html">mutate</a></span><span class="op">(</span>grade <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">"grade"</span>, <span class="st">"P"</span>, <span class="va">grade</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/faux/man/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/group_by.html">group_by</a></span><span class="op">(</span><span class="va">grade</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/faux/man/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/mutate.html">mutate</a></span><span class="op">(</span>class <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">grade</span>, <span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/context.html">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">]</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/faux/man/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/group_by.html">ungroup</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/faux/man/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/mutate.html">mutate</a></span><span class="op">(</span>class <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">class</span>, <span class="st">"\nn = "</span>, <span class="va">n</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/faux/man/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/mutate.html">mutate</a></span><span class="op">(</span>class <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">class</span>, <span class="st">"\nn = "</span>, <span class="va">n</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<p>Finally, make the borders thicker. It's starting to look like a Mondrian!.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">school2</span> <span class="op"><a href="https://rdrr.io/pkg/faux/man/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://rdrr.io/pkg/treemap/man/treemap.html">treemap</a></span><span class="op">(</span>
     index <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"grade"</span>, <span class="st">"class"</span><span class="op">)</span>, 
     vSize <span class="op">=</span> <span class="st">"n"</span>, 
     title <span class="op">=</span> <span class="st">""</span>,
     palette <span class="op">=</span> <span class="va">dcc_theme</span>,
-    <span class="co"># set different label sizes for each type of label</span>
     fontcolor.labels <span class="op">=</span> <span class="st">"white"</span>,
     fontsize.labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>grade <span class="op">=</span> <span class="fl">30</span>, class <span class="op">=</span> <span class="fl">15</span><span class="op">)</span>, 
     bg.labels <span class="op">=</span> <span class="fl">0</span>,
-    border.lwds <span class="op">=</span> <span class="fl">5</span>, <span class="co"># thicker borders</span>
-    <span class="co"># set different alignments for two label types</span>
     align.labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
       grade <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"top"</span><span class="op">)</span>, 
       class <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"right"</span>, <span class="st">"bottom"</span><span class="op">)</span>
     <span class="op">)</span>,
-    xmod.labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="op">-</span><span class="fl">.1</span><span class="op">)</span>, <span class="co"># nudge class labels left</span>
-    ymod.labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">.1</span><span class="op">)</span>   <span class="co"># nudge class labels up</span>
+    xmod.labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="op">-</span><span class="fl">.1</span><span class="op">)</span>,
+    ymod.labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">.1</span><span class="op">)</span>,
+    border.lwds <span class="op">=</span> <span class="fl">5</span>, <span class="co"># thicker borders</span>
   <span class="op">)</span></code></pre></div>
 <div class="figure" style="text-align: center">
 <span style="display:block;" id="fig:pth-treemap-final"></span>
 <img src="30DCC_files/figure-html/pth-treemap-final-1.png" alt="Treemap plot of classes nested in grades (P1 to P5). There are 2-4 classes in each grade with 16-35 students. The size of each box represents the size of the class, and the colour of the box represents the grade." width="100%"><p class="caption">
 Figure 1.1: Treemap plot of classes nested in grades (P1 to P5). There are 2-4 classes in each grade with 16-35 students. The size of each box represents the size of the class, and the colour of the box represents the grade.
 </p>
+</div>
 </div>
 </div>
 <script>
@@ -406,7 +548,14 @@ $( document ).ready(function() {
 <div class="next"><a href="pictogram.html"><span class="header-section-number">2</span> Pictogram</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
-      <ul class="nav navbar-nav"><li><a class="nav-link" href="#part-to-whole"><span class="header-section-number">1</span> Part-to-whole</a></li></ul>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#part-to-whole"><span class="header-section-number">1</span> Part-to-whole</a></li>
+<li><a class="nav-link" href="#simulate-data"><span class="header-section-number">1.1</span> Simulate data</a></li>
+<li><a class="nav-link" href="#basic-treemap"><span class="header-section-number">1.2</span> Basic Treemap</a></li>
+<li><a class="nav-link" href="#adjust-labels"><span class="header-section-number">1.3</span> Adjust Labels</a></li>
+<li><a class="nav-link" href="#colour-scheme"><span class="header-section-number">1.4</span> Colour scheme</a></li>
+<li><a class="nav-link" href="#change-text"><span class="header-section-number">1.5</span> Change text</a></li>
+</ul>
 
       <div class="book-extra">
         <ul class="list-unstyled">
