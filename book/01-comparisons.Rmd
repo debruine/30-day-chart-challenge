@@ -2,6 +2,85 @@
 
 ## Part-to-whole
 
+```{r}
+library(treemap)
+library(faux)
+library(tidyverse)
+```
+
+I've been wanting to get more familiar with treemap plots. I always like to start my exploration with simulated data. The mixed design simulation functions below are from [faux](https://debruine.github.io/faux/articles/sim_mixed.html).
+
+Make a school with 5 grades, 1-4 classes per grade, and 15-35 students per class.
+
+```{r}
+school <- add_random(grade = 5) %>%
+  add_random(class = sample(1:4, nrow(.), TRUE), 
+             .nested_in = "grade") %>%
+  add_random(student = sample(15:35, nrow(.), TRUE), 
+             .nested_in = "class")
+```
+
+The basic version is OK, but I think we can do better here.
+
+```{r}
+school %>% 
+  count(grade, class) %>%
+  treemap(
+    index = c("grade", "class"), 
+    vSize = "n"
+  )
+```
+
+First, I'll adjust the label size and alignment. I adapted this code from a book that Emily Nordmann and I recently wrote: [Applied Data Skills](https://psyteachr.github.io/ads-v1/custom.html#treemap). For `fontsize.labels` and `align.labels`, I added vector names to help me remember which is which, but the names aren't used by `treemap()` at all, just the order.
+
+```{r}
+school %>% 
+  count(grade, class) %>%
+  treemap(
+    index = c("grade", "class"), 
+    vSize = "n", 
+    title = "",
+    # set different label sizes for each type of label
+    fontsize.labels = c(grade = 30, class = 10), 
+    # set different alignments for two label types
+    align.labels = list(
+      grade = c("left", "top"), 
+      class = c("center", "center")
+    ) 
+  )
+```
+
+I'd like to use the #30DayChartChallenge theme colours for my plots, so let's set that up. I'm going to name the colours after the chapter they represent.
+
+```{r}
+dcc_theme <- list(
+  comp = "#4864DB", # ~royalblue
+  dist = "#10D4CF", # ~darkturquoise
+  rels = "#8DEA74", # ~lightgreen
+  time = "#F5C748", # ~tan1
+  cert = "#EA4E11"  # ~orangered2
+)
+```
+
+```{r}
+school %>% 
+  count(grade, class) %>%
+  treemap(
+    index = c("grade", "class"), 
+    vSize = "n", 
+    title = "",
+    palette = dcc_theme,
+    # set different label sizes for each type of label
+    fontsize.labels = c(grade = 30, class = 10), 
+    # set different alignments for two label types
+    align.labels = list(
+      grade = c("left", "top"), 
+      class = c("center", "center")
+    ) 
+  )
+```
+
+
 ## Pictogram
 
 ## Historical
