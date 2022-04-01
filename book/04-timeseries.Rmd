@@ -1,13 +1,19 @@
-# Timeseries
+# (PART) Timeseries {-}
 
-## Global Challenge
 
-## New Tool
+# Global Challenge
 
-## Down/Upwards
 
-## Animation
+# New Tool
 
-## Tiles
 
-## Financial Times (theme)
+# Down/Upwards
+
+
+# Animation
+
+
+# Tiles
+
+
+# Financial Times (theme)

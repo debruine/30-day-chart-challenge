@@ -1,6 +1,6 @@
-# Comparisons
+# (PART) Comparisons {-}
 
-## Part-to-whole
+# Part-to-whole
 
 ```{r}
 library(treemap)
@@ -115,12 +115,12 @@ school %>%
 ```
 
 
-## Pictogram
+# Pictogram
 
-## Historical
+# Historical
 
-## Flora
+# Flora
 
-## Slope
+# Slope
 
-## OWID (data)
+# OWID (data)

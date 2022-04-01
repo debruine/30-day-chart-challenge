@@ -1,14 +1,14 @@
-# Distributions
+# (PART) Distributions {-}
 
 
-## Physical
+# Physical
 
-## Mountains
+# Mountains
 
-## Statistics
+# Statistics
 
-## Experimental
+# Experimental
 
-## Circular
+# Circular
 
-## The Economist (theme)
+# The Economist (theme)

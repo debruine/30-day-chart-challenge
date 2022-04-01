@@ -20,10 +20,11 @@ body {
               0 -20px 0 0px var(--comp);
 }
 
-#comparisons h1, #comparisons h2 { color: var(--comp); }
-#distributions h1, #distributions h2 { color: var(--dist); }
-#relationships h1, #relationships h2 { color: var(--rels); }
-#timeseries h1, #timeseries h2 { color: var(--time); }
-#uncertainties h1, #uncertainties h2 { color: var(--cert); }
+li.book-part { font-weight: bold; font-variant: small-caps;}
+li.book-part:nth-of-type(2) { color: var(--comp); }
+li.book-part:nth-of-type(9) { color: var(--dist); }
+li.book-part:nth-of-type(16) { color: var(--rels); }
+li.book-part:nth-of-type(23) { color: var(--time); }
+li.book-part:nth-of-type(30) { color: var(--cert); }
 
 
