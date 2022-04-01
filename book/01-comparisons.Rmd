@@ -86,7 +86,7 @@ Now I want to upgrade the labels. It's probably easiest to do this in the data u
 
 I'm also going to remove the transparent grey label background with `bg.labels = 0`, make the class labels a little bigger and aligned to the bottom right, give them some padding with `xmod.labels` and `ymod.labels`, make the borders thicker (it's starting to look like a Mondrian!) and adjust the figure width and height.
 
-```{r pth-treemap-final, fig.width = 8, fig.height = 5}
+```{r pth-treemap-final, fig.width = 8, fig.height = 5, fig.cap = "Treemap plot of classes nested in grades (P1 to P5). There are 2-4 classes in each grade with 16-35 students. The size of each box represents the size of the class, and the colour of the box represents the grade."}
 school %>% 
   count(grade, class) %>%
   mutate(grade = gsub("grade", "P", grade)) %>%
