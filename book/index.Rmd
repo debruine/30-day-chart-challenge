@@ -1,0 +1,31 @@
+--- 
+title: "30-day Chart Challenge"
+subtitle: "2022"
+author: "Lisa DeBruine"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+documentclass: book
+bibliography: [book.bib, packages.bib]
+csl: include/apa.csl
+classoption: oneside
+geometry: margin=1in
+link-citations: yes
+description: "2022 30-day chart challenge"
+url: https://debruine.github.io/30-day-chart-challenge/
+github-repo: debruine/30-day-chart-challenge
+---
+
+```{r cite-packages, include = FALSE}
+# automatically create a bib database for R packages
+# add any packages you want to cite here
+knitr::write_bib(c(
+  .packages(), 'bookdown', 'tidyverse'
+), 'packages.bib')
+```
+
+# Overview {-}
+
+This is my first year participating in the [30-day chart challenge](https://github.com/30DayChartChallenge/Edition2022). In my work with [PsyTeachR](https://psyteachr.github.io), we do almost everything in bookdown, so I thought I'd make a book with our open-source [PsyTeachR template](https://psyteachr.github.io/template/).
+
+![](images/30-day-chart-challenge.jpg)
+
