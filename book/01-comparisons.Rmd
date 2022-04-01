@@ -13,6 +13,8 @@ I've been wanting to get more familiar with treemap plots. I always like to star
 Make a school with 5 grades, 1-4 classes per grade, and 15-35 students per class.
 
 ```{r}
+set.seed(8675309) # for reproducible data simulation
+
 school <- add_random(grade = 5) %>%
   add_random(class = sample(1:4, nrow(.), TRUE), 
              .nested_in = "grade") %>%
@@ -77,6 +79,38 @@ school %>%
       grade = c("left", "top"), 
       class = c("center", "center")
     ) 
+  )
+```
+
+Now I want to upgrade the labels. It's probably easiest to do this in the data using `mutate()`. I'll set them to the kind of primary school grade labels we use in Scotland, where each grade is P1, P2, ... and each class within a grade gets a letter suffix. 
+
+I'm also going to remove the transparent grey label background with `bg.labels = 0`, make the class labels a little bigger and aligned to the bottom right, give them some padding with `xmod.labels` and `ymod.labels`, make the borders thicker (it's starting to look like a Mondrian!) and adjust the figure width and height.
+
+```{r, fig.width = 8, fig.height = 5}
+school %>% 
+  count(grade, class) %>%
+  mutate(grade = gsub("grade", "P", grade)) %>%
+  group_by(grade) %>%
+  mutate(class = paste0(grade, letters[1:n()])) %>%
+  ungroup() %>%
+  mutate(class = paste0(class, "\nn = ", n)) %>%
+  treemap(
+    index = c("grade", "class"), 
+    vSize = "n", 
+    title = "",
+    palette = dcc_theme,
+    # set different label sizes for each type of label
+    fontcolor.labels = "white",
+    fontsize.labels = c(grade = 30, class = 15), 
+    bg.labels = 0,
+    border.lwds = 5, # thicker borders
+    # set different alignments for two label types
+    align.labels = list(
+      grade = c("left", "top"), 
+      class = c("right", "bottom")
+    ),
+    xmod.labels = c(0, -.1), # nudge class labels left
+    ymod.labels = c(0, .1)   # nudge class labels up
   )
 ```
 
