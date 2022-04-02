@@ -144,6 +144,93 @@ school2 %>%
 
 # Pictogram
 
+I recently discovered the `r pkg("waffle", "https://github.com/hrbrmstr/waffle/")` package for making waffle plots. Emily and I refuse to teach students on our [Applied Data Skills](https://psyteachr.github.io/ads-v1/) course how to make pie charts, and these are a sweet alternative. 
+
+```{r}
+#devtools::install_github("hrbrmstr/waffle")
+library(tidyverse)
+library(waffle)
+```
+
+
+## Pictogram data
+
+Pictograms are generally used for counts, and pets are my go-to example for unordered categorical data (even though ferrets are obviously the best).
+
+I found a table of [pet ownership in the USA](https://www.iii.org/fact-statistic/facts-statistics-pet-ownership-and-insurance). They had an excel file download option for the data, but the file was corrupted, so I used `r pkg("datapasta")` to copy it below.
+
+```{r pictogram-data}
+# Number of U.S. Households That Own a Pet, by Type of Animal 
+us_pets <- tibble::tribble(
+               ~Pet, ~Number,
+              "Dog",      69,
+              "Cat",    45.3,
+  "Freshwater fish",    11.8,
+             "Bird",     9.9,
+     "Small animal",     6.2,
+          "Reptile",     5.7,
+            "Horse",     3.5,
+   "Saltwater fish",     2.9
+  ) %>%
+  mutate(Pet = factor(Pet, Pet))
+```
+
+Then I need to find matching free icons at [fontawesome](https://fontawesome.com/v5/search?q=animal&m=free&s=solid). Make sure you're searching the v5 icons; v6 icons won't work and will result in an impenetrable error-message from `scale_label_pictogram()`
+
+
+
+```{r, error = TRUE}
+ggplot(us_pets, aes(label = Pet, values = Number)) +
+  geom_pictogram() +
+  scale_label_pictogram(
+    values = c("dog", "cat", "fish", "crow", "shrimp", "frog", "horse", "fish-fins")
+  )
+```
+
+```{r}
+ggplot(us_pets, aes(label = Pet, values = Number)) +
+  geom_pictogram() +
+  scale_label_pictogram(
+    values = c("dog", "cat", "fish", "crow", "otter", "frog", "horse", "fish")
+  )
+```
+
+### Colour
+
+Now, let's add some colour. I'm also going to make the icon size a little smaller.
+
+```{r}
+ggplot(us_pets, aes(label = Pet, values = Number, color = Pet)) +
+  geom_pictogram(size = 6.5) +
+  scale_label_pictogram(
+    values = c("dog", "cat", "fish", "crow", "otter", "frog", "horse", "fish")
+  )
+```
+
+### Clean it up
+
+Make sure the coordinates are equal to not stretch out the aspect ratio of the icons, add `theme_enhance_waffle()` to get rid of extraneous background, and `theme(axis.ticks = element_blank())` to get rid of the remaining axis ticks. 
+
+Finally, add labels to aid interpretation and for the data provenance.
+
+```{r}
+ggplot(us_pets, aes(label = Pet, values = Number, color = Pet)) +
+  geom_pictogram(size = 6.5) +
+  scale_label_pictogram(
+    values = c("dog", "cat", "fish", "crow", "otter", "frog", "horse", "fish")
+  ) +
+  coord_equal() +
+  theme_enhance_waffle() +
+  labs(title = "Pet Ownership in America",
+       subtitle = "Each icon represents 1 million houeholds",
+       caption = "Data from the American Pet Products Association (APPA) 2021-2022 National Pet Owners Survey ") +
+  theme(axis.ticks = element_blank())
+  
+```
+
+
+
+
 # Historical
 
 # Flora

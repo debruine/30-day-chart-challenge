@@ -6,6 +6,9 @@ adjust-labels
 colour-scheme
 change-text
 pictogram
+pictogram-data
+colour
+clean-it-up
 historical
 flora
 slope

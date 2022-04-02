@@ -6,16 +6,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>2 Pictogram | 30-day Chart Challenge</title>
 <meta name="author" content="Lisa DeBruine">
-<meta name="description" content='/* update total correct if #webex-total_correct exists */ update_total_correct = function() {  console.log("webex: update total_correct");  if (t = document.getElementById("webex-total_correct"))...'>
+<meta name="description" content="I recently discovered the waffle package for making waffle plots. Emily and I refuse to teach students on our Applied Data Skills course how to make pie charts, and these are a sweet alternative....">
 <meta name="generator" content="bookdown 0.24 with bs4_book()">
 <meta property="og:title" content="2 Pictogram | 30-day Chart Challenge">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://debruine.github.io/30-day-chart-challenge/pictogram.html">
 <meta property="og:image" content="https://debruine.github.io/30-day-chart-challenge/images/logos/logo.png">
-<meta property="og:description" content='/* update total correct if #webex-total_correct exists */ update_total_correct = function() {  console.log("webex: update total_correct");  if (t = document.getElementById("webex-total_correct"))...'>
+<meta property="og:description" content="I recently discovered the waffle package for making waffle plots. Emily and I refuse to teach students on our Applied Data Skills course how to make pie charts, and these are a sweet alternative....">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="2 Pictogram | 30-day Chart Challenge">
-<meta name="twitter:description" content='/* update total correct if #webex-total_correct exists */ update_total_correct = function() {  console.log("webex: update total_correct");  if (t = document.getElementById("webex-total_correct"))...'>
+<meta name="twitter:description" content="I recently discovered the waffle package for making waffle plots. Emily and I refuse to teach students on our Applied Data Skills course how to make pie charts, and these are a sweet alternative....">
 <meta name="twitter:image" content="https://debruine.github.io/30-day-chart-challenge/images/logos/logo.png">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.11/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
@@ -100,6 +100,82 @@
 <h1>
 <span class="header-section-number">2</span> Pictogram<a class="anchor" aria-label="anchor" href="#pictogram"><i class="fas fa-link"></i></a>
 </h1>
+<p>I recently discovered the <code class="package"><a href="https://github.com/hrbrmstr/waffle/" target="_blank">waffle</a></code> package for making waffle plots. Emily and I refuse to teach students on our <a href="https://psyteachr.github.io/ads-v1/">Applied Data Skills</a> course how to make pie charts, and these are a sweet alternative.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co">#devtools::install_github("hrbrmstr/waffle")</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://gitlab.com/hrbrmstr/waffle">waffle</a></span><span class="op">)</span></code></pre></div>
+<div id="pictogram-data" class="section level2" number="2.1">
+<h2>
+<span class="header-section-number">2.1</span> Pictogram data<a class="anchor" aria-label="anchor" href="#pictogram-data"><i class="fas fa-link"></i></a>
+</h2>
+<p>Pictograms are generally used for counts, and pets are my go-to example for unordered categorical data (even though ferrets are obviously the best).</p>
+<p>I found a table of <a href="https://www.iii.org/fact-statistic/facts-statistics-pet-ownership-and-insurance">pet ownership in the USA</a>. They had an excel file download option for the data, but the file was corrupted, so I used <code class="package">datapasta</code> to copy it below.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Number of U.S. Households That Own a Pet, by Type of Animal </span>
+<span class="va">us_pets</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/tibble/man/tribble.html">tribble</a></span><span class="op">(</span>
+               <span class="op">~</span><span class="va">Pet</span>, <span class="op">~</span><span class="va">Number</span>,
+              <span class="st">"Dog"</span>,      <span class="fl">69</span>,
+              <span class="st">"Cat"</span>,    <span class="fl">45.3</span>,
+  <span class="st">"Freshwater fish"</span>,    <span class="fl">11.8</span>,
+             <span class="st">"Bird"</span>,     <span class="fl">9.9</span>,
+     <span class="st">"Small animal"</span>,     <span class="fl">6.2</span>,
+          <span class="st">"Reptile"</span>,     <span class="fl">5.7</span>,
+            <span class="st">"Horse"</span>,     <span class="fl">3.5</span>,
+   <span class="st">"Saltwater fish"</span>,     <span class="fl">2.9</span>
+  <span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/mutate.html">mutate</a></span><span class="op">(</span>Pet <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">Pet</span>, <span class="va">Pet</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<p>Then I need to find matching free icons at <a href="https://fontawesome.com/v5/search?q=animal&amp;m=free&amp;s=solid">fontawesome</a>. Make sure you're searching the v5 icons; v6 icons won't work and will result in an impenetrable error-message from <code><a href="https://rdrr.io/pkg/waffle/man/scale_label_pictogram.html">scale_label_pictogram()</a></code></p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">us_pets</span>, <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="va">Pet</span>, values <span class="op">=</span> <span class="va">Number</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/waffle/man/geom_pictogram.html">geom_pictogram</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/waffle/man/scale_label_pictogram.html">scale_label_pictogram</a></span><span class="op">(</span>
+    values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"dog"</span>, <span class="st">"cat"</span>, <span class="st">"fish"</span>, <span class="st">"crow"</span>, <span class="st">"shrimp"</span>, <span class="st">"frog"</span>, <span class="st">"horse"</span>, <span class="st">"fish-fins"</span><span class="op">)</span>
+  <span class="op">)</span></code></pre></div>
+<pre><code>## Error in vapply(if (n &gt; length(values)) rep(values[[1]], n) else values, : values must be length 1,
+##  but FUN(X[[5]]) result is length 0</code></pre>
+<div class="inline-figure"><img src="30DCC_files/figure-html/unnamed-chunk-162-1.png" width="100%" style="display: block; margin: auto;"></div>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">us_pets</span>, <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="va">Pet</span>, values <span class="op">=</span> <span class="va">Number</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/waffle/man/geom_pictogram.html">geom_pictogram</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/waffle/man/scale_label_pictogram.html">scale_label_pictogram</a></span><span class="op">(</span>
+    values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"dog"</span>, <span class="st">"cat"</span>, <span class="st">"fish"</span>, <span class="st">"crow"</span>, <span class="st">"otter"</span>, <span class="st">"frog"</span>, <span class="st">"horse"</span>, <span class="st">"fish"</span><span class="op">)</span>
+  <span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="30DCC_files/figure-html/unnamed-chunk-163-1.png" width="100%" style="display: block; margin: auto;"></div>
+<div id="colour" class="section level3" number="2.1.1">
+<h3>
+<span class="header-section-number">2.1.1</span> Colour<a class="anchor" aria-label="anchor" href="#colour"><i class="fas fa-link"></i></a>
+</h3>
+<p>Now, let's add some colour. I'm also going to make the icon size a little smaller.</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">us_pets</span>, <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="va">Pet</span>, values <span class="op">=</span> <span class="va">Number</span>, color <span class="op">=</span> <span class="va">Pet</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/waffle/man/geom_pictogram.html">geom_pictogram</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">6.5</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/waffle/man/scale_label_pictogram.html">scale_label_pictogram</a></span><span class="op">(</span>
+    values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"dog"</span>, <span class="st">"cat"</span>, <span class="st">"fish"</span>, <span class="st">"crow"</span>, <span class="st">"otter"</span>, <span class="st">"frog"</span>, <span class="st">"horse"</span>, <span class="st">"fish"</span><span class="op">)</span>
+  <span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="30DCC_files/figure-html/unnamed-chunk-164-1.png" width="100%" style="display: block; margin: auto;"></div>
+</div>
+<div id="clean-it-up" class="section level3" number="2.1.2">
+<h3>
+<span class="header-section-number">2.1.2</span> Clean it up<a class="anchor" aria-label="anchor" href="#clean-it-up"><i class="fas fa-link"></i></a>
+</h3>
+<p>Make sure the coordinates are equal to not stretch out the aspect ratio of the icons, add <code><a href="https://rdrr.io/pkg/waffle/man/theme_enhance_waffle.html">theme_enhance_waffle()</a></code> to get rid of extraneous background, and <code>theme(axis.ticks = element_blank())</code> to get rid of the remaining axis ticks.</p>
+<p>Finally, add labels to aid interpretation and for the data provenance.</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">us_pets</span>, <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="va">Pet</span>, values <span class="op">=</span> <span class="va">Number</span>, color <span class="op">=</span> <span class="va">Pet</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/waffle/man/geom_pictogram.html">geom_pictogram</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">6.5</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/waffle/man/scale_label_pictogram.html">scale_label_pictogram</a></span><span class="op">(</span>
+    values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"dog"</span>, <span class="st">"cat"</span>, <span class="st">"fish"</span>, <span class="st">"crow"</span>, <span class="st">"otter"</span>, <span class="st">"frog"</span>, <span class="st">"horse"</span>, <span class="st">"fish"</span><span class="op">)</span>
+  <span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/coord_fixed.html">coord_equal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/waffle/man/theme_enhance_waffle.html">theme_enhance_waffle</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Pet Ownership in America"</span>,
+       subtitle <span class="op">=</span> <span class="st">"Each icon represents 1 million houeholds"</span>,
+       caption <span class="op">=</span> <span class="st">"Data from the American Pet Products Association (APPA) 2021-2022 National Pet Owners Survey "</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/theme.html">theme</a></span><span class="op">(</span>axis.ticks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="30DCC_files/figure-html/unnamed-chunk-165-1.png" width="100%" style="display: block; margin: auto;"></div>
+</div>
+</div>
 </div>
 <script>
 
@@ -306,7 +382,15 @@ $( document ).ready(function() {
 <div class="next"><a href="historical.html"><span class="header-section-number">3</span> Historical</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
-      <ul class="nav navbar-nav"><li><a class="nav-link" href="#pictogram"><span class="header-section-number">2</span> Pictogram</a></li></ul>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#pictogram"><span class="header-section-number">2</span> Pictogram</a></li>
+<li>
+<a class="nav-link" href="#pictogram-data"><span class="header-section-number">2.1</span> Pictogram data</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#colour"><span class="header-section-number">2.1.1</span> Colour</a></li>
+<li><a class="nav-link" href="#clean-it-up"><span class="header-section-number">2.1.2</span> Clean it up</a></li>
+</ul>
+</li>
+</ul>
 
       <div class="book-extra">
         <ul class="list-unstyled">
@@ -323,7 +407,7 @@ $( document ).ready(function() {
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>30-day Chart Challenge</strong>: 2022" was written by Lisa DeBruine. It was last built on 2022-04-01.</p>
+    <p>"<strong>30-day Chart Challenge</strong>: 2022" was written by Lisa DeBruine. It was last built on 2022-04-02.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
