@@ -272,10 +272,17 @@ plot +
 
 ## Save
 
-However, I'm having trouble saving the plot using `ggsave()`. The icons end up garbled.
+However, I had trouble saving the plot using `ggsave()`. The icons end up garbled.
 
 ```{r, fig.alt="Same as above, but all the icons are question marks."}
-ggsave("images/day2.png", width = 8, height = 5)
+ggsave("images/day2_garbled.png", width = 8, height = 5)
+knitr::include_graphics("images/day2_garbled.png")
+```
+
+This turns out to be because `ggsave()` uses ragg by default (HT [Steve Haroz](https://twitter.com/sharoz/status/1510342578268516355)), which isn't playing well with fontawesome icons, so I have to set the device back to `png`.
+
+```{r, fig.alt="fixed"}
+ggsave("images/day2.png", width = 8, height = 5, device = png)
 knitr::include_graphics("images/day2.png")
 ```
 
