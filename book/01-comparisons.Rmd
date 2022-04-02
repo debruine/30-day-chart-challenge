@@ -175,23 +175,27 @@ us_pets <- tibble::tribble(
   mutate(Pet = factor(Pet, Pet))
 ```
 
-Then I need to find matching free icons at [fontawesome](https://fontawesome.com/v5/search?q=animal&m=free&s=solid). Make sure you're searching the v5 icons; v6 icons won't work and will result in an impenetrable error-message from `scale_label_pictogram()`
+Then I need to find matching free icons at [fontawesome](https://fontawesome.com/v5/search?q=animal&m=free&s=solid). Make sure you're searching the v5 icons; v6 icons won't work and will result in an impenetrable error-message from `scale_label_pictogram()`.
 
 
 
 ```{r, error = TRUE}
+icons <- c("dog", "cat", "fish", "crow", "frog", "dragon", "horse", "fish-fins")
 ggplot(us_pets, aes(label = Pet, values = Number)) +
   geom_pictogram() +
   scale_label_pictogram(
-    values = c("dog", "cat", "fish", "crow", "shrimp", "frog", "horse", "fish-fins")
+    values = icons
   )
 ```
 
+Yes, I know I used fish twice, and not many people owned winged dragons, but they were the only reptile!
+
 ```{r}
+icons <- c("dog", "cat", "fish", "crow", "frog", "dragon", "horse", "fish")
 ggplot(us_pets, aes(label = Pet, values = Number)) +
   geom_pictogram() +
   scale_label_pictogram(
-    values = c("dog", "cat", "fish", "crow", "otter", "frog", "horse", "fish")
+    values = icons
   )
 ```
 
@@ -203,28 +207,48 @@ Now, let's add some colour. I'm also going to make the icon size a little smalle
 ggplot(us_pets, aes(label = Pet, values = Number, color = Pet)) +
   geom_pictogram(size = 6.5) +
   scale_label_pictogram(
-    values = c("dog", "cat", "fish", "crow", "otter", "frog", "horse", "fish")
+    values = icons
   )
 ```
 
 ### Clean it up
 
-Make sure the coordinates are equal to not stretch out the aspect ratio of the icons, add `theme_enhance_waffle()` to get rid of extraneous background, and `theme(axis.ticks = element_blank())` to get rid of the remaining axis ticks. 
-
-Finally, add labels to aid interpretation and for the data provenance.
+Make sure the coordinates are equal to not stretch out the aspect ratio of the icons, add `theme_enhance_waffle()` to get rid of extraneous background, and add labels to aid interpretation and for the data provenance.
 
 ```{r}
-ggplot(us_pets, aes(label = Pet, values = Number, color = Pet)) +
+plot <- ggplot(us_pets, aes(label = Pet, values = Number, color = Pet)) +
   geom_pictogram(size = 6.5) +
   scale_label_pictogram(
-    values = c("dog", "cat", "fish", "crow", "otter", "frog", "horse", "fish")
+    values = icons
   ) +
   coord_equal() +
   theme_enhance_waffle() +
   labs(title = "Pet Ownership in America",
        subtitle = "Each icon represents 1 million houeholds",
-       caption = "Data from the American Pet Products Association (APPA) 2021-2022 National Pet Owners Survey ") +
-  theme(axis.ticks = element_blank())
+       caption = "Data from the American Pet Products Association (APPA) 2021-2022 National Pet Owners Survey ")
+
+plot
+```
+
+Finally, use `theme()` to really customise the look. I adjusted the spacing between the items on the legend with `legend.spacing.y`, which requires the guides to be set `byrow` to work. 
+
+```{r}
+plot +
+  theme(axis.ticks = element_blank(),
+        plot.margin = unit(c(.5, .5, .5, .0), 'cm'),
+        plot.title = element_text(family = "Market Deco", hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5),
+        plot.caption.position = "plot",
+        panel.background = element_blank(),
+        legend.background = element_blank(),
+        legend.title = element_blank(),
+        legend.key = element_blank(),
+        legend.spacing.y = unit(.25, 'cm'),
+        text = element_text(family = "Avenir", color = "white"),
+        plot.background = element_rect(fill = "black")) +
+  ## important additional element
+  guides(color = guide_legend(byrow = TRUE),
+         label = guide_legend(byrow = TRUE))
   
 ```
 
