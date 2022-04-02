@@ -135,7 +135,7 @@
   <span class="op">)</span></code></pre></div>
 <pre><code>## Error in vapply(if (n &gt; length(values)) rep(values[[1]], n) else values, : values must be length 1,
 ##  but FUN(X[[8]]) result is length 0</code></pre>
-<div class="inline-figure"><img src="30DCC_files/figure-html/unnamed-chunk-43-1.png" width="100%" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="30DCC_files/figure-html/pictogram-error-1.png" width="100%" style="display: block; margin: auto;"></div>
 <p>Yes, I know I used fish twice, and not many people owned winged dragons, but they were the only reptile!</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">icons</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"dog"</span>, <span class="st">"cat"</span>, <span class="st">"fish"</span>, <span class="st">"crow"</span>, <span class="st">"frog"</span>, <span class="st">"dragon"</span>, <span class="st">"horse"</span>, <span class="st">"fish"</span><span class="op">)</span>
@@ -144,7 +144,7 @@
   <span class="fu"><a href="https://rdrr.io/pkg/waffle/man/scale_label_pictogram.html">scale_label_pictogram</a></span><span class="op">(</span>
     values <span class="op">=</span> <span class="va">icons</span>
   <span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="30DCC_files/figure-html/unnamed-chunk-44-1.png" width="100%" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="30DCC_files/figure-html/pictogram-icons-1.png" width="100%" style="display: block; margin: auto;"></div>
 <div id="colour" class="section level3" number="2.1.1">
 <h3>
 <span class="header-section-number">2.1.1</span> Colour<a class="anchor" aria-label="anchor" href="#colour"><i class="fas fa-link"></i></a>
@@ -156,7 +156,7 @@
   <span class="fu"><a href="https://rdrr.io/pkg/waffle/man/scale_label_pictogram.html">scale_label_pictogram</a></span><span class="op">(</span>
     values <span class="op">=</span> <span class="va">icons</span>
   <span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="30DCC_files/figure-html/unnamed-chunk-45-1.png" width="100%" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="30DCC_files/figure-html/pictogram-colour-1.png" width="100%" style="display: block; margin: auto;"></div>
 </div>
 <div id="clean-it-up" class="section level3" number="2.1.2">
 <h3>
@@ -173,10 +173,10 @@
   <span class="fu"><a href="https://rdrr.io/pkg/waffle/man/theme_enhance_waffle.html">theme_enhance_waffle</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Pet Ownership in America"</span>,
        subtitle <span class="op">=</span> <span class="st">"Each icon represents 1 million houeholds"</span>,
-       caption <span class="op">=</span> <span class="st">"Data from the American Pet Products Association (APPA) 2021-2022 National Pet Owners Survey "</span><span class="op">)</span>
+       caption <span class="op">=</span> <span class="st">"Data from the American Pet Products Association (APPA) 2021-2022 National Pet Owners Survey"</span><span class="op">)</span>
 
 <span class="va">plot</span></code></pre></div>
-<div class="inline-figure"><img src="30DCC_files/figure-html/unnamed-chunk-46-1.png" width="100%" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="30DCC_files/figure-html/pictogram-clean-1.png" width="100%" style="display: block; margin: auto;"></div>
 <p>Finally, use <code><a href="https://rdrr.io/pkg/ggplot2/man/theme.html">theme()</a></code> to really customise the look. I adjusted the spacing between the items on the legend with <code>legend.spacing.y</code>, which requires the guides to be set <code>byrow</code> to work.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">plot</span> <span class="op">+</span>
@@ -191,11 +191,16 @@
         legend.key <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span>,
         legend.spacing.y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fl">.25</span>, <span class="st">'cm'</span><span class="op">)</span>,
         text <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/element.html">element_text</a></span><span class="op">(</span>family <span class="op">=</span> <span class="st">"Avenir"</span>, color <span class="op">=</span> <span class="st">"white"</span><span class="op">)</span>,
-        plot.background <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/element.html">element_rect</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+        plot.background <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/element.html">element_rect</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"black"</span>, color <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="co">## important additional element</span>
   <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/guides.html">guides</a></span><span class="op">(</span>color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/guide_legend.html">guide_legend</a></span><span class="op">(</span>byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,
          label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/guide_legend.html">guide_legend</a></span><span class="op">(</span>byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="30DCC_files/figure-html/unnamed-chunk-47-1.png" width="100%" style="display: block; margin: auto;"></div>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:pictogram-final"></span>
+<img src="30DCC_files/figure-html/pictogram-final-1.png" alt="Number of US households (in millions) with each of 8 common pet types. Data from the American Pet Products Association (APPA) 2021-2022 National Pet Owners Survey." width="100%"><p class="caption">
+Figure 2.1: Number of US households (in millions) with each of 8 common pet types. Data from the American Pet Products Association (APPA) 2021-2022 National Pet Owners Survey.
+</p>
+</div>
 </div>
 </div>
 </div>

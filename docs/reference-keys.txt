@@ -1,4 +1,5 @@
 fig:pth-treemap-final
+fig:pictogram-final
 part-to-whole
 simulate-data
 basic-treemap
