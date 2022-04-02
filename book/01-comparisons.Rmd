@@ -175,18 +175,19 @@ us_pets <- tibble::tribble(
   mutate(Pet = factor(Pet, Pet))
 ```
 
+## Icons
+
 Then I need to find matching free icons at [fontawesome](https://fontawesome.com/v5/search?q=animal&m=free&s=solid). Make sure you're searching the v5 icons; v6 icons won't work and will result in an impenetrable error-message from `scale_label_pictogram()`.
 
-
-
-```{r pictogram-error, error = TRUE}
-icons <- c("dog", "cat", "fish", "crow", "frog", "dragon", "horse", "fish-fins")
+```{r, eval = FALSE}
+icons <- c("dog", "cat", "fish-fins", "crow", "frog", "dragon", "horse", "fish")
 ggplot(us_pets, aes(label = Pet, values = Number)) +
   geom_pictogram() +
-  scale_label_pictogram(
-    values = icons
-  )
+  scale_label_pictogram(values = icons)
 ```
+
+<pre><code>## Error in vapply(if (n &gt; length(values)) rep(values[[1]], n) else values, : values must be length 1,
+##  but FUN(X[[8]]) result is length 0</code></pre>
 
 Yes, I know I used fish twice, and not many people owned winged dragons, but they were the only reptile!
 
@@ -194,33 +195,48 @@ Yes, I know I used fish twice, and not many people owned winged dragons, but the
 icons <- c("dog", "cat", "fish", "crow", "frog", "dragon", "horse", "fish")
 ggplot(us_pets, aes(label = Pet, values = Number)) +
   geom_pictogram() +
-  scale_label_pictogram(
-    values = icons
-  )
+  scale_label_pictogram(values = icons)
 ```
 
-### Colour
+## Colour
 
 Now, let's add some colour. I'm also going to make the icon size a little smaller.
 
 ```{r pictogram-colour}
 ggplot(us_pets, aes(label = Pet, values = Number, color = Pet)) +
   geom_pictogram(size = 6.5) +
-  scale_label_pictogram(
-    values = icons
-  )
+  scale_label_pictogram(values = icons)
 ```
 
-### Clean it up
+I like the ggplot default colours, except for the green fish. I'd rather it be yellow. I found this function to re-create the [ggplot default colour scheme](https://stackoverflow.com/questions/8197559/emulate-ggplot2-default-color-palette).
+
+```{r pictogram-show-col}
+ggplotColours <- function(n, h = c(0, 360) + 15){
+  h[2] <- h[2] - 360/n
+  hcl(h = (seq(h[1], h[2], length = n)), c = 100, l = 65)
+}
+pet_colours <- ggplotColours(8)
+pet_colours[3] <- "#F5C748"
+```
+
+
+```{r pictogram-custom-colour}
+ggplot(us_pets, aes(label = Pet, values = Number, color = Pet)) +
+  geom_pictogram(size = 6.5) +
+  scale_label_pictogram(values = icons) +
+  scale_colour_manual(values = pet_colours)
+```
+
+
+## Clean it up
 
 Make sure the coordinates are equal to not stretch out the aspect ratio of the icons, add `theme_enhance_waffle()` to get rid of extraneous background, and add labels to aid interpretation and for the data provenance.
 
 ```{r pictogram-clean}
 plot <- ggplot(us_pets, aes(label = Pet, values = Number, color = Pet)) +
   geom_pictogram(size = 6.5) +
-  scale_label_pictogram(
-    values = icons
-  ) +
+  scale_label_pictogram(values = icons) +
+  scale_colour_manual(values = pet_colours) +
   coord_equal() +
   theme_enhance_waffle() +
   labs(title = "Pet Ownership in America",
@@ -230,26 +246,34 @@ plot <- ggplot(us_pets, aes(label = Pet, values = Number, color = Pet)) +
 plot
 ```
 
+## Customise
+
 Finally, use `theme()` to really customise the look. I adjusted the spacing between the items on the legend with `legend.spacing.y`, which requires the guides to be set `byrow` to work. 
 
 ```{r pictogram-final, fig.cap = "Number of US households (in millions) with each of 8 common pet types. Data from the American Pet Products Association (APPA) 2021-2022 National Pet Owners Survey."}
 plot +
   theme(axis.ticks = element_blank(),
+        plot.background = element_rect(fill = "black", color = "black"),
         plot.margin = unit(c(.5, .5, .5, .0), 'cm'),
         plot.title = element_text(family = "Market Deco", hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
         plot.caption.position = "plot",
-        panel.background = element_blank(),
+        panel.background = element_rect(fill = "black", color = "black"),
         legend.background = element_blank(),
         legend.title = element_blank(),
         legend.key = element_blank(),
         legend.spacing.y = unit(.25, 'cm'),
-        text = element_text(family = "Avenir", color = "white"),
-        plot.background = element_rect(fill = "black", color = "black")) +
+        text = element_text(family = "Avenir", color = "white")) +
   ## important additional element
   guides(color = guide_legend(byrow = TRUE),
          label = guide_legend(byrow = TRUE))
-  
+```
+
+However, I'm having trouble saving the plot using `ggsave()`. The icons end up garbled.
+
+```{r}
+ggsave("images/day2.png", width = 8, height = 5)
+knitr::include_graphics("images/day2.png")
 ```
 
 

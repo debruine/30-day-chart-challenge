@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 )
 
 ## set global theme options for figures
-theme_set(theme_bw())
+#theme_set(theme_bw())
 
 ## set class for a chunk using class="className"
 knitr::knit_hooks$set(class = function(before, options, envir) {
@@ -64,7 +64,7 @@ psyteachr_colors <- psyteachr_colours
 
 hl <- function(code) {
   txt <- rlang::enexpr(code) %>% rlang::as_label()
-  
+
   downlit::highlight(txt, classes = downlit::classes_pandoc()) %>%
     gsub("a href", "a target='_blank' href", .) %>%
     paste0("<code>", . , "</code>")

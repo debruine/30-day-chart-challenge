@@ -8,8 +8,10 @@ colour-scheme
 change-text
 pictogram
 pictogram-data
+icons
 colour
 clean-it-up
+customise
 historical
 flora
 slope
