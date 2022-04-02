@@ -250,7 +250,8 @@ plot
 
 Finally, use `theme()` to really customise the look. I adjusted the spacing between the items on the legend with `legend.spacing.y`, which requires the guides to be set `byrow` to work. 
 
-```{r pictogram-final, fig.cap = "Number of US households (in millions) with each of 8 common pet types. Data from the American Pet Products Association (APPA) 2021-2022 National Pet Owners Survey."}
+```{r pictogram-final, fig.cap = "Number of US households (in millions) with each of 8 common pet types.", fig.alt="Number of US households (in millions) with each of 8 common pet types.  Data from the American Pet Products Association (APPA) 2021-2022 National Pet Owners Survey. Dog=69, Cat=45.3, Freshwater fish=11.8, Bird=9.9, Small animal=6.2, Reptile=5.7, Horse=3.5, Saltwater fish=2.9"}
+
 plot +
   theme(axis.ticks = element_blank(),
         plot.background = element_rect(fill = "black", color = "black"),
@@ -269,9 +270,11 @@ plot +
          label = guide_legend(byrow = TRUE))
 ```
 
+## Save
+
 However, I'm having trouble saving the plot using `ggsave()`. The icons end up garbled.
 
-```{r}
+```{r, fig.alt="Same as above, but all the icons are question marks."}
 ggsave("images/day2.png", width = 8, height = 5)
 knitr::include_graphics("images/day2.png")
 ```
