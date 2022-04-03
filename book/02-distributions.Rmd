@@ -11,4 +11,4 @@
 
 # Circular
 
-# The Economist (theme)
+# The Economist

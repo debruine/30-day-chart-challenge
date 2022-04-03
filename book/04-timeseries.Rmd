@@ -16,4 +16,4 @@
 # Tiles
 
 
-# Financial Times (theme)
+# Financial Times
