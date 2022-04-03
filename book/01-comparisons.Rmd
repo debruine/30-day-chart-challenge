@@ -302,7 +302,7 @@ library(tidyverse)
 
 ## Population Data
 
-I got this dataset from a class assignment that cites [Our World in Data Burden of Disease](https://ourworldindata.org/burden-of-disease), but I'm still not sure exactly where the historical population data came from.
+I got this dataset from a class assignment that cites [Our World in Data Burden of Disease](https://ourworldindata.org/burden-of-disease), but I'm still not sure exactly where the historical population data came from, so you can <a href="data/disease-burden-vs-health-expenditure-per-capita.csv" download>get the file here</a>.
 
 ```{r hist-data}
 pop <- read_csv("data/disease-burden-vs-health-expenditure-per-capita.csv",
