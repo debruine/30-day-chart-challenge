@@ -2,7 +2,7 @@
 
 # Part-to-whole
 
-```{r}
+```{r, message=FALSE}
 library(treemap)
 library(faux)
 library(tidyverse)
@@ -150,7 +150,7 @@ ggsave("images/day1.png", width = 8, height = 4.5)
 
 I recently discovered the `r pkg("waffle", "https://github.com/hrbrmstr/waffle/")` package for making waffle plots. Emily and I refuse to teach students on our [Applied Data Skills](https://psyteachr.github.io/ads-v1/) course how to make pie charts, and these are a sweet alternative. 
 
-```{r}
+```{r, message=FALSE}
 #devtools::install_github("hrbrmstr/waffle")
 library(tidyverse)
 library(waffle)
@@ -295,7 +295,7 @@ knitr::include_graphics("images/day2.png")
 
 # Historical
 
-```{r hist-setup}
+```{r hist-setup, message=FALSE}
 library(tidyverse)
 ```
 
@@ -577,7 +577,7 @@ ggsave("images/day3.png", width = 8, height = 4.5)
 
 # Flora
 
-```{r}
+```{r, message=FALSE}
 library(tidyverse) # always useful
 library(rsvg) # to convert SVG to other formats
 library(glue) # for editing SVG text
@@ -838,7 +838,7 @@ flower <- function(n = 6, petal_dist = 500, r = 250, rot = -pi/2,
   
   # make petals
   coords <- poly_coords(n, petal_dist, cx, cy, rot)
-  petals <- glue('    <circle cx="{coords$x}" cy="{coords$y}" r="{r}" fill="{rainbow(n)}" />') %>%
+  petals <- glue('    <circle cx="{coords$x}" cy="{coords$y}" r="{r}" fill="{petal_colors}" fill-opacity="{petal_alpha}" />') %>%
     paste(collapse = "\n")
   
   x1 <- coords$x[[1]]
@@ -848,14 +848,14 @@ flower <- function(n = 6, petal_dist = 500, r = 250, rot = -pi/2,
          A {r} {r} 0 0 1 {x1+r} {y1}
          L {x1-r} {y1}
          Z" 
-         fill="{rainbow(n)[[1]]}" fill-opacity="{petal_alpha}" /></g>')
+         fill="{petal_colors[[1]]}" fill-opacity="{petal_alpha}" /></g>')
   
   petal_fix2 <- glue('    <g transform="rotate({rot*180/pi}, {x1}, {y1})">
          <path d="M {x1-r} {y1}
          A {r} {r} 0 0 1 {x1+r} {y1}
          L {x1-r} {y1}
          Z" 
-         fill="{rainbow(n)[[1]]}" fill-opacity="{petal_alpha}" /></g>')
+         fill="{petal_colors[[1]]}" fill-opacity="{petal_alpha}" /></g>')
   
   # make petal text
   petals_text <- glue('    <text x="{coords$x}" y="{coords$y+petal_text_size/2}">{petal_text}</text>"') %>%
