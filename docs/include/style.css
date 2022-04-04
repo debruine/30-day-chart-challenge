@@ -27,4 +27,6 @@ li.book-part:nth-of-type(16) { color: var(--rels); }
 li.book-part:nth-of-type(23) { color: var(--time); }
 li.book-part:nth-of-type(30) { color: var(--cert); }
 
+svg { width: 100%; }
+
 

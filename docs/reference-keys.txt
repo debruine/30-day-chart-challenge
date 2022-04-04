@@ -1,5 +1,6 @@
 fig:pth-treemap-final
 fig:pictogram-final
+fig:flora-examples
 part-to-whole
 simulate-data
 basic-treemap
@@ -22,6 +23,14 @@ variable-x-axis
 clean-up
 change-time-periods
 flora
+svg
+flower-petals
+rotate
+fix-the-overlap
+petals
+make-a-function
+original-pride-flag
+save-as-svg-or-png
 slope
 owid
 physical
