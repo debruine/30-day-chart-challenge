@@ -830,7 +830,7 @@ flower <- function(n = 6, petal_dist = 500, r = 250, rot = -pi/2,
   center <- poly_coords(n, petal_dist-r, cx, cy, rot) %>%
     glue("{cc$x},{cc$y}", cc = .) %>%
     paste(collapse = " ") %>%
-    glue('<polygon points="{pts}" fill="grey" />', pts = .)
+    glue('<polygon points="{pts}" fill="{center_color}" />', pts = .)
   
   # make center texts
   center_texts <- glue('    <text x="{cx}" y="{cy+center_text_offsets}" fill="{center_text_color}" font-size="{center_text_size}px">{center_text}</text>') %>%
@@ -909,7 +909,7 @@ svg <- flower(n = 8, petal_dist = 400, r = 200,
               center_text = c("Original", "Pride", "Flag"),
               center_text_size = 80,
               center_text_offsets = c(-60, 40, 140),
-              petal_text_color = "black",
+              petal_text_color = "#222222",
               petal_text_size = 70,
               center_color = "black",
               center_text_color = "white"

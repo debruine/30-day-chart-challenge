@@ -4,10 +4,10 @@
     font-family: sans-serif;
     font-size: 70px; 
     text-anchor: middle; 
-    fill: black;
+    fill: #222222;
   }
 </style>
-<polygon points="660,460 801.42,518.58 860,660 801.42,801.42 660,860 518.58,801.42 460,660 518.58,518.58" fill="grey" />
+<polygon points="660,460 801.42,518.58 860,660 801.42,801.42 660,860 518.58,801.42 460,660 518.58,518.58" fill="black" />
     <text x="660" y="600" fill="white" font-size="80px">Original</text>
     <text x="660" y="700" fill="white" font-size="80px">Pride</text>
     <text x="660" y="800" fill="white" font-size="80px">Flag</text>
