@@ -812,7 +812,6 @@ poly_coords <- function(n = 6, r = 1, cx = 0, cy = 0, rot = 0, digits = 2) {
 
 flower <- function(n = 6, petal_dist = 500, r = 250, rot = -pi/2,
                    petal_text = LETTERS[1:n],
-                   petal_icon = NULL,
                    center_text = c("All of the", "Things"),
                    petal_text_size = r/2,
                    center_text_size = petal_dist/6,
@@ -862,17 +861,6 @@ flower <- function(n = 6, petal_dist = 500, r = 250, rot = -pi/2,
   petals_text <- glue('    <text x="{coords$x}" y="{coords$y+petal_text_size/2}">{petal_text}</text>', .literal = TRUE) %>%
     paste(collapse = "\n")
   
-  if (!is_null(petal_icon)) {
-    icons <- map(petal_icon, readLines, warn=F) %>%
-      map_chr(paste,collapse = "\n")
-    
-    petals_icons <- glue('    <g transform="translate({coords$x-(petal_text_size)},{coords$y-(petal_text_size)}) scale({petal_text_size/512})">{icons}</g>') %>%
-    paste(collapse = "\n")
-  } else {
-    petals_icons <- ""
-  }
-  
-  
   # general styles
   svg_style <- '<style type="text/css">
   svg { 
@@ -886,7 +874,7 @@ flower <- function(n = 6, petal_dist = 500, r = 250, rot = -pi/2,
   svg <- paste("<svg viewBox = '0 0 {{2*cx}} {{2*cy}}'>", 
                svg_style,
                center, center_texts,
-               petal_fix1, petals, petal_fix2, petals_text, petals_icons,
+               petal_fix1, petals, petal_fix2, petals_text,
                "</svg>",
                sep = "\n") %>%
     glue(.open = "{{", .close = "}}")
@@ -951,31 +939,6 @@ rsvg::rsvg_png(svg = charToRaw(svg),
 knitr::include_graphics("images/day4.png")
 ```
 
-
-## Icons
-
-I still haven't got the code right for centering icons, but I figured out how to add SVG icons into the petals.
-
-```{r}
-svg <- flower(n = 5, petal_dist = 450, r = 300,
-              petal_colors = c("#4864DB", "#10D4CF", "#8DEA74", "#F5C748", "#EA4E11"),
-              petal_text = "",
-              petal_icon = c('images/fontawesome/solid/code-compare.svg',
-                             'images/fontawesome/regular/bell.svg',
-                             'images/fontawesome/regular/handshake.svg',
-                             'images/fontawesome/regular/calendar-days.svg',
-                             'images/fontawesome/solid/question.svg'),
-              petal_text_size = 100,
-              center_color = "transparent",
-              center_text = c("30-Day", "Chart", "Challenge"),
-              center_text_offsets = c(-60, 10, 80),
-              center_text_color = "black")
-```
-
-
-```{r, results='asis', echo = FALSE}
-viewsvg(svg)
-```
 
 
 # Slope

@@ -31,7 +31,6 @@ petals
 make-a-function
 original-pride-flag
 save-as-svg-or-png
-icons-1
 slope
 data-simulation-function
 default

@@ -8,3 +8,10 @@ R.utils::copyDirectory(
   to = "docs/data",
   overwrite = TRUE,
   recursive = TRUE)
+
+
+# add fonts
+library(emojifont)
+library(showtext)
+font_add(family = "Avenir",
+         regular = "/System/Library/Fonts/Avenir.ttc")
