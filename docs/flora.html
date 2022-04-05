@@ -6,16 +6,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>4 Flora | 30-day Chart Challenge</title>
 <meta name="author" content="Lisa DeBruine">
-<meta name="description" content="library(tidyverse) # always useful library(rsvg) # to convert SVG to other formats library(glue) # for editing SVG text I'm going a little off-piste today. I was inspired by all of these stock...">
+<meta name="description" content="library(tidyverse) # always useful library(rsvg) # to convert SVG to other formats ## Warning: package 'rsvg' was built under R version 4.1.2 library(glue) # for editing SVG text I'm going a...">
 <meta name="generator" content="bookdown 0.24 with bs4_book()">
 <meta property="og:title" content="4 Flora | 30-day Chart Challenge">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://debruine.github.io/30-day-chart-challenge/flora.html">
 <meta property="og:image" content="https://debruine.github.io/30-day-chart-challenge/images/logos/logo.png">
-<meta property="og:description" content="library(tidyverse) # always useful library(rsvg) # to convert SVG to other formats library(glue) # for editing SVG text I'm going a little off-piste today. I was inspired by all of these stock...">
+<meta property="og:description" content="library(tidyverse) # always useful library(rsvg) # to convert SVG to other formats ## Warning: package 'rsvg' was built under R version 4.1.2 library(glue) # for editing SVG text I'm going a...">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="4 Flora | 30-day Chart Challenge">
-<meta name="twitter:description" content="library(tidyverse) # always useful library(rsvg) # to convert SVG to other formats library(glue) # for editing SVG text I'm going a little off-piste today. I was inspired by all of these stock...">
+<meta name="twitter:description" content="library(tidyverse) # always useful library(rsvg) # to convert SVG to other formats ## Warning: package 'rsvg' was built under R version 4.1.2 library(glue) # for editing SVG text I'm going a...">
 <meta name="twitter:image" content="https://debruine.github.io/30-day-chart-challenge/images/logos/logo.png">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.11/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
@@ -100,12 +100,14 @@
 <h1>
 <span class="header-section-number">4</span> Flora<a class="anchor" aria-label="anchor" href="#flora"><i class="fas fa-link"></i></a>
 </h1>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span> <span class="co"># always useful</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jeroen/rsvg">rsvg</a></span><span class="op">)</span> <span class="co"># to convert SVG to other formats</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidyverse/glue">glue</a></span><span class="op">)</span> <span class="co"># for editing SVG text</span></code></pre></div>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jeroen/rsvg">rsvg</a></span><span class="op">)</span> <span class="co"># to convert SVG to other formats</span></code></pre></div>
+<pre><code>## Warning: package 'rsvg' was built under R version 4.1.2</code></pre>
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidyverse/glue">glue</a></span><span class="op">)</span> <span class="co"># for editing SVG text</span></code></pre></div>
 <p>I'm going a little off-piste today. I was inspired by all of these <a href="https://www.vectorstock.com/royalty-free-vectors/chart-flower-infographic-options-vectors">stock infographics</a>, but I wondered if I could make something similar with code. You probably can do this with ggplot and annotations, but I wanted to try something different.</p>
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/include_graphics.html">include_graphics</a></span><span class="op">(</span><span class="st">"images/flower_infographics.png"</span><span class="op">)</span></code></pre></div>
 <div class="figure" style="text-align: center">
 <span style="display:block;" id="fig:flora-examples"></span>
@@ -119,7 +121,7 @@ Figure 4.1: Flower infographics from vectorstock.com
 </h2>
 <p>I have some experience making SVGs (scalable vector graphics), but I always have to look things up. <a href="https://www.w3schools.com/graphics/svg_intro.asp">W3Schools</a> is my favourite source for quick tutorials on web stuff. I used it a ton to make this chart.</p>
 <p>While I was developing this code, I needed to have a quick look at the images a lot, and couldn't figure out an efficient way to view SVGs, so I wrote a function that converts the svg text to a PNG tempfile and displays it in my Rmd, but only when I'm running the code interactively.</p>
-<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">viewsvg</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">svg</span>, <span class="va">width</span> <span class="op">=</span> <span class="fl">5</span>, <span class="va">height</span> <span class="op">=</span> <span class="fl">5</span>, <span class="va">dpi</span> <span class="op">=</span> <span class="fl">150</span><span class="op">)</span> <span class="op">{</span>
   <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html">interactive</a></span><span class="op">(</span><span class="op">)</span> <span class="op">&amp;&amp;</span>
       <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/Logic.html">isTRUE</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/options.html">getOption</a></span><span class="op">(</span><span class="st">"knitr.in.progress"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
@@ -135,7 +137,7 @@ Figure 4.1: Flower infographics from vectorstock.com
 <p>It outputs the SVG as html when knitting. All of the images below are created with a code chunk that looks like this:</p>
 <div class="verbatim">
 <pre class="sourceCode r"><code class="sourceCode R">```{r, results='asis', echo = FALSE}</code></pre>
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">viewsvg</span><span class="op">(</span><span class="va">svg</span><span class="op">)</span></code></pre></div>
 <pre class="sourceCode r"><code class="sourceCode R">```</code></pre>
 </div>
@@ -145,7 +147,7 @@ Figure 4.1: Flower infographics from vectorstock.com
 <span class="header-section-number">4.2</span> Flower Petals<a class="anchor" aria-label="anchor" href="#flower-petals"><i class="fas fa-link"></i></a>
 </h2>
 <p>First, I need a function to figure out the coordinates of regular polygons.</p>
-<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">poly_coords</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">n</span> <span class="op">=</span> <span class="fl">6</span>, <span class="va">r</span> <span class="op">=</span> <span class="fl">1</span>, <span class="va">cx</span> <span class="op">=</span> <span class="fl">0</span>, <span class="va">cy</span> <span class="op">=</span> <span class="fl">0</span>, <span class="va">rot</span> <span class="op">=</span> <span class="fl">0</span>, <span class="va">digits</span> <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">{</span>
   <span class="va">x</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/purrr/man/map.html">map_dbl</a></span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="op">(</span><span class="va">n</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span>, <span class="op">~</span><span class="op">{</span> <span class="va">cx</span> <span class="op">+</span> <span class="va">r</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html">cos</a></span><span class="op">(</span><span class="fl">2</span> <span class="op">*</span> <span class="va">pi</span> <span class="op">*</span> <span class="va">.x</span> <span class="op">/</span> <span class="va">n</span> <span class="op">+</span> <span class="va">rot</span><span class="op">)</span> <span class="op">}</span><span class="op">)</span>
   <span class="va">y</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/purrr/man/map.html">map_dbl</a></span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="op">(</span><span class="va">n</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span>, <span class="op">~</span><span class="op">{</span> <span class="va">cy</span> <span class="op">+</span> <span class="va">r</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span><span class="op">(</span><span class="fl">2</span> <span class="op">*</span> <span class="va">pi</span> <span class="op">*</span> <span class="va">.x</span> <span class="op">/</span> <span class="va">n</span> <span class="op">+</span> <span class="va">rot</span><span class="op">)</span> <span class="op">}</span><span class="op">)</span>
@@ -163,7 +165,7 @@ Figure 4.1: Flower infographics from vectorstock.com
 ## $y
 ## [1]  0.00  0.87  0.87  0.00 -0.87 -0.87</code></pre>
 <p>Now, make <code>n</code> circles with radius <code>r</code> that are <code>petal_dist</code> away from the center of the flower.</p>
-<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">6</span>
 <span class="va">r</span> <span class="op">&lt;-</span> <span class="fl">200</span>
 <span class="va">petal_dist</span> <span class="op">&lt;-</span> <span class="fl">300</span>
@@ -186,7 +188,7 @@ Figure 4.1: Flower infographics from vectorstock.com
 <span class="header-section-number">4.3</span> Rotate<a class="anchor" aria-label="anchor" href="#rotate"><i class="fas fa-link"></i></a>
 </h2>
 <p>Rotate them so the red is at 12:00.</p>
-<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">rot</span> <span class="op">&lt;-</span> <span class="op">-</span><span class="va">pi</span><span class="op">/</span><span class="fl">2</span>
 
 <span class="va">coords</span> <span class="op">&lt;-</span> <span class="fu">poly_coords</span><span class="op">(</span><span class="va">n</span>, <span class="va">petal_dist</span>, <span class="va">cx</span>, <span class="va">cy</span>, <span class="va">rot</span><span class="op">)</span>
@@ -205,7 +207,7 @@ Figure 4.1: Flower infographics from vectorstock.com
 <span class="header-section-number">4.4</span> Fix the Overlap<a class="anchor" aria-label="anchor" href="#fix-the-overlap"><i class="fas fa-link"></i></a>
 </h2>
 <p>When they overlap, the last petal is on top of the first, so we need to replot the left half of that. It took me forever to figure out how to plot the left half of a circle with <code>&lt;path&gt;</code> :(</p>
-<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">coords</span> <span class="op">&lt;-</span> <span class="fu">poly_coords</span><span class="op">(</span><span class="va">n</span>, <span class="va">petal_dist</span>, <span class="va">cx</span>, <span class="va">cy</span>, <span class="va">rot</span><span class="op">)</span>
 <span class="va">petals</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/glue/man/glue.html">glue</a></span><span class="op">(</span><span class="st">'    &lt;circle cx="{coords$x}" cy="{coords$y}" r="{r}" fill="{rainbow(n)}" /&gt;'</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span>collapse <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span>
@@ -228,7 +230,7 @@ Figure 4.1: Flower infographics from vectorstock.com
 A 200 200 0 0 1 700 200
 L 300 200
 Z" fill="#FF0000"></path></g></svg><p>Now I want to add a center hexagon that just touches each petal.</p>
-<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">center</span> <span class="op">&lt;-</span> <span class="fu">poly_coords</span><span class="op">(</span><span class="va">n</span>, <span class="va">petal_dist</span><span class="op">-</span><span class="va">r</span>, <span class="va">cx</span>, <span class="va">cy</span>, <span class="va">rot</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://rdrr.io/pkg/glue/man/glue.html">glue</a></span><span class="op">(</span><span class="st">"{cc$x},{cc$y}"</span>, cc <span class="op">=</span> <span class="va">.</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span>collapse <span class="op">=</span> <span class="st">" "</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
@@ -249,7 +251,7 @@ Z" fill="#FF0000"></path></g></svg>
 <h2>
 <span class="header-section-number">4.5</span> 7 Petals<a class="anchor" aria-label="anchor" href="#petals"><i class="fas fa-link"></i></a>
 </h2>
-<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">n</span>          <span class="op">&lt;-</span> <span class="fl">7</span>
 <span class="va">rot</span>        <span class="op">&lt;-</span> <span class="fl">8.5</span><span class="op">*</span><span class="va">pi</span><span class="op">/</span><span class="fl">7</span>
 <span class="va">petal_dist</span> <span class="op">&lt;-</span> <span class="fl">400</span>
@@ -321,7 +323,7 @@ Z" fill="#FF0000"></path></g><text x="347.27" y="450.6">A</text>"
 <span class="header-section-number">4.6</span> Make a Function<a class="anchor" aria-label="anchor" href="#make-a-function"><i class="fas fa-link"></i></a>
 </h2>
 <p>Now I just need to wrap this all in a function so I can change the things I need. I also added transparency to the petals, which necessitated making the two halves of the first petal separately, otherwise the overlap fix increases the opacity of half the petal if there's any transparency.</p>
-<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">poly_coords</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">n</span> <span class="op">=</span> <span class="fl">6</span>, <span class="va">r</span> <span class="op">=</span> <span class="fl">1</span>, <span class="va">cx</span> <span class="op">=</span> <span class="fl">0</span>, <span class="va">cy</span> <span class="op">=</span> <span class="fl">0</span>, <span class="va">rot</span> <span class="op">=</span> <span class="fl">0</span>, <span class="va">digits</span> <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">{</span>
   <span class="va">x</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/purrr/man/map.html">map_dbl</a></span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="op">(</span><span class="va">n</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span>, <span class="op">~</span><span class="op">{</span> <span class="va">cx</span> <span class="op">+</span> <span class="va">r</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html">cos</a></span><span class="op">(</span><span class="fl">2</span> <span class="op">*</span> <span class="va">pi</span> <span class="op">*</span> <span class="va">.x</span> <span class="op">/</span> <span class="va">n</span> <span class="op">+</span> <span class="va">rot</span><span class="op">)</span> <span class="op">}</span><span class="op">)</span>
   <span class="va">y</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/purrr/man/map.html">map_dbl</a></span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="op">(</span><span class="va">n</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span>, <span class="op">~</span><span class="op">{</span> <span class="va">cy</span> <span class="op">+</span> <span class="va">r</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span><span class="op">(</span><span class="fl">2</span> <span class="op">*</span> <span class="va">pi</span> <span class="op">*</span> <span class="va">.x</span> <span class="op">/</span> <span class="va">n</span> <span class="op">+</span> <span class="va">rot</span><span class="op">)</span> <span class="op">}</span><span class="op">)</span>
@@ -334,6 +336,7 @@ Z" fill="#FF0000"></path></g><text x="347.27" y="450.6">A</text>"
 
 <span class="va">flower</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">n</span> <span class="op">=</span> <span class="fl">6</span>, <span class="va">petal_dist</span> <span class="op">=</span> <span class="fl">500</span>, <span class="va">r</span> <span class="op">=</span> <span class="fl">250</span>, <span class="va">rot</span> <span class="op">=</span> <span class="op">-</span><span class="va">pi</span><span class="op">/</span><span class="fl">2</span>,
                    <span class="va">petal_text</span> <span class="op">=</span> <span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="va">n</span><span class="op">]</span>,
+                   <span class="va">petal_icon</span> <span class="op">=</span> <span class="cn">NULL</span>,
                    <span class="va">center_text</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"All of the"</span>, <span class="st">"Things"</span><span class="op">)</span>,
                    <span class="va">petal_text_size</span> <span class="op">=</span> <span class="va">r</span><span class="op">/</span><span class="fl">2</span>,
                    <span class="va">center_text_size</span> <span class="op">=</span> <span class="va">petal_dist</span><span class="op">/</span><span class="fl">6</span>,
@@ -380,8 +383,18 @@ Z" fill="#FF0000"></path></g><text x="347.27" y="450.6">A</text>"
          fill="{petal_colors[[1]]}" fill-opacity="{petal_alpha}" /&gt;&lt;/g&gt;'</span><span class="op">)</span>
   
   <span class="co"># make petal text</span>
-  <span class="va">petals_text</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/glue/man/glue.html">glue</a></span><span class="op">(</span><span class="st">'    &lt;text x="{coords$x}" y="{coords$y+petal_text_size/2}"&gt;{petal_text}&lt;/text&gt;"'</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
+  <span class="va">petals_text</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/glue/man/glue.html">glue</a></span><span class="op">(</span><span class="st">'    &lt;text x="{coords$x}" y="{coords$y+petal_text_size/2}"&gt;{petal_text}&lt;/text&gt;'</span>, .literal <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
     <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span>collapse <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span>
+  
+  <span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu">is_null</span><span class="op">(</span><span class="va">petal_icon</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
+    <span class="va">icons</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/purrr/man/map.html">map</a></span><span class="op">(</span><span class="va">petal_icon</span>, <span class="va">readLines</span>, warn<span class="op">=</span><span class="cn">F</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
+      <span class="fu"><a href="https://rdrr.io/pkg/purrr/man/map.html">map_chr</a></span><span class="op">(</span><span class="va">paste</span>,collapse <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span>
+    
+    <span class="va">petals_icons</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/glue/man/glue.html">glue</a></span><span class="op">(</span><span class="st">'    &lt;g transform="translate({coords$x-(petal_text_size)},{coords$y-(petal_text_size)}) scale({petal_text_size/512})"&gt;{icons}&lt;/g&gt;'</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span>collapse <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span>
+  <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span>
+    <span class="va">petals_icons</span> <span class="op">&lt;-</span> <span class="st">""</span>
+  <span class="op">}</span>
   
   
   <span class="co"># general styles</span>
@@ -397,7 +410,7 @@ Z" fill="#FF0000"></path></g><text x="347.27" y="450.6">A</text>"
   <span class="va">svg</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"&lt;svg viewBox = '0 0 {{2*cx}} {{2*cy}}'&gt;"</span>, 
                <span class="va">svg_style</span>,
                <span class="va">center</span>, <span class="va">center_texts</span>,
-               <span class="va">petal_fix1</span>, <span class="va">petals</span>, <span class="va">petal_fix2</span>, <span class="va">petals_text</span>, 
+               <span class="va">petal_fix1</span>, <span class="va">petals</span>, <span class="va">petal_fix2</span>, <span class="va">petals_text</span>, <span class="va">petals_icons</span>,
                <span class="st">"&lt;/svg&gt;"</span>,
                sep <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
     <span class="fu"><a href="https://rdrr.io/pkg/glue/man/glue.html">glue</a></span><span class="op">(</span>.open <span class="op">=</span> <span class="st">"{{"</span>, .close <span class="op">=</span> <span class="st">"}}"</span><span class="op">)</span>
@@ -405,7 +418,7 @@ Z" fill="#FF0000"></path></g><text x="347.27" y="450.6">A</text>"
   <span class="va">svg</span>
 <span class="op">}</span></code></pre></div>
 <p>Test the defaults.</p>
-<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">svg</span> <span class="op">&lt;-</span> <span class="fu">flower</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <svg viewbox="0 0 1650 1650"><style type="text/css">
   svg { 
@@ -415,18 +428,13 @@ Z" fill="#FF0000"></path></g><text x="347.27" y="450.6">A</text>"
     fill: white;
   }
 </style>
-<polygon points="825,575 1041.51,700 1041.51,950 825,1075 608.49,950 608.49,700" fill="#808080"></polygon><text x="825" y="808.333333333333" fill="white" font-size="83.3333333333333px">All of the</text><text x="825" y="900" fill="white" font-size="83.3333333333333px">Things</text><g transform="rotate(90, 825, 325)"><path d="M 575 325
+<p><polygon points="825,575 1041.51,700 1041.51,950 825,1075 608.49,950 608.49,700" fill="#808080"></polygon><text x="825" y="808.333333333333" fill="white" font-size="83.3333333333333px">All of the</text><text x="825" y="900" fill="white" font-size="83.3333333333333px">Things</text><g transform="rotate(90, 825, 325)"><path d="M 575 325
 A 250 250 0 0 1 1075 325
 L 575 325
 Z" fill="#FF0000" fill-opacity="1"></path></g><circle cx="825" cy="325" r="250" fill="#FF0000" fill-opacity="1"></circle><circle cx="1258.01" cy="575" r="250" fill="#FFFF00" fill-opacity="1"></circle><circle cx="1258.01" cy="1075" r="250" fill="#00FF00" fill-opacity="1"></circle><circle cx="825" cy="1325" r="250" fill="#00FFFF" fill-opacity="1"></circle><circle cx="391.99" cy="1075" r="250" fill="#0000FF" fill-opacity="1"></circle><circle cx="391.99" cy="575" r="250" fill="#FF00FF" fill-opacity="1"></circle><g transform="rotate(-90, 825, 325)"><path d="M 575 325
 A 250 250 0 0 1 1075 325
 L 575 325
-Z" fill="#FF0000" fill-opacity="1"></path></g><text x="825" y="387.5">A</text>"
-<text x="1258.01" y="637.5">B</text>"
-<text x="1258.01" y="1137.5">C</text>"
-<text x="825" y="1387.5">D</text>"
-<text x="391.99" y="1137.5">E</text>"
-<text x="391.99" y="637.5">F</text>"
+Z" fill="#FF0000" fill-opacity="1"></path></g><text x="825" y="387.5">A</text><text x="1258.01" y="637.5">B</text><text x="1258.01" y="1137.5">C</text><text x="825" y="1387.5">D</text><text x="391.99" y="1137.5">E</text><text x="391.99" y="637.5">F</text></p>
 </svg>
 </div>
 <div id="original-pride-flag" class="section level2" number="4.7">
@@ -434,7 +442,7 @@ Z" fill="#FF0000" fill-opacity="1"></path></g><text x="825" y="387.5">A</text>"
 <span class="header-section-number">4.7</span> Original Pride Flag<a class="anchor" aria-label="anchor" href="#original-pride-flag"><i class="fas fa-link"></i></a>
 </h2>
 <p>Test the customisability by making a chart with the meaning of the 8 colours of the original pride flag.</p>
-<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">svg</span> <span class="op">&lt;-</span> <span class="fu">flower</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">8</span>, petal_dist <span class="op">=</span> <span class="fl">400</span>, r <span class="op">=</span> <span class="fl">200</span>,
               petal_colors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"#FF66B1"</span>, <span class="st">"#FF0000"</span>, <span class="st">"#FF8F1A"</span>, <span class="st">"#FEFF3A"</span>,
                                <span class="st">"#008F1D"</span>, <span class="st">"#00C0C0"</span>, <span class="st">"#420095"</span>, <span class="st">"#8F008B"</span><span class="op">)</span>,
@@ -457,20 +465,13 @@ Z" fill="#FF0000" fill-opacity="1"></path></g><text x="825" y="387.5">A</text>"
     fill: #222222;
   }
 </style>
-<polygon points="660,460 801.42,518.58 860,660 801.42,801.42 660,860 518.58,801.42 460,660 518.58,518.58" fill="black"></polygon><text x="660" y="600" fill="white" font-size="80px">Original</text><text x="660" y="700" fill="white" font-size="80px">Pride</text><text x="660" y="800" fill="white" font-size="80px">Flag</text><g transform="rotate(90, 660, 260)"><path d="M 460 260
+<p><polygon points="660,460 801.42,518.58 860,660 801.42,801.42 660,860 518.58,801.42 460,660 518.58,518.58" fill="black"></polygon><text x="660" y="600" fill="white" font-size="80px">Original</text><text x="660" y="700" fill="white" font-size="80px">Pride</text><text x="660" y="800" fill="white" font-size="80px">Flag</text><g transform="rotate(90, 660, 260)"><path d="M 460 260
 A 200 200 0 0 1 860 260
 L 460 260
 Z" fill="#FF66B1" fill-opacity="0.8"></path></g><circle cx="660" cy="260" r="200" fill="#FF66B1" fill-opacity="0.8"></circle><circle cx="942.84" cy="377.16" r="200" fill="#FF0000" fill-opacity="0.8"></circle><circle cx="1060" cy="660" r="200" fill="#FF8F1A" fill-opacity="0.8"></circle><circle cx="942.84" cy="942.84" r="200" fill="#FEFF3A" fill-opacity="0.8"></circle><circle cx="660" cy="1060" r="200" fill="#008F1D" fill-opacity="0.8"></circle><circle cx="377.16" cy="942.84" r="200" fill="#00C0C0" fill-opacity="0.8"></circle><circle cx="260" cy="660" r="200" fill="#420095" fill-opacity="0.8"></circle><circle cx="377.16" cy="377.16" r="200" fill="#8F008B" fill-opacity="0.8"></circle><g transform="rotate(-90, 660, 260)"><path d="M 460 260
 A 200 200 0 0 1 860 260
 L 460 260
-Z" fill="#FF66B1" fill-opacity="0.8"></path></g><text x="660" y="295">Sex</text>"
-<text x="942.84" y="412.16">Life</text>"
-<text x="1060" y="695">Healing</text>"
-<text x="942.84" y="977.84">Sunlight</text>"
-<text x="660" y="1095">Nature</text>"
-<text x="377.16" y="977.84">Magic/Art</text>"
-<text x="260" y="695">Serenity</text>"
-<text x="377.16" y="412.16">Spirit</text>"
+Z" fill="#FF66B1" fill-opacity="0.8"></path></g><text x="660" y="295">Sex</text><text x="942.84" y="412.16">Life</text><text x="1060" y="695">Healing</text><text x="942.84" y="977.84">Sunlight</text><text x="660" y="1095">Nature</text><text x="377.16" y="977.84">Magic/Art</text><text x="260" y="695">Serenity</text><text x="377.16" y="412.16">Spirit</text></p>
 </svg>
 </div>
 <div id="save-as-svg-or-png" class="section level2" number="4.8">
@@ -478,7 +479,7 @@ Z" fill="#FF66B1" fill-opacity="0.8"></path></g><text x="660" y="295">Sex</text>
 <span class="header-section-number">4.8</span> Save as SVG or PNG<a class="anchor" aria-label="anchor" href="#save-as-svg-or-png"><i class="fas fa-link"></i></a>
 </h2>
 <p>You can display your SVG directly in a website by setting <code>results='asis'</code> in the code chunk header. It will display it full size unless you use another method to constrain the image size. I set a css style of <code>svg { width: 100%; }</code>.</p>
-<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="va">svg</span><span class="op">)</span></code></pre></div>
 <svg viewbox="0 0 1320 1320"><style type="text/css">
   svg { 
@@ -488,22 +489,15 @@ Z" fill="#FF66B1" fill-opacity="0.8"></path></g><text x="660" y="295">Sex</text>
     fill: #222222;
   }
 </style>
-<polygon points="660,460 801.42,518.58 860,660 801.42,801.42 660,860 518.58,801.42 460,660 518.58,518.58" fill="black"></polygon><text x="660" y="600" fill="white" font-size="80px">Original</text><text x="660" y="700" fill="white" font-size="80px">Pride</text><text x="660" y="800" fill="white" font-size="80px">Flag</text><g transform="rotate(90, 660, 260)"><path d="M 460 260
+<p><polygon points="660,460 801.42,518.58 860,660 801.42,801.42 660,860 518.58,801.42 460,660 518.58,518.58" fill="black"></polygon><text x="660" y="600" fill="white" font-size="80px">Original</text><text x="660" y="700" fill="white" font-size="80px">Pride</text><text x="660" y="800" fill="white" font-size="80px">Flag</text><g transform="rotate(90, 660, 260)"><path d="M 460 260
 A 200 200 0 0 1 860 260
 L 460 260
 Z" fill="#FF66B1" fill-opacity="0.8"></path></g><circle cx="660" cy="260" r="200" fill="#FF66B1" fill-opacity="0.8"></circle><circle cx="942.84" cy="377.16" r="200" fill="#FF0000" fill-opacity="0.8"></circle><circle cx="1060" cy="660" r="200" fill="#FF8F1A" fill-opacity="0.8"></circle><circle cx="942.84" cy="942.84" r="200" fill="#FEFF3A" fill-opacity="0.8"></circle><circle cx="660" cy="1060" r="200" fill="#008F1D" fill-opacity="0.8"></circle><circle cx="377.16" cy="942.84" r="200" fill="#00C0C0" fill-opacity="0.8"></circle><circle cx="260" cy="660" r="200" fill="#420095" fill-opacity="0.8"></circle><circle cx="377.16" cy="377.16" r="200" fill="#8F008B" fill-opacity="0.8"></circle><g transform="rotate(-90, 660, 260)"><path d="M 460 260
 A 200 200 0 0 1 860 260
 L 460 260
-Z" fill="#FF66B1" fill-opacity="0.8"></path></g><text x="660" y="295">Sex</text>"
-<text x="942.84" y="412.16">Life</text>"
-<text x="1060" y="695">Healing</text>"
-<text x="942.84" y="977.84">Sunlight</text>"
-<text x="660" y="1095">Nature</text>"
-<text x="377.16" y="977.84">Magic/Art</text>"
-<text x="260" y="695">Serenity</text>"
-<text x="377.16" y="412.16">Spirit</text>"
+Z" fill="#FF66B1" fill-opacity="0.8"></path></g><text x="660" y="295">Sex</text><text x="942.84" y="412.16">Life</text><text x="1060" y="695">Healing</text><text x="942.84" y="977.84">Sunlight</text><text x="660" y="1095">Nature</text><text x="377.16" y="977.84">Magic/Art</text><text x="260" y="695">Serenity</text><text x="377.16" y="412.16">Spirit</text></p>
 </svg><p>You can write it to an svg file, or use svgr to convert to an image.</p>
-<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/write.html">write</a></span><span class="op">(</span><span class="va">svg</span>, <span class="st">"images/day4.svg"</span><span class="op">)</span>
 <span class="fu">rsvg</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rsvg/man/rsvg.html">rsvg_png</a></span><span class="op">(</span>svg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rawConversion.html">charToRaw</a></span><span class="op">(</span><span class="va">svg</span><span class="op">)</span>, 
                file <span class="op">=</span> <span class="st">"images/day4.png"</span>, 
@@ -511,6 +505,41 @@ Z" fill="#FF66B1" fill-opacity="0.8"></path></g><text x="660" y="295">Sex</text>
 
 <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/include_graphics.html">include_graphics</a></span><span class="op">(</span><span class="st">"images/day4.png"</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="images/day4.png" width="100%" style="display: block; margin: auto;"></div>
+</div>
+<div id="icons-1" class="section level2" number="4.9">
+<h2>
+<span class="header-section-number">4.9</span> Icons<a class="anchor" aria-label="anchor" href="#icons-1"><i class="fas fa-link"></i></a>
+</h2>
+<p>I still haven't got the code right for centering icons, but I figured out how to add SVG icons into the petals.</p>
+<div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">svg</span> <span class="op">&lt;-</span> <span class="fu">flower</span><span class="op">(</span>n <span class="op">=</span> <span class="fl">5</span>, petal_dist <span class="op">=</span> <span class="fl">450</span>, r <span class="op">=</span> <span class="fl">300</span>,
+              petal_colors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"#4864DB"</span>, <span class="st">"#10D4CF"</span>, <span class="st">"#8DEA74"</span>, <span class="st">"#F5C748"</span>, <span class="st">"#EA4E11"</span><span class="op">)</span>,
+              petal_text <span class="op">=</span> <span class="st">""</span>,
+              petal_icon <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'images/fontawesome/solid/code-compare.svg'</span>,
+                             <span class="st">'images/fontawesome/regular/bell.svg'</span>,
+                             <span class="st">'images/fontawesome/regular/handshake.svg'</span>,
+                             <span class="st">'images/fontawesome/regular/calendar-days.svg'</span>,
+                             <span class="st">'images/fontawesome/solid/question.svg'</span><span class="op">)</span>,
+              petal_text_size <span class="op">=</span> <span class="fl">100</span>,
+              center_color <span class="op">=</span> <span class="st">"transparent"</span>,
+              center_text <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"30-Day"</span>, <span class="st">"Chart"</span>, <span class="st">"Challenge"</span><span class="op">)</span>,
+              center_text_offsets <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">60</span>, <span class="fl">10</span>, <span class="fl">80</span><span class="op">)</span>,
+              center_text_color <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span></code></pre></div>
+<svg viewbox="0 0 1650 1650"><style type="text/css">
+  svg { 
+    font-family: sans-serif;
+    font-size: 100px; 
+    text-anchor: middle; 
+    fill: white;
+  }
+</style>
+<polygon points="825,675 967.66,778.65 913.17,946.35 736.83,946.35 682.34,778.65" fill="transparent"></polygon><text x="825" y="765" fill="black" font-size="75px">30-Day</text><text x="825" y="835" fill="black" font-size="75px">Chart</text><text x="825" y="905" fill="black" font-size="75px">Challenge</text><g transform="rotate(90, 825, 375)"><path d="M 525 375
+A 300 300 0 0 1 1125 375
+L 525 375
+Z" fill="#4864DB" fill-opacity="1"></path></g><circle cx="825" cy="375" r="300" fill="#4864DB" fill-opacity="1"></circle><circle cx="1252.98" cy="685.94" r="300" fill="#10D4CF" fill-opacity="1"></circle><circle cx="1089.5" cy="1189.06" r="300" fill="#8DEA74" fill-opacity="1"></circle><circle cx="560.5" cy="1189.06" r="300" fill="#F5C748" fill-opacity="1"></circle><circle cx="397.02" cy="685.94" r="300" fill="#EA4E11" fill-opacity="1"></circle><g transform="rotate(-90, 825, 375)"><path d="M 525 375
+A 300 300 0 0 1 1125 375
+L 525 375
+Z" fill="#4864DB" fill-opacity="1"></path></g><text x="825" y="425"></text><text x="1252.98" y="735.94"></text><text x="1089.5" y="1239.06"></text><text x="560.5" y="1239.06"></text><text x="397.02" y="735.94"></text><g transform="translate(725,275) scale(0.1953125)"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 512 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M320 488C320 497.5 314.4 506.1 305.8 509.9C297.1 513.8 286.1 512.2 279.9 505.8L199.9 433.8C194.9 429.3 192 422.8 192 416C192 409.2 194.9 402.7 199.9 398.2L279.9 326.2C286.1 319.8 297.1 318.2 305.8 322.1C314.4 325.9 320 334.5 320 344V384H336C371.3 384 400 355.3 400 320V153.3C371.7 140.1 352 112.8 352 80C352 35.82 387.8 0 432 0C476.2 0 512 35.82 512 80C512 112.8 492.3 140.1 464 153.3V320C464 390.7 406.7 448 336 448H320V488zM456 79.1C456 66.74 445.3 55.1 432 55.1C418.7 55.1 408 66.74 408 79.1C408 93.25 418.7 103.1 432 103.1C445.3 103.1 456 93.25 456 79.1zM192 24C192 14.52 197.6 5.932 206.2 2.076C214.9-1.78 225-.1789 232.1 6.161L312.1 78.16C317.1 82.71 320 89.2 320 96C320 102.8 317.1 109.3 312.1 113.8L232.1 185.8C225 192.2 214.9 193.8 206.2 189.9C197.6 186.1 192 177.5 192 168V128H176C140.7 128 112 156.7 112 192V358.7C140.3 371 160 399.2 160 432C160 476.2 124.2 512 80 512C35.82 512 0 476.2 0 432C0 399.2 19.75 371 48 358.7V192C48 121.3 105.3 64 176 64H192V24zM56 432C56 445.3 66.75 456 80 456C93.25 456 104 445.3 104 432C104 418.7 93.25 408 80 408C66.75 408 56 418.7 56 432z"></path></svg><p></p></g><g transform="translate(1152.98,585.94) scale(0.1953125)"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 448 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M256 32V49.88C328.5 61.39 384 124.2 384 200V233.4C384 278.8 399.5 322.9 427.8 358.4L442.7 377C448.5 384.2 449.6 394.1 445.6 402.4C441.6 410.7 433.2 416 424 416H24C14.77 416 6.365 410.7 2.369 402.4C-1.628 394.1-.504 384.2 5.26 377L20.17 358.4C48.54 322.9 64 278.8 64 233.4V200C64 124.2 119.5 61.39 192 49.88V32C192 14.33 206.3 0 224 0C241.7 0 256 14.33 256 32V32zM216 96C158.6 96 112 142.6 112 200V233.4C112 281.3 98.12 328 72.31 368H375.7C349.9 328 336 281.3 336 233.4V200C336 142.6 289.4 96 232 96H216zM288 448C288 464.1 281.3 481.3 269.3 493.3C257.3 505.3 240.1 512 224 512C207 512 190.7 505.3 178.7 493.3C166.7 481.3 160 464.1 160 448H288z"></path></svg></g><g transform="translate(989.5,1089.06) scale(0.1953125)"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 640 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M506.1 127.1c-17.97-20.17-61.46-61.65-122.7-71.1c-22.5-3.354-45.39 3.606-63.41 18.21C302 60.47 279.1 53.42 256.5 56.86C176.8 69.17 126.7 136.2 124.6 139.1c-7.844 10.69-5.531 25.72 5.125 33.57c4.281 3.157 9.281 4.657 14.19 4.657c7.406 0 14.69-3.375 19.38-9.782c.4062-.5626 40.19-53.91 100.5-63.23c7.457-.9611 14.98 .67 21.56 4.483L227.2 168.2C214.8 180.5 207.1 196.1 207.1 214.5c0 17.5 6.812 33.94 19.16 46.29C239.5 273.2 255.9 279.1 273.4 279.1s33.94-6.813 46.31-19.19l11.35-11.35l124.2 100.9c2.312 1.875 2.656 5.251 .5 7.97l-27.69 35.75c-1.844 2.25-5.25 2.594-7.156 1.063l-22.22-18.69l-26.19 27.75c-2.344 2.875-5.344 3.563-6.906 3.719c-1.656 .1562-4.562 .125-6.812-1.719l-32.41-27.66L310.7 392.3l-2.812 2.938c-5.844 7.157-14.09 11.66-23.28 12.6c-9.469 .8126-18.25-1.75-24.5-6.782L170.3 319.8H96V128.3L0 128.3v255.6l64 .0404c11.74 0 21.57-6.706 27.14-16.14h60.64l77.06 69.66C243.7 449.6 261.9 456 280.8 456c2.875 0 5.781-.125 8.656-.4376c13.62-1.406 26.41-6.063 37.47-13.5l.9062 .8126c12.03 9.876 27.28 14.41 42.69 12.78c13.19-1.375 25.28-7.032 33.91-15.35c21.09 8.188 46.09 2.344 61.25-16.47l27.69-35.75c18.47-22.82 14.97-56.48-7.844-75.01l-120.3-97.76l8.381-8.382c9.375-9.376 9.375-24.57 0-33.94c-9.375-9.376-24.56-9.376-33.94 0L285.8 226.8C279.2 233.5 267.7 233.5 261.1 226.8c-3.312-3.282-5.125-7.657-5.125-12.31c0-4.688 1.812-9.064 5.281-12.53l85.91-87.64c7.812-7.845 18.53-11.75 28.94-10.03c59.75 9.22 100.2 62.73 100.6 63.29c3.088 4.155 7.264 6.946 11.84 8.376H544v175.1c0 17.67 14.33 32.05 31.1 32.05L640 384V128.1L506.1 127.1zM48 352c-8.75 0-16-7.245-16-15.99c0-8.876 7.25-15.99 16-15.99S64 327.2 64 336.1C64 344.8 56.75 352 48 352zM592 352c-8.75 0-16-7.245-16-15.99c0-8.876 7.25-15.99 16-15.99s16 7.117 16 15.99C608 344.8 600.8 352 592 352z"></path></svg></g><g transform="translate(460.5,1089.06) scale(0.1953125)"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 448 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M152 64H296V24C296 10.75 306.7 0 320 0C333.3 0 344 10.75 344 24V64H384C419.3 64 448 92.65 448 128V448C448 483.3 419.3 512 384 512H64C28.65 512 0 483.3 0 448V128C0 92.65 28.65 64 64 64H104V24C104 10.75 114.7 0 128 0C141.3 0 152 10.75 152 24V64zM48 248H128V192H48V248zM48 296V360H128V296H48zM176 296V360H272V296H176zM320 296V360H400V296H320zM400 192H320V248H400V192zM400 408H320V464H384C392.8 464 400 456.8 400 448V408zM272 408H176V464H272V408zM128 408H48V448C48 456.8 55.16 464 64 464H128V408zM272 192H176V248H272V192z"></path></svg></g><g transform="translate(297.02,585.94) scale(0.1953125)"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 320 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M204.3 32.01H96c-52.94 0-96 43.06-96 96c0 17.67 14.31 31.1 32 31.1s32-14.32 32-31.1c0-17.64 14.34-32 32-32h108.3C232.8 96.01 256 119.2 256 147.8c0 19.72-10.97 37.47-30.5 47.33L127.8 252.4C117.1 258.2 112 268.7 112 280v40c0 17.67 14.31 31.99 32 31.99s32-14.32 32-31.99V298.3L256 251.3c39.47-19.75 64-59.42 64-103.5C320 83.95 268.1 32.01 204.3 32.01zM144 400c-22.09 0-40 17.91-40 40s17.91 39.1 40 39.1s40-17.9 40-39.1S166.1 400 144 400z"></path></svg></g></svg>
 </div>
 </div>
 <script>
@@ -728,6 +757,7 @@ $( document ).ready(function() {
 <li><a class="nav-link" href="#make-a-function"><span class="header-section-number">4.6</span> Make a Function</a></li>
 <li><a class="nav-link" href="#original-pride-flag"><span class="header-section-number">4.7</span> Original Pride Flag</a></li>
 <li><a class="nav-link" href="#save-as-svg-or-png"><span class="header-section-number">4.8</span> Save as SVG or PNG</a></li>
+<li><a class="nav-link" href="#icons-1"><span class="header-section-number">4.9</span> Icons</a></li>
 </ul>
 
       <div class="book-extra">
@@ -745,7 +775,7 @@ $( document ).ready(function() {
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>30-day Chart Challenge</strong>: 2022" was written by Lisa DeBruine. It was last built on 2022-04-04.</p>
+    <p>"<strong>30-day Chart Challenge</strong>: 2022" was written by Lisa DeBruine. It was last built on 2022-04-05.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

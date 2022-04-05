@@ -6,16 +6,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>5 Slope | 30-day Chart Challenge</title>
 <meta name="author" content="Lisa DeBruine">
-<meta name="description" content='/* update total correct if #webex-total_correct exists */ update_total_correct = function() {  console.log("webex: update total_correct");  if (t = document.getElementById("webex-total_correct"))...'>
+<meta name="description" content="I'm going back to data simulation. Someone asked me recently how to add a continuous factor to a mixed effects model. I'm going to build a function for simulating data with a nested structure...">
 <meta name="generator" content="bookdown 0.24 with bs4_book()">
 <meta property="og:title" content="5 Slope | 30-day Chart Challenge">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://debruine.github.io/30-day-chart-challenge/slope.html">
 <meta property="og:image" content="https://debruine.github.io/30-day-chart-challenge/images/logos/logo.png">
-<meta property="og:description" content='/* update total correct if #webex-total_correct exists */ update_total_correct = function() {  console.log("webex: update total_correct");  if (t = document.getElementById("webex-total_correct"))...'>
+<meta property="og:description" content="I'm going back to data simulation. Someone asked me recently how to add a continuous factor to a mixed effects model. I'm going to build a function for simulating data with a nested structure...">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="5 Slope | 30-day Chart Challenge">
-<meta name="twitter:description" content='/* update total correct if #webex-total_correct exists */ update_total_correct = function() {  console.log("webex: update total_correct");  if (t = document.getElementById("webex-total_correct"))...'>
+<meta name="twitter:description" content="I'm going back to data simulation. Someone asked me recently how to add a continuous factor to a mixed effects model. I'm going to build a function for simulating data with a nested structure...">
 <meta name="twitter:image" content="https://debruine.github.io/30-day-chart-challenge/images/logos/logo.png">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.11/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
@@ -100,6 +100,209 @@
 <h1>
 <span class="header-section-number">5</span> Slope<a class="anchor" aria-label="anchor" href="#slope"><i class="fas fa-link"></i></a>
 </h1>
+<p>I'm going back to data simulation. Someone asked me recently how to add a continuous factor to a mixed effects model. I'm going to build a function for simulating data with a nested structure (people within countries) and a continuous predictor of time (0-10). I'll plot the data with various values for the parameters, including random intercepts and <em>slopes</em>.</p>
+<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/debruine/faux">faux</a></span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/theme_get.html">theme_set</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">8675309</span><span class="op">)</span></code></pre></div>
+<div id="data-simulation-function" class="section level2" number="5.1">
+<h2>
+<span class="header-section-number">5.1</span> Data Simulation Function<a class="anchor" aria-label="anchor" href="#data-simulation-function"><i class="fas fa-link"></i></a>
+</h2>
+<p>First, I need to write a function to generate the simulated data. I want to be able to vary the fixed and random effects parameters, but am setting almost everything to 0 as a default.</p>
+<div class="sourceCode" id="cb67"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">sim</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span>
+  <span class="va">n_countries</span> <span class="op">=</span> <span class="fl">10</span>, <span class="co"># number of countries samples</span>
+  <span class="va">n_people</span> <span class="op">=</span> <span class="fl">10</span>,    <span class="co"># number of people sampled per country</span>
+  <span class="va">c_int_sd</span> <span class="op">=</span> <span class="fl">0</span>,     <span class="co"># SD of random intercept for countries</span>
+  <span class="va">c_time_sd</span> <span class="op">=</span> <span class="fl">0</span>,    <span class="co"># SD of random slope for time (by country)</span>
+  <span class="va">c_cors</span> <span class="op">=</span> <span class="fl">0</span>,       <span class="co"># correlation between c_int and c_time</span>
+  <span class="va">p_int_sd</span> <span class="op">=</span> <span class="fl">0</span>,     <span class="co"># SD of random intercept for people</span>
+  <span class="va">p_time_sd</span> <span class="op">=</span> <span class="fl">0</span>,    <span class="co"># SD of random slope for time (by person)</span>
+  <span class="va">p_cors</span> <span class="op">=</span> <span class="fl">0</span>,       <span class="co"># correlations among p_int, p_time, p_height</span>
+  <span class="va">err_sd</span> <span class="op">=</span> <span class="fl">0</span>,       <span class="co"># error SD</span>
+  <span class="va">intercept</span> <span class="op">=</span> <span class="fl">0</span>,    <span class="co"># grand intercept</span>
+  <span class="va">b_time</span> <span class="op">=</span> <span class="fl">0</span>        <span class="co"># fixed effect of time</span>
+<span class="op">)</span><span class="op">{</span>
+
+<span class="fu"><a href="https://rdrr.io/pkg/faux/man/add_random.html">add_random</a></span><span class="op">(</span>country <span class="op">=</span> <span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="va">n_countries</span><span class="op">]</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/faux/man/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/pkg/faux/man/add_random.html">add_random</a></span><span class="op">(</span>person <span class="op">=</span> <span class="va">n_people</span>, 
+             .nested_in <span class="op">=</span> <span class="st">"country"</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/faux/man/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/pkg/faux/man/add_ranef.html">add_ranef</a></span><span class="op">(</span>.by <span class="op">=</span> <span class="st">"country"</span>, 
+            c_int <span class="op">=</span> <span class="va">c_int_sd</span>,
+            c_time <span class="op">=</span> <span class="va">c_time_sd</span>,
+            .cors <span class="op">=</span> <span class="va">c_cors</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/faux/man/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/pkg/faux/man/add_ranef.html">add_ranef</a></span><span class="op">(</span>.by <span class="op">=</span> <span class="st">"person"</span>, 
+            p_int <span class="op">=</span> <span class="va">p_int_sd</span>, 
+            p_time <span class="op">=</span> <span class="va">p_time_sd</span>, 
+            .cors <span class="op">=</span> <span class="va">p_cors</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/faux/man/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/pkg/tidyr/man/expand.html">crossing</a></span><span class="op">(</span>time <span class="op">=</span> <span class="fl">0</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/faux/man/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/pkg/faux/man/add_ranef.html">add_ranef</a></span><span class="op">(</span>err <span class="op">=</span> <span class="va">err_sd</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/faux/man/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/mutate.html">mutate</a></span><span class="op">(</span>dv <span class="op">=</span> <span class="va">intercept</span> <span class="op">+</span> <span class="va">c_int</span> <span class="op">+</span> <span class="va">p_int</span> <span class="op">+</span> 
+           <span class="op">(</span><span class="va">b_time</span> <span class="op">+</span> <span class="va">p_time</span> <span class="op">+</span> <span class="va">c_time</span><span class="op">)</span> <span class="op">*</span> <span class="va">time</span> <span class="op">+</span> 
+           <span class="va">err</span><span class="op">)</span>
+<span class="op">}</span></code></pre></div>
+</div>
+<div id="default" class="section level2" number="5.2">
+<h2>
+<span class="header-section-number">5.2</span> Default<a class="anchor" aria-label="anchor" href="#default"><i class="fas fa-link"></i></a>
+</h2>
+<p>The default plot is pretty boring. Everyone's score is is equal to the grant intercept.</p>
+<div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu">sim</span><span class="op">(</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">data</span>, <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">time</span>, y <span class="op">=</span> <span class="va">dv</span>, color <span class="op">=</span> <span class="va">country</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_smooth.html">geom_smooth</a></span><span class="op">(</span>method <span class="op">=</span> <span class="va">lm</span>, formula <span class="op">=</span> <span class="va">y</span> <span class="op">~</span> <span class="va">x</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/stat_summary.html">stat_summary</a></span><span class="op">(</span>geom <span class="op">=</span> <span class="st">"point"</span>, fun <span class="op">=</span> <span class="va">mean</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="30DCC_files/figure-html/slope-default-1.png" width="100%" style="display: block; margin: auto;"></div>
+</div>
+<div id="random-error" class="section level2" number="5.3">
+<h2>
+<span class="header-section-number">5.3</span> Random error<a class="anchor" aria-label="anchor" href="#random-error"><i class="fas fa-link"></i></a>
+</h2>
+<p>We can make the simulation more realistic by adding random error.</p>
+<div class="sourceCode" id="cb69"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu">sim</span><span class="op">(</span>err_sd <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">data</span>, <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">time</span>, y <span class="op">=</span> <span class="va">dv</span>, color <span class="op">=</span> <span class="va">country</span>, group <span class="op">=</span> <span class="va">person</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_smooth.html">geom_smooth</a></span><span class="op">(</span>method <span class="op">=</span> <span class="va">lm</span>, formula <span class="op">=</span> <span class="va">y</span> <span class="op">~</span> <span class="va">x</span>, alpha <span class="op">=</span> <span class="fl">0.1</span>, show.legend <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">country</span>, nrow <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="30DCC_files/figure-html/slope-err-1.png" width="100%" style="display: block; margin: auto;"></div>
+<p>Here are the data for each person in country A.</p>
+<div class="sourceCode" id="cb70"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">data</span> <span class="op"><a href="https://rdrr.io/pkg/faux/man/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/filter.html">filter</a></span><span class="op">(</span><span class="va">country</span> <span class="op">==</span> <span class="st">"A"</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/faux/man/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">time</span>, y <span class="op">=</span> <span class="va">dv</span>, color <span class="op">=</span> <span class="va">person</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_smooth.html">geom_smooth</a></span><span class="op">(</span>method <span class="op">=</span> <span class="va">lm</span>, formula <span class="op">=</span> <span class="va">y</span> <span class="op">~</span> <span class="va">x</span>, alpha <span class="op">=</span> <span class="fl">0.2</span>, show.legend <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/stat_summary.html">stat_summary</a></span><span class="op">(</span>geom <span class="op">=</span> <span class="st">"point"</span>, fun <span class="op">=</span> <span class="va">mean</span>, show.legend <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">person</span>, nrow <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="30DCC_files/figure-html/slope-err-person-1.png" width="100%" style="display: block; margin: auto;"></div>
+<p>We're going to leave the error SD as a totally unrealistic 0 for the next few plots to make it easier to see what happens to the data when you're changing random effects parameters.</p>
+</div>
+<div id="random-intercepts-for-country" class="section level2" number="5.4">
+<h2>
+<span class="header-section-number">5.4</span> Random intercepts for country<a class="anchor" aria-label="anchor" href="#random-intercepts-for-country"><i class="fas fa-link"></i></a>
+</h2>
+<p>Now let's add a random intercept per country. Setting c_int_sd to 1 means that the intercepts for each country are simulated to vary with an SD of 1.</p>
+<div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu">sim</span><span class="op">(</span>c_int_sd <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">data</span>, <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">time</span>, y <span class="op">=</span> <span class="va">dv</span>, color <span class="op">=</span> <span class="va">country</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_smooth.html">geom_smooth</a></span><span class="op">(</span>method <span class="op">=</span> <span class="va">lm</span>, formula <span class="op">=</span> <span class="va">y</span> <span class="op">~</span> <span class="va">x</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/stat_summary.html">stat_summary</a></span><span class="op">(</span>geom <span class="op">=</span> <span class="st">"point"</span>, fun <span class="op">=</span> <span class="va">mean</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="30DCC_files/figure-html/slope-c-int-1.png" width="100%" style="display: block; margin: auto;"></div>
+</div>
+<div id="random-slopes-for-country" class="section level2" number="5.5">
+<h2>
+<span class="header-section-number">5.5</span> Random slopes for country<a class="anchor" aria-label="anchor" href="#random-slopes-for-country"><i class="fas fa-link"></i></a>
+</h2>
+<p>What does it look like if we leave the random intercepts at 0 and set the random slope of time for countries to 1?</p>
+<div class="sourceCode" id="cb72"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu">sim</span><span class="op">(</span>c_time_sd <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">data</span>, <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">time</span>, y <span class="op">=</span> <span class="va">dv</span>, color <span class="op">=</span> <span class="va">country</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_smooth.html">geom_smooth</a></span><span class="op">(</span>method <span class="op">=</span> <span class="va">lm</span>, formula <span class="op">=</span> <span class="va">y</span> <span class="op">~</span> <span class="va">x</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/stat_summary.html">stat_summary</a></span><span class="op">(</span>geom <span class="op">=</span> <span class="st">"point"</span>, fun <span class="op">=</span> <span class="va">mean</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="30DCC_files/figure-html/slope-c-time-1.png" width="100%" style="display: block; margin: auto;"></div>
+</div>
+<div id="random-intercepts-and-slopes-for-country" class="section level2" number="5.6">
+<h2>
+<span class="header-section-number">5.6</span> Random intercepts and slopes for country<a class="anchor" aria-label="anchor" href="#random-intercepts-and-slopes-for-country"><i class="fas fa-link"></i></a>
+</h2>
+<p>What if we set both the random intercept and slope of time for country to 1? Now, the intercepts vary around 0 and the slopes of the lines also vary.</p>
+<div class="sourceCode" id="cb73"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu">sim</span><span class="op">(</span>c_int_sd <span class="op">=</span> <span class="fl">1</span>, c_time_sd <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">data</span>, <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">time</span>, y <span class="op">=</span> <span class="va">dv</span>, color <span class="op">=</span> <span class="va">country</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_smooth.html">geom_smooth</a></span><span class="op">(</span>method <span class="op">=</span> <span class="va">lm</span>, formula <span class="op">=</span> <span class="va">y</span> <span class="op">~</span> <span class="va">x</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/stat_summary.html">stat_summary</a></span><span class="op">(</span>geom <span class="op">=</span> <span class="st">"point"</span>, fun <span class="op">=</span> <span class="va">mean</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="30DCC_files/figure-html/slope-c-int-time-1.png" width="100%" style="display: block; margin: auto;"></div>
+<p>Random intercepts and slopes can be correlated. For example, the time effect might be larger in countries where people tend to have lower scores, leading the random slope and intercept for country to be negatively correlated.</p>
+<p>I increased the SD of the random intercept to make it easier to see that countries with a higher intercept tend to have more negative slopes than those with a lower intercept.</p>
+<div class="sourceCode" id="cb74"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu">sim</span><span class="op">(</span>c_int_sd <span class="op">=</span> <span class="fl">5</span>, c_time_sd <span class="op">=</span> <span class="fl">1</span>, c_cors <span class="op">=</span> <span class="op">-</span><span class="fl">0.5</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">data</span>, <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">time</span>, y <span class="op">=</span> <span class="va">dv</span>, color <span class="op">=</span> <span class="va">country</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_smooth.html">geom_smooth</a></span><span class="op">(</span>method <span class="op">=</span> <span class="va">lm</span>, formula <span class="op">=</span> <span class="va">y</span> <span class="op">~</span> <span class="va">x</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/stat_summary.html">stat_summary</a></span><span class="op">(</span>geom <span class="op">=</span> <span class="st">"point"</span>, fun <span class="op">=</span> <span class="va">mean</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure">
+<img src="30DCC_files/figure-html/slope-c-int-time-cor-neg-1.png" width="100%" style="display: block; margin: auto;">
+And here's the same plot with a positive correlation. Now the countries with a higher intercept tend to have a more positive effect of time.</div>
+<div class="sourceCode" id="cb75"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu">sim</span><span class="op">(</span>c_int_sd <span class="op">=</span> <span class="fl">5</span>, c_time_sd <span class="op">=</span> <span class="fl">1</span>, c_cors <span class="op">=</span> <span class="op">+</span><span class="fl">0.5</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">data</span>, <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">time</span>, y <span class="op">=</span> <span class="va">dv</span>, color <span class="op">=</span> <span class="va">country</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_smooth.html">geom_smooth</a></span><span class="op">(</span>method <span class="op">=</span> <span class="va">lm</span>, formula <span class="op">=</span> <span class="va">y</span> <span class="op">~</span> <span class="va">x</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/stat_summary.html">stat_summary</a></span><span class="op">(</span>geom <span class="op">=</span> <span class="st">"point"</span>, fun <span class="op">=</span> <span class="va">mean</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="30DCC_files/figure-html/slope-c-int-time-cor-pos-1.png" width="100%" style="display: block; margin: auto;"></div>
+</div>
+<div id="random-intercepts-for-person" class="section level2" number="5.7">
+<h2>
+<span class="header-section-number">5.7</span> Random intercepts for person<a class="anchor" aria-label="anchor" href="#random-intercepts-for-person"><i class="fas fa-link"></i></a>
+</h2>
+<p>If we vary the random intercepts by person, this increases the variability within each country. Note that because we're only sampling 10 people in each country, this means the intercept for each country will vary a bit depending on the mean of the 10 people from that country.</p>
+<div class="sourceCode" id="cb76"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu">sim</span><span class="op">(</span>p_int_sd <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">data</span>, <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">time</span>, y <span class="op">=</span> <span class="va">dv</span>, color <span class="op">=</span> <span class="va">country</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_smooth.html">geom_smooth</a></span><span class="op">(</span>method <span class="op">=</span> <span class="va">lm</span>, formula <span class="op">=</span> <span class="va">y</span> <span class="op">~</span> <span class="va">x</span>, alpha <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="30DCC_files/figure-html/slope-p-int-1.png" width="100%" style="display: block; margin: auto;"></div>
+<p>Let's look at the data for each country separately.</p>
+<div class="sourceCode" id="cb77"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">data</span>, <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">time</span>, y <span class="op">=</span> <span class="va">dv</span>, color <span class="op">=</span> <span class="va">country</span>, group <span class="op">=</span> <span class="va">person</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_smooth.html">geom_smooth</a></span><span class="op">(</span>method <span class="op">=</span> <span class="va">lm</span>, size <span class="op">=</span> <span class="fl">0.5</span>, formula <span class="op">=</span> <span class="va">y</span> <span class="op">~</span> <span class="va">x</span>, show.legend <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">country</span>, nrow <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="30DCC_files/figure-html/slope-p-int-country-1.png" width="100%" style="display: block; margin: auto;"></div>
+</div>
+<div id="random-slopes-for-person" class="section level2" number="5.8">
+<h2>
+<span class="header-section-number">5.8</span> Random slopes for person<a class="anchor" aria-label="anchor" href="#random-slopes-for-person"><i class="fas fa-link"></i></a>
+</h2>
+<p>Vary the random slopes by person. Here, we're viewing the data for each country separately. The thick lines are the average slope for the country.</p>
+<div class="sourceCode" id="cb78"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">data</span>, <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">time</span>, y <span class="op">=</span> <span class="va">dv</span>, color <span class="op">=</span> <span class="va">country</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_smooth.html">geom_smooth</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>group <span class="op">=</span> <span class="va">person</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">.2</span>, 
+              method <span class="op">=</span> <span class="va">lm</span>, formula <span class="op">=</span> <span class="va">y</span> <span class="op">~</span> <span class="va">x</span>, 
+              show.legend <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_smooth.html">geom_smooth</a></span><span class="op">(</span>method <span class="op">=</span> <span class="va">lm</span>, size <span class="op">=</span> <span class="fl">1.5</span>, formula <span class="op">=</span> <span class="va">y</span> <span class="op">~</span> <span class="va">x</span>, show.legend <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">country</span>, nrow <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="30DCC_files/figure-html/slope-p-time-1.png" width="100%" style="display: block; margin: auto;"></div>
+</div>
+<div id="fixed-effect-of-time" class="section level2" number="5.9">
+<h2>
+<span class="header-section-number">5.9</span> Fixed effect of time<a class="anchor" aria-label="anchor" href="#fixed-effect-of-time"><i class="fas fa-link"></i></a>
+</h2>
+<p>Let's add a fixed effect of time.</p>
+<div class="sourceCode" id="cb79"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu">sim</span><span class="op">(</span>b_time <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">data</span>, <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">time</span>, y <span class="op">=</span> <span class="va">dv</span>, color <span class="op">=</span> <span class="va">country</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_smooth.html">geom_smooth</a></span><span class="op">(</span>method <span class="op">=</span> <span class="va">lm</span>, formula <span class="op">=</span> <span class="va">y</span> <span class="op">~</span> <span class="va">x</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="30DCC_files/figure-html/slope-fixed-1.png" width="100%" style="display: block; margin: auto;"></div>
+<p>That's pretty boring, so lets also add random time slopes for both country and person. Make the fixed effect of time bigger to emphasise how the average slopes by country tend to be positive, even though there is a lot of variation in the slopes for individual people.</p>
+<div class="sourceCode" id="cb80"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu">sim</span><span class="op">(</span>b_time <span class="op">=</span> <span class="fl">2</span>, c_time_sd <span class="op">=</span> <span class="fl">1</span>, p_time_sd <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">data</span>, <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">time</span>, y <span class="op">=</span> <span class="va">dv</span>, color <span class="op">=</span> <span class="va">country</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_smooth.html">geom_smooth</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>group <span class="op">=</span> <span class="va">person</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">.2</span>, 
+              method <span class="op">=</span> <span class="va">lm</span>, formula <span class="op">=</span> <span class="va">y</span> <span class="op">~</span> <span class="va">x</span>, 
+              show.legend <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_smooth.html">geom_smooth</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">1.5</span>, method <span class="op">=</span> <span class="va">lm</span>, formula <span class="op">=</span> <span class="va">y</span> <span class="op">~</span> <span class="va">x</span>, 
+              show.legend <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">country</span>, nrow <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="30DCC_files/figure-html/slope-fixed-rand-1.png" width="100%" style="display: block; margin: auto;"></div>
+</div>
+<div id="realistic-data" class="section level2" number="5.10">
+<h2>
+<span class="header-section-number">5.10</span> Realistic data<a class="anchor" aria-label="anchor" href="#realistic-data"><i class="fas fa-link"></i></a>
+</h2>
+<p>Finally, let's set all of the fixed and random effect parameters to non-zero values.</p>
+<div class="sourceCode" id="cb81"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu">sim</span><span class="op">(</span>c_int_sd <span class="op">=</span> <span class="fl">10</span>, c_time_sd <span class="op">=</span> <span class="fl">1</span>, c_cors <span class="op">=</span> <span class="fl">0.5</span>,
+            p_int_sd <span class="op">=</span> <span class="fl">10</span>, p_time_sd <span class="op">=</span> <span class="fl">1</span>, p_cors <span class="op">=</span> <span class="fl">0.5</span>, 
+            err_sd <span class="op">=</span> <span class="fl">5</span>, intercept <span class="op">=</span> <span class="fl">100</span>, b_time <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>
+
+<span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">data</span>, <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">time</span>, y <span class="op">=</span> <span class="va">dv</span>, color <span class="op">=</span> <span class="va">country</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_smooth.html">geom_smooth</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>group <span class="op">=</span> <span class="va">person</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">.2</span>, 
+              method <span class="op">=</span> <span class="va">lm</span>, formula <span class="op">=</span> <span class="va">y</span> <span class="op">~</span> <span class="va">x</span>, 
+              se <span class="op">=</span> <span class="cn">FALSE</span>, show.legend <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_smooth.html">geom_smooth</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">1.5</span>, method <span class="op">=</span> <span class="va">lm</span>, formula <span class="op">=</span> <span class="va">y</span> <span class="op">~</span> <span class="va">x</span>, 
+              alpha <span class="op">=</span> <span class="fl">0.3</span>, show.legend <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">country</span>, nrow <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/scale_continuous.html">scale_x_continuous</a></span><span class="op">(</span>breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">10</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="30DCC_files/figure-html/slope-realistic-1.png" width="100%" style="display: block; margin: auto;"></div>
+</div>
 </div>
 <script>
 
@@ -306,7 +509,19 @@ $( document ).ready(function() {
 <div class="next"><a href="owid.html"><span class="header-section-number">6</span> OWID</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
-      <ul class="nav navbar-nav"><li><a class="nav-link" href="#slope"><span class="header-section-number">5</span> Slope</a></li></ul>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#slope"><span class="header-section-number">5</span> Slope</a></li>
+<li><a class="nav-link" href="#data-simulation-function"><span class="header-section-number">5.1</span> Data Simulation Function</a></li>
+<li><a class="nav-link" href="#default"><span class="header-section-number">5.2</span> Default</a></li>
+<li><a class="nav-link" href="#random-error"><span class="header-section-number">5.3</span> Random error</a></li>
+<li><a class="nav-link" href="#random-intercepts-for-country"><span class="header-section-number">5.4</span> Random intercepts for country</a></li>
+<li><a class="nav-link" href="#random-slopes-for-country"><span class="header-section-number">5.5</span> Random slopes for country</a></li>
+<li><a class="nav-link" href="#random-intercepts-and-slopes-for-country"><span class="header-section-number">5.6</span> Random intercepts and slopes for country</a></li>
+<li><a class="nav-link" href="#random-intercepts-for-person"><span class="header-section-number">5.7</span> Random intercepts for person</a></li>
+<li><a class="nav-link" href="#random-slopes-for-person"><span class="header-section-number">5.8</span> Random slopes for person</a></li>
+<li><a class="nav-link" href="#fixed-effect-of-time"><span class="header-section-number">5.9</span> Fixed effect of time</a></li>
+<li><a class="nav-link" href="#realistic-data"><span class="header-section-number">5.10</span> Realistic data</a></li>
+</ul>
 
       <div class="book-extra">
         <ul class="list-unstyled">
@@ -323,7 +538,7 @@ $( document ).ready(function() {
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>30-day Chart Challenge</strong>: 2022" was written by Lisa DeBruine. It was last built on 2022-04-04.</p>
+    <p>"<strong>30-day Chart Challenge</strong>: 2022" was written by Lisa DeBruine. It was last built on 2022-04-05.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

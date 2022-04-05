@@ -31,12 +31,13 @@ A 200 200 0 0 1 860 260
 L 460 260
 Z" 
 fill="#FF66B1" fill-opacity="0.8" /></g>
-    <text x="660" y="295">Sex</text>"
-    <text x="942.84" y="412.16">Life</text>"
-    <text x="1060" y="695">Healing</text>"
-    <text x="942.84" y="977.84">Sunlight</text>"
-    <text x="660" y="1095">Nature</text>"
-    <text x="377.16" y="977.84">Magic/Art</text>"
-    <text x="260" y="695">Serenity</text>"
-    <text x="377.16" y="412.16">Spirit</text>"
+    <text x="660" y="295">Sex</text>
+    <text x="942.84" y="412.16">Life</text>
+    <text x="1060" y="695">Healing</text>
+    <text x="942.84" y="977.84">Sunlight</text>
+    <text x="660" y="1095">Nature</text>
+    <text x="377.16" y="977.84">Magic/Art</text>
+    <text x="260" y="695">Serenity</text>
+    <text x="377.16" y="412.16">Spirit</text>
+
 </svg>
