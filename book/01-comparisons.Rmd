@@ -980,7 +980,7 @@ viewsvg(svg)
 
 # Slope
 
-I'm going back to data simulation. Someone asked me recently how to add a continuous factor to a mixed effects model. I'm going to build a function for simulating data with a nested structure (people within countries) and a continuous predictor of time (0-10). I'll plot the data with various values for the parameters, including random intercepts and *slopes*.
+I'm going back to data simulation. Someone asked me recently how to add a continuous factor to a mixed effects model. I'm going to build a function for simulating data with a nested structure sampling people within countries and a continuous predictor of time (0-10). I'll plot the data with various values for the parameters, including random intercepts and *slopes*. If you need a starter tutorial in mixed effects models, see [this tutorial by Dale Barr and me](https://debruine.github.io/lmem_sim/).
 
 ```{r, message=FALSE}
 library(tidyverse)
@@ -992,7 +992,7 @@ set.seed(8675309)
 
 ## Data Simulation Function
 
-First, I need to write a function to generate the simulated data. I want to be able to vary the fixed and random effects parameters, but am setting almost everything to 0 as a default.
+First, I need to write a function to generate the simulated data. I want to be able to vary the fixed and random effects parameters, but am setting almost everything to 0 as a default. I'm using mixed design simulation functions from the faux package, which you can learn more about in this [vignette](https://debruine.github.io/faux/articles/sim_mixed.html). 
 
 ```{r}
 
