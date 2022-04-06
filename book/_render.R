@@ -15,3 +15,9 @@ library(emojifont)
 library(showtext)
 font_add(family = "Avenir",
          regular = "/System/Library/Fonts/Avenir.ttc")
+
+font_add_google(name = "Playfair Display", family = "Playfair")
+font_add(family = "Playfair",
+         regular = "~/Library/Fonts/PlayfairDisplay-VariableFont_wght.ttf")
+
+showtext_auto()

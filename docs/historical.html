@@ -6,16 +6,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>3 Historical | 30-day Chart Challenge</title>
 <meta name="author" content="Lisa DeBruine">
-<meta name="description" content="library(tidyverse)  3.1 Population Data I got this dataset from a class assignment that cites Our World in Data, but I'm still not sure exactly where the data file came from, so you can get the...">
+<meta name="description" content='library(tidyverse) library(showtext) font_add(family = "Market Deco",     regular = "~/Library/Fonts/Market_Deco.ttf") font_add(family = "Avenir",     regular = "/System/Library/Fonts/Avenir.ttc")...'>
 <meta name="generator" content="bookdown 0.24 with bs4_book()">
 <meta property="og:title" content="3 Historical | 30-day Chart Challenge">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://debruine.github.io/30-day-chart-challenge/historical.html">
 <meta property="og:image" content="https://debruine.github.io/30-day-chart-challenge/images/logos/logo.png">
-<meta property="og:description" content="library(tidyverse)  3.1 Population Data I got this dataset from a class assignment that cites Our World in Data, but I'm still not sure exactly where the data file came from, so you can get the...">
+<meta property="og:description" content='library(tidyverse) library(showtext) font_add(family = "Market Deco",     regular = "~/Library/Fonts/Market_Deco.ttf") font_add(family = "Avenir",     regular = "/System/Library/Fonts/Avenir.ttc")...'>
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="3 Historical | 30-day Chart Challenge">
-<meta name="twitter:description" content="library(tidyverse)  3.1 Population Data I got this dataset from a class assignment that cites Our World in Data, but I'm still not sure exactly where the data file came from, so you can get the...">
+<meta name="twitter:description" content='library(tidyverse) library(showtext) font_add(family = "Market Deco",     regular = "~/Library/Fonts/Market_Deco.ttf") font_add(family = "Avenir",     regular = "/System/Library/Fonts/Avenir.ttc")...'>
 <meta name="twitter:image" content="https://debruine.github.io/30-day-chart-challenge/images/logos/logo.png">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.11/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
@@ -58,7 +58,7 @@
 <li><a class="active" href="historical.html"><span class="header-section-number">3</span> Historical</a></li>
 <li><a class="" href="flora.html"><span class="header-section-number">4</span> Flora</a></li>
 <li><a class="" href="slope.html"><span class="header-section-number">5</span> Slope</a></li>
-<li><a class="" href="owid.html"><span class="header-section-number">6</span> OWID</a></li>
+<li><a class="" href="owid.html"><span class="header-section-number">6</span> OWiD</a></li>
 <li class="book-part">Distributions</li>
 <li><a class="" href="physical.html"><span class="header-section-number">7</span> Physical</a></li>
 <li><a class="" href="mountains.html"><span class="header-section-number">8</span> Mountains</a></li>
@@ -100,14 +100,21 @@
 <h1>
 <span class="header-section-number">3</span> Historical<a class="anchor" aria-label="anchor" href="#historical"><i class="fas fa-link"></i></a>
 </h1>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/yixuan/showtext">showtext</a></span><span class="op">)</span>
+
+<span class="fu"><a href="https://rdrr.io/pkg/sysfonts/man/font_add.html">font_add</a></span><span class="op">(</span>family <span class="op">=</span> <span class="st">"Market Deco"</span>,
+         regular <span class="op">=</span> <span class="st">"~/Library/Fonts/Market_Deco.ttf"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/sysfonts/man/font_add.html">font_add</a></span><span class="op">(</span>family <span class="op">=</span> <span class="st">"Avenir"</span>,
+         regular <span class="op">=</span> <span class="st">"/System/Library/Fonts/Avenir.ttc"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/showtext/man/showtext_auto.html">showtext_auto</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <div id="population-data" class="section level2" number="3.1">
 <h2>
 <span class="header-section-number">3.1</span> Population Data<a class="anchor" aria-label="anchor" href="#population-data"><i class="fas fa-link"></i></a>
 </h2>
 <p>I got this dataset from a class assignment that cites <a href="https://ourworldindata.org/population-sources">Our World in Data</a>, but I'm still not sure exactly where the data file came from, so you can <a href="data/disease-burden-vs-health-expenditure-per-capita.csv" download>get the file here</a>.</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">pop</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/readr/man/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"data/disease-burden-vs-health-expenditure-per-capita.csv"</span>,
                 show_col_types <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 
@@ -122,7 +129,7 @@
 ##   Continent = col_character()
 ## )</code></pre>
 <p>The column names need some cleaning (I prefer to work with column names that are all lowercase with no spaces), and I don't need some of the data.</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">pop</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/readr/man/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"data/disease-burden-vs-health-expenditure-per-capita.csv"</span>,
                 col_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"region"</span>, <span class="st">"code"</span>, <span class="st">"year"</span>, <span class="st">"population"</span>, <span class="st">"continent"</span><span class="op">)</span>,
                 skip <span class="op">=</span> <span class="fl">1</span>,
@@ -275,11 +282,11 @@ pop2 <- pop %>%
 <span class="header-section-number">3.2</span> Select relevant data<a class="anchor" aria-label="anchor" href="#select-relevant-data"><i class="fas fa-link"></i></a>
 </h2>
 <p>I just want to plot the population for the 6 major world regions, so I'll filter that and make a quick line plot to see what I've got.</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">world_regions</span> <span class="op">&lt;-</span> <span class="va">pop</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">code</span>, <span class="op">-</span><span class="va">continent</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/filter.html">filter</a></span><span class="op">(</span><span class="va">region</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Africa"</span>, <span class="st">"Asia"</span>, <span class="st">"Europe"</span>, <span class="st">"Oceania"</span>, <span class="st">"North America"</span>, <span class="st">"South America"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">world_regions</span>, <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">year</span>, y <span class="op">=</span> <span class="va">population</span>, color <span class="op">=</span> <span class="va">region</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_path.html">geom_line</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="30DCC_files/figure-html/hist-plot1-1.png" width="100%" style="display: block; margin: auto;"></div>
@@ -289,7 +296,7 @@ pop2 <- pop %>%
 <span class="header-section-number">3.3</span> Transform y-axis<a class="anchor" aria-label="anchor" href="#transform-y-axis"><i class="fas fa-link"></i></a>
 </h2>
 <p>The population growth is pretty exponential at the end, so a log transformation of the y-axis might help.</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">world_regions</span>, <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">year</span>, y <span class="op">=</span> <span class="va">population</span>, color <span class="op">=</span> <span class="va">region</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_path.html">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/scale_continuous.html">scale_y_log10</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
@@ -300,7 +307,7 @@ pop2 <- pop %>%
 <span class="header-section-number">3.4</span> Region order<a class="anchor" aria-label="anchor" href="#region-order"><i class="fas fa-link"></i></a>
 </h2>
 <p>It would make more sense if the legend was in the same order as the lines, so I'll turn that column into a factor ordered by the population at the latest year.</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">region_order</span> <span class="op">&lt;-</span> <span class="va">world_regions</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/filter.html">filter</a></span><span class="op">(</span><span class="va">year</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">year</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/arrange.html">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/desc.html">desc</a></span><span class="op">(</span><span class="va">population</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
@@ -309,7 +316,7 @@ pop2 <- pop %>%
 <span class="va">world_regions</span> <span class="op">&lt;-</span> <span class="va">world_regions</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/mutate.html">mutate</a></span><span class="op">(</span>region <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">region</span>, <span class="va">region_order</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>I'll also add a point for each year with data.</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">world_regions</span>, <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">year</span>, y <span class="op">=</span> <span class="va">population</span>, color <span class="op">=</span> <span class="va">region</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_path.html">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
@@ -321,14 +328,14 @@ pop2 <- pop %>%
 <span class="header-section-number">3.5</span> Variable x-axis<a class="anchor" aria-label="anchor" href="#variable-x-axis"><i class="fas fa-link"></i></a>
 </h2>
 <p>The data collection isn't even at all. The years go every 1000 from -10000 to 0, then every 100 from 0 to 1700, then every 10 from 1700 to 1800, then every year from 1800 to 2021.</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">world_regions</span><span class="op">$</span><span class="va">year</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/sort.html">sort</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span> <span class="fu">`[`</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">50</span><span class="op">)</span></code></pre></div>
-<pre><code>##  [1] -10000  -9000  -8000  -7000  -6000  -5000  -4000  -3000  -2000  -1000      0    100    200    300    400    500
-## [17]    600    700    800    900   1000   1100   1200   1300   1400   1500   1600   1700   1710   1720   1730   1740
-## [33]   1750   1760   1770   1780   1790   1800   1801   1802   1803   1804   1805   1806   1807   1808   1809   1810
-## [49]   1811   1812</code></pre>
+<pre><code>##  [1] -10000  -9000  -8000  -7000  -6000  -5000  -4000  -3000  -2000  -1000      0    100    200
+## [14]    300    400    500    600    700    800    900   1000   1100   1200   1300   1400   1500
+## [27]   1600   1700   1710   1720   1730   1740   1750   1760   1770   1780   1790   1800   1801
+## [40]   1802   1803   1804   1805   1806   1807   1808   1809   1810   1811   1812</code></pre>
 <p>I tried a few x-axis transformations, and they're not straightforward because the x-axis crosses 0, which most transformations can't handle. This was one of the silliest.</p>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">world_regions</span>, <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">year</span>, y <span class="op">=</span> <span class="va">population</span>, color <span class="op">=</span> <span class="va">region</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_path.html">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
@@ -339,14 +346,14 @@ pop2 <- pop %>%
 ## Warning: Transformation introduced infinite values in continuous x-axis</code></pre>
 <div class="inline-figure"><img src="30DCC_files/figure-html/hist-log-x-1.png" width="100%" style="display: block; margin: auto;"></div>
 <p>So I'll add a new column that specifies which time period they're in. I'll replace this text later, so it's probably easiest to give them alphabetic labels now.</p>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">world_regions</span> <span class="op">&lt;-</span> <span class="va">world_regions</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/mutate.html">mutate</a></span><span class="op">(</span>time_period <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/case_when.html">case_when</a></span><span class="op">(</span>
       <span class="va">year</span> <span class="op">&lt;</span> <span class="fl">0</span> <span class="op">~</span> <span class="st">"A"</span>,
       <span class="va">year</span> <span class="op">&lt;</span> <span class="fl">1700</span> <span class="op">~</span> <span class="st">"B"</span>,
       <span class="va">year</span> <span class="op">&lt;</span> <span class="fl">1800</span> <span class="op">~</span> <span class="st">"C"</span>,
       <span class="va">year</span> <span class="op">&lt;</span> <span class="fl">2022</span> <span class="op">~</span> <span class="st">"D"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">world_regions</span>, <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">year</span>, y <span class="op">=</span> <span class="va">population</span>, color <span class="op">=</span> <span class="va">region</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_path.html">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
@@ -359,7 +366,7 @@ pop2 <- pop %>%
 <span class="header-section-number">3.6</span> Clean Up<a class="anchor" aria-label="anchor" href="#clean-up"><i class="fas fa-link"></i></a>
 </h2>
 <p>Now we're getting somewhere, but still need to clean this up a lot. I'm going to remove the panel spacing and expansion so the plots touch each other. I'll also customise the breaks and labels for the y-axis to make that easier to understand, and customise the colours (I do love a rainbow).</p>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># custom colours</span>
 <span class="va">rainbow</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"#983E82"</span>,<span class="st">"#E2A458"</span>,<span class="st">"#F5DC70"</span>,<span class="st">"#59935B"</span>,<span class="st">"#467AAC"</span>,<span class="st">"#61589C"</span><span class="op">)</span>
 
@@ -381,7 +388,7 @@ pop2 <- pop %>%
         panel.spacing.x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fl">0</span>, <span class="st">"cm"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="30DCC_files/figure-html/hist-cleaner-1.png" width="100%" style="display: block; margin: auto;"></div>
 <p>However, the borders of each time period don't meet. I can fix that by duplicating the border years and assigning them to the previous time period.</p>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">borders</span> <span class="op">&lt;-</span> <span class="va">world_regions</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/group_by.html">group_by</a></span><span class="op">(</span><span class="va">time_period</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/filter.html">filter</a></span><span class="op">(</span><span class="va">year</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">year</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
@@ -391,7 +398,7 @@ pop2 <- pop %>%
 
 <span class="va">world_regions2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/bind.html">bind_rows</a></span><span class="op">(</span><span class="va">world_regions</span>, <span class="va">borders</span><span class="op">)</span></code></pre></div>
 <p>Let's also fix the facet labels. The function <code><a href="https://rdrr.io/pkg/ggplot2/man/as_labeller.html">as_labeller()</a></code> lets you translate between the data labels and custom labels for facets. And set some custom colours and custom x-axis breaks and labels. I moved the legend inside the plot to give the plot more horizontal room.</p>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># custom facet labels</span>
 <span class="va">tp_labels</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>
   A <span class="op">=</span> <span class="st">"10000BC to 0"</span>,
@@ -439,7 +446,7 @@ pop2 <- pop %>%
 <span class="header-section-number">3.7</span> Change time periods<a class="anchor" aria-label="anchor" href="#change-time-periods"><i class="fas fa-link"></i></a>
 </h2>
 <p>I changed by mind about 1700 to 1800. This plot gives it too much prominence. so I'll combine it with 1800+. It looked weird to specify "BCE" only for the years before 0, so I added "CE" (Common Era) to the years after 0 and adjusted the angle and number of labels to make it easier to read.</p>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># recode time period to 3 periods (merge C and D)</span>
 <span class="va">world_regions3</span> <span class="op">&lt;-</span> <span class="va">world_regions2</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/mutate.html">mutate</a></span><span class="op">(</span>time_period <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/recode.html">recode</a></span><span class="op">(</span><span class="va">time_period</span>, A <span class="op">=</span> <span class="st">"A"</span>, B <span class="op">=</span> <span class="st">"B"</span>, C <span class="op">=</span> <span class="st">"C"</span>, D <span class="op">=</span> <span class="st">"C"</span><span class="op">)</span><span class="op">)</span>
@@ -459,7 +466,7 @@ pop2 <- pop %>%
 <span class="va">x_labels</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">10000</span>, <span class="fl">2000</span>, <span class="op">-</span><span class="fl">2000</span><span class="op">)</span>, <span class="st">"BCE"</span><span class="op">)</span>,
               <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1500</span>, <span class="fl">300</span><span class="op">)</span>, <span class="st">"CE"</span><span class="op">)</span>,
               <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">1700</span>, <span class="fl">2021</span>, <span class="fl">50</span><span class="op">)</span>, <span class="st">"CE"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">world_regions3</span>, <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">year</span>, y <span class="op">=</span> <span class="va">population</span>, color <span class="op">=</span> <span class="va">region</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_path.html">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_point.html">geom_point</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">1</span>, alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span>
@@ -720,7 +727,7 @@ $( document ).ready(function() {
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>30-day Chart Challenge</strong>: 2022" was written by Lisa DeBruine. It was last built on 2022-04-05.</p>
+    <p>"<strong>30-day Chart Challenge</strong>: 2022" was written by Lisa DeBruine. It was last built on 2022-04-06.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

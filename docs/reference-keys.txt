@@ -43,6 +43,14 @@ random-slopes-for-person
 fixed-effect-of-time
 realistic-data
 owid
+data
+map
+projection
+data-map
+missing-data
+south-sudan
+single-frame
+animated-plot
 physical
 mountains
 statistics

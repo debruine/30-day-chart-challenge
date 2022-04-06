@@ -4,18 +4,18 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>6 OWID | 30-day Chart Challenge</title>
+<title>6 OWiD | 30-day Chart Challenge</title>
 <meta name="author" content="Lisa DeBruine">
-<meta name="description" content='/* update total correct if #webex-total_correct exists */ update_total_correct = function() {  console.log("webex: update total_correct");  if (t = document.getElementById("webex-total_correct"))...'>
+<meta name="description" content="library(tidyverse)   # for data wrangling and visualisation library(sf)      # for maps library(rnaturalearth) # for map coordinates library(gganimate)   # for animated plots library(transformr) ...">
 <meta name="generator" content="bookdown 0.24 with bs4_book()">
-<meta property="og:title" content="6 OWID | 30-day Chart Challenge">
+<meta property="og:title" content="6 OWiD | 30-day Chart Challenge">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://debruine.github.io/30-day-chart-challenge/owid.html">
 <meta property="og:image" content="https://debruine.github.io/30-day-chart-challenge/images/logos/logo.png">
-<meta property="og:description" content='/* update total correct if #webex-total_correct exists */ update_total_correct = function() {  console.log("webex: update total_correct");  if (t = document.getElementById("webex-total_correct"))...'>
+<meta property="og:description" content="library(tidyverse)   # for data wrangling and visualisation library(sf)      # for maps library(rnaturalearth) # for map coordinates library(gganimate)   # for animated plots library(transformr) ...">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="6 OWID | 30-day Chart Challenge">
-<meta name="twitter:description" content='/* update total correct if #webex-total_correct exists */ update_total_correct = function() {  console.log("webex: update total_correct");  if (t = document.getElementById("webex-total_correct"))...'>
+<meta name="twitter:title" content="6 OWiD | 30-day Chart Challenge">
+<meta name="twitter:description" content="library(tidyverse)   # for data wrangling and visualisation library(sf)      # for maps library(rnaturalearth) # for map coordinates library(gganimate)   # for animated plots library(transformr) ...">
 <meta name="twitter:image" content="https://debruine.github.io/30-day-chart-challenge/images/logos/logo.png">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.11/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
@@ -58,7 +58,7 @@
 <li><a class="" href="historical.html"><span class="header-section-number">3</span> Historical</a></li>
 <li><a class="" href="flora.html"><span class="header-section-number">4</span> Flora</a></li>
 <li><a class="" href="slope.html"><span class="header-section-number">5</span> Slope</a></li>
-<li><a class="active" href="owid.html"><span class="header-section-number">6</span> OWID</a></li>
+<li><a class="active" href="owid.html"><span class="header-section-number">6</span> OWiD</a></li>
 <li class="book-part">Distributions</li>
 <li><a class="" href="physical.html"><span class="header-section-number">7</span> Physical</a></li>
 <li><a class="" href="mountains.html"><span class="header-section-number">8</span> Mountains</a></li>
@@ -98,9 +98,252 @@
 </div>
   </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="owid" class="section level1" number="6">
 <h1>
-<span class="header-section-number">6</span> OWID<a class="anchor" aria-label="anchor" href="#owid"><i class="fas fa-link"></i></a>
+<span class="header-section-number">6</span> OWiD<a class="anchor" aria-label="anchor" href="#owid"><i class="fas fa-link"></i></a>
 </h1>
+<div class="sourceCode" id="cb75"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>     <span class="co"># for data wrangling and visualisation</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/">sf</a></span><span class="op">)</span>            <span class="co"># for maps</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ropenscilabs/rnaturalearth">rnaturalearth</a></span><span class="op">)</span> <span class="co"># for map coordinates</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://gganimate.com">gganimate</a></span><span class="op">)</span>     <span class="co"># for animated plots</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/thomasp85/transformr">transformr</a></span><span class="op">)</span>    <span class="co"># for animated maps</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jrnold/ggthemes">ggthemes</a></span><span class="op">)</span>      <span class="co"># for map theme</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/lwgeom/">lwgeom</a></span><span class="op">)</span>        <span class="co"># for map projection</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/yixuan/showtext">showtext</a></span><span class="op">)</span>      <span class="co"># for adding fonts</span>
 
+<span class="co"># add the playfair font for the plot title</span>
+<span class="fu"><a href="https://rdrr.io/pkg/sysfonts/man/font_add_google.html">font_add_google</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"Playfair Display"</span>, family <span class="op">=</span> <span class="st">"Playfair Display"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/sysfonts/man/font_add.html">font_add</a></span><span class="op">(</span>family <span class="op">=</span> <span class="st">"Playfair Display"</span>,
+         regular <span class="op">=</span> <span class="st">"~/Library/Fonts/PlayfairDisplay-VariableFont_wght.ttf"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/showtext/man/showtext_auto.html">showtext_auto</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<p>I hadn't ever really looked at <a href="https://ourworldindata.org/">Our World in Data</a> in detail before. It's amazing! So much data and so many clever visualisations. I love the maps, so I thought I'd try to recreate the <a href="https://ourworldindata.org/technology-adoption#share-of-population-with-internet-access">share of individuals using the internet</a>.</p>
+<div class="inline-figure"><img src="images/share-of-individuals-using-the-internet.png" width="100%" style="display: block; margin: auto;"></div>
+<div id="data" class="section level2" number="6.1">
+<h2>
+<span class="header-section-number">6.1</span> Data<a class="anchor" aria-label="anchor" href="#data"><i class="fas fa-link"></i></a>
+</h2>
+<p>I hate working with columns that have uppercase letters or spaces in the names, so I adjusted the column names when importing. I also found out later that this dataset labels South Sudan as "SSD", but the data from sf labels it as "SDS", so I'll fix it here.</p>
+<div class="sourceCode" id="cb76"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># data from https://ourworldindata.org/technology-adoption</span>
+<span class="va">data_orig</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/readr/man/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"data/share-of-individuals-using-the-internet.csv"</span>,
+                      col_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"country"</span>, <span class="st">"code"</span>, <span class="st">"year"</span>, <span class="st">"it_net_users"</span><span class="op">)</span>,
+                      skip <span class="op">=</span> <span class="fl">1</span>, show_col_types <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/mutate.html">mutate</a></span><span class="op">(</span>code <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/recode.html">recode</a></span><span class="op">(</span><span class="va">code</span>, SSD <span class="op">=</span> <span class="st">"SDS"</span>, .default <span class="op">=</span> <span class="va">code</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<p>There are a lot of missing years. I want them in the map explicitly as rows with it_net_users == NA, for reasons that will get clear later. Pivot wider, which will create a column for each year with NA as the value for any countries that don't have a row for that year, then pivot back longer.</p>
+<div class="sourceCode" id="cb77"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">data_na</span> <span class="op">&lt;-</span> <span class="va">data_orig</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span> 
+  <span class="fu"><a href="https://rdrr.io/pkg/tidyr/man/pivot_wider.html">pivot_wider</a></span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">year</span>, 
+              values_from <span class="op">=</span> <span class="va">it_net_users</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/pkg/tidyr/man/pivot_longer.html">pivot_longer</a></span><span class="op">(</span>cols <span class="op">=</span> <span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">country</span>, <span class="va">code</span><span class="op">)</span>,
+               names_to <span class="op">=</span> <span class="st">"year"</span>,
+               values_to <span class="op">=</span> <span class="st">"it_net_users"</span>, 
+               names_transform <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>year <span class="op">=</span> <span class="va">as.integer</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+</div>
+<div id="map" class="section level2" number="6.2">
+<h2>
+<span class="header-section-number">6.2</span> Map<a class="anchor" aria-label="anchor" href="#map"><i class="fas fa-link"></i></a>
+</h2>
+<p>Now I need some world map coordinates. The <code class="package">sf</code> and <code class="package">rnaturalearth</code> packages make this easy.</p>
+<div class="sourceCode" id="cb78"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># get the world map coordinates</span>
+<span class="va">world_sf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rnaturalearth/man/ne_countries.html">ne_countries</a></span><span class="op">(</span>returnclass <span class="op">=</span> <span class="st">"sf"</span>, scale <span class="op">=</span> <span class="st">"medium"</span><span class="op">)</span>
+
+<span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">world_sf</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggsf.html">geom_sf</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">0.3</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggthemes/man/theme_map.html">theme_map</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="30DCC_files/figure-html/owid-map-1.png" width="100%" style="display: block; margin: auto;"></div>
+</div>
+<div id="projection" class="section level2" number="6.3">
+<h2>
+<span class="header-section-number">6.3</span> Projection<a class="anchor" aria-label="anchor" href="#projection"><i class="fas fa-link"></i></a>
+</h2>
+<p>Here's a better projection. You have to use the <code><a href="https://rdrr.io/pkg/lwgeom/man/st_transform_proj.html">st_transform_proj()</a></code> function from <code class="package">lwgeom</code> to transform the coordinates. You need to add <code>coord_sf(datum = NULL)</code> to the plots to avoid an error message when <code class="package">sf</code> tries to plot the graticule. I also cropped the coordinates to remove giant Antarctica and centre the continents better.</p>
+<p>This is tricky, and I found tutorials by <a href="https://wilkelab.org/practicalgg/articles/Winkel_tripel.html">Claus Wilke</a> and the <a href="https://datascience.blog.wzb.eu/2019/04/30/zooming-in-on-maps-with-sf-and-ggplot2/">WZB Data Science Blog</a> really helpful.</p>
+<div class="sourceCode" id="cb79"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># translate the coordinate reference system</span>
+<span class="va">crs</span> <span class="op">&lt;-</span> <span class="st">"+proj=wintri"</span>  <span class="co"># winkel tripel projection</span>
+<span class="va">world_wintri</span> <span class="op">&lt;-</span> <span class="fu">lwgeom</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lwgeom/man/st_transform_proj.html">st_transform_proj</a></span><span class="op">(</span><span class="va">world_sf</span>, crs <span class="op">=</span> <span class="va">crs</span><span class="op">)</span>
+
+<span class="co"># translate and crop coordinates</span>
+<span class="va">trans_coords</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/sfc.html">st_sfc</a></span><span class="op">(</span>
+  <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st.html">st_point</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1.4e7</span>, <span class="op">-</span><span class="fl">6.5e6</span><span class="op">)</span><span class="op">)</span>, <span class="co"># lower left lat and lon</span>
+  <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st.html">st_point</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2e7</span>, <span class="fl">1e7</span><span class="op">)</span><span class="op">)</span>,       <span class="co"># upper right lat and lon</span>
+  crs <span class="op">=</span> <span class="va">crs</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_transform.html">st_transform</a></span><span class="op">(</span>crs <span class="op">=</span> <span class="va">crs</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_coordinates.html">st_coordinates</a></span><span class="op">(</span><span class="op">)</span>
+
+<span class="va">crop_coords</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggsf.html">coord_sf</a></span><span class="op">(</span>
+  datum <span class="op">=</span> <span class="cn">NULL</span>, 
+  xlim <span class="op">=</span> <span class="va">trans_coords</span><span class="op">[</span>,<span class="st">'X'</span><span class="op">]</span>, 
+  ylim <span class="op">=</span> <span class="va">trans_coords</span><span class="op">[</span>,<span class="st">'Y'</span><span class="op">]</span>, 
+  expand <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+
+<span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">world_wintri</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggsf.html">geom_sf</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">0.5</span><span class="op">/</span><span class="va">.pt</span><span class="op">)</span> <span class="op">+</span>
+  <span class="va">crop_coords</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggthemes/man/theme_map.html">theme_map</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/theme.html">theme</a></span><span class="op">(</span>plot.background <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/element.html">element_rect</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="30DCC_files/figure-html/owid-wintri-1.png" width="100%" style="display: block; margin: auto;"></div>
+</div>
+<div id="data-map" class="section level2" number="6.4">
+<h2>
+<span class="header-section-number">6.4</span> Data Map<a class="anchor" aria-label="anchor" href="#data-map"><i class="fas fa-link"></i></a>
+</h2>
+<p>Now to add the internet use data to the map data. I select down to the relevant columns to make visual inspection easier.</p>
+<div class="sourceCode" id="cb80"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">data_map_int</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">world_wintri</span>, <span class="va">data_na</span>, 
+                          by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"gu_a3"</span> <span class="op">=</span> <span class="st">"code"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/select.html">select</a></span><span class="op">(</span><span class="va">country</span>, <span class="va">year</span>, code <span class="op">=</span> <span class="va">gu_a3</span>, <span class="va">it_net_users</span>, <span class="va">geometry</span><span class="op">)</span></code></pre></div>
+<p>Plot with facets by year. This takes a while to run, but it's useful to see what each frame will look like.</p>
+<div class="sourceCode" id="cb81"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">data_map_int</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggsf.html">geom_sf</a></span><span class="op">(</span>mapping <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">it_net_users</span><span class="op">)</span>,
+          size <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span> <span class="op">+</span>
+  <span class="va">crop_coords</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/scale_brewer.html">scale_fill_distiller</a></span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"Blues"</span>, direction <span class="op">=</span> <span class="op">-</span><span class="fl">1</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">year</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggthemes/man/theme_map.html">theme_map</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"right"</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="30DCC_files/figure-html/owid-data-map-1.png" width="100%" style="display: block; margin: auto;"></div>
+<p>Where is the NA facet coming from? It must be regions that never have any data. I'll group by country and omit any that are entirely NA.</p>
+<div class="sourceCode" id="cb82"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># get data for countries with at least one valid year</span>
+<span class="va">data_map_int_valid</span> <span class="op">&lt;-</span> <span class="va">data_map_int</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/group_by.html">group_by</a></span><span class="op">(</span><span class="va">country</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/all.html">all</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">year</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/group_by.html">ungroup</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<p>Now let's retry the map, and switch the fill to a nicer viridis gradient. Set the na.value to red to more easily see where the missing data is.</p>
+<div class="sourceCode" id="cb83"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">data_map_int_valid</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggsf.html">geom_sf</a></span><span class="op">(</span>mapping <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">it_net_users</span><span class="op">)</span>,
+          size <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span> <span class="op">+</span>
+  <span class="va">crop_coords</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/scale_viridis.html">scale_fill_viridis_c</a></span><span class="op">(</span>na.value <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">year</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggthemes/man/theme_map.html">theme_map</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"right"</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="30DCC_files/figure-html/owid-map-na-1.png" width="100%" style="display: block; margin: auto;"></div>
+</div>
+<div id="missing-data" class="section level2" number="6.5">
+<h2>
+<span class="header-section-number">6.5</span> Missing data<a class="anchor" aria-label="anchor" href="#missing-data"><i class="fas fa-link"></i></a>
+</h2>
+<p>We don't have data for a lot of countries in some years. I'm going to use the previous year's data where there is missing data. I'll also add a column for whether or not it's a filled value so I can indicate this on the map if I want.</p>
+<div class="sourceCode" id="cb84"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">data_map_int_no_missing</span> <span class="op">&lt;-</span> <span class="va">data_map_int_valid</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/mutate.html">mutate</a></span><span class="op">(</span>it_net_users_no_na <span class="op">=</span> <span class="va">it_net_users</span>,
+         missing <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">it_net_users</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/arrange.html">arrange</a></span><span class="op">(</span><span class="va">code</span>, <span class="va">year</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/group_by.html">group_by</a></span><span class="op">(</span><span class="va">country</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes_colour_fill_alpha.html">fill</a></span><span class="op">(</span><span class="va">it_net_users_no_na</span>, .direction <span class="op">=</span> <span class="st">"down"</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/group_by.html">ungroup</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<p>There's still one big persistently missing country in the middle of Africa.</p>
+<div class="sourceCode" id="cb85"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">data_map_int_no_missing</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggsf.html">geom_sf</a></span><span class="op">(</span>mapping <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">it_net_users_no_na</span><span class="op">)</span>,
+          size <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span> <span class="op">+</span>
+  <span class="va">crop_coords</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/scale_viridis.html">scale_fill_viridis_c</a></span><span class="op">(</span>na.value <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">year</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggthemes/man/theme_map.html">theme_map</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"right"</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="30DCC_files/figure-html/owid-map-missing-1.png" width="100%" style="display: block; margin: auto;"></div>
+</div>
+<div id="south-sudan" class="section level2" number="6.6">
+<h2>
+<span class="header-section-number">6.6</span> South Sudan<a class="anchor" aria-label="anchor" href="#south-sudan"><i class="fas fa-link"></i></a>
+</h2>
+<p>South Sudan got independence from Sudan in 2011, so lets fill in the values for South Sudan from 1990 to 2012 using the values from Sudan. I found it wierdly hard to do this, and would appreciate if someone could show me a tidier way. Also, I'm sure it will come back to bite me, but I've named this data table <code>data_map_int_final</code>.</p>
+<div class="sourceCode" id="cb86"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">sudan</span> <span class="op">&lt;-</span> <span class="va">data_map_int_no_missing</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/filter.html">filter</a></span><span class="op">(</span><span class="va">country</span> <span class="op">==</span> <span class="st">"Sudan"</span>,
+         <span class="va">year</span> <span class="op">&lt;=</span> <span class="fl">2012</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/pull.html">pull</a></span><span class="op">(</span><span class="va">it_net_users_no_na</span><span class="op">)</span>
+
+<span class="va">ss_rows</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="va">data_map_int_no_missing</span><span class="op">$</span><span class="va">country</span> <span class="op">==</span> <span class="st">"South Sudan"</span> <span class="op">&amp;</span> 
+                 <span class="va">data_map_int_no_missing</span><span class="op">$</span><span class="va">year</span> <span class="op">&lt;=</span> <span class="fl">2012</span><span class="op">)</span>
+
+<span class="va">nona</span> <span class="op">&lt;-</span> <span class="va">data_map_int_no_missing</span><span class="op">$</span><span class="va">it_net_users_no_na</span>
+<span class="va">nona</span><span class="op">[</span><span class="va">ss_rows</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">sudan</span>
+
+<span class="va">data_map_int_final</span> <span class="op">&lt;-</span> <span class="va">data_map_int_no_missing</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/mutate.html">mutate</a></span><span class="op">(</span>it_net_users_no_na <span class="op">=</span> <span class="va">nona</span><span class="op">)</span></code></pre></div>
+</div>
+<div id="single-frame" class="section level2" number="6.7">
+<h2>
+<span class="header-section-number">6.7</span> Single frame<a class="anchor" aria-label="anchor" href="#single-frame"><i class="fas fa-link"></i></a>
+</h2>
+<p>Now I want to set up what a single frame will look like in my animation. I'll filter the data down to the year 2019 and work on the plot until I'm happy.</p>
+<div class="sourceCode" id="cb87"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/filter.html">filter</a></span><span class="op">(</span><span class="va">data_map_int_final</span>, <span class="va">year</span> <span class="op">==</span> <span class="fl">2019</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggsf.html">geom_sf</a></span><span class="op">(</span>mapping <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">it_net_users_no_na</span><span class="op">/</span><span class="fl">100</span><span class="op">)</span>,
+          size <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span> <span class="op">+</span>
+  <span class="va">crop_coords</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/scale_viridis.html">scale_fill_viridis_c</a></span><span class="op">(</span>
+    name <span class="op">=</span> <span class="cn">NULL</span>,
+    limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>,
+    breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">.1</span><span class="op">)</span>,
+    labels <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/scales/man/label_percent.html">percent</a></span><span class="op">(</span><span class="va">x</span>, accuracy <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>,
+    guide <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/guide_colourbar.html">guide_colorbar</a></span><span class="op">(</span>
+      label.position <span class="op">=</span> <span class="st">"top"</span>, 
+      barheight <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fl">.1</span>, <span class="st">"in"</span><span class="op">)</span>,
+      frame.colour <span class="op">=</span> <span class="st">"black"</span>,
+      ticks.colour <span class="op">=</span> <span class="st">"black"</span>
+    <span class="op">)</span>
+  <span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Share of the population using the internet, 2019"</span>,
+       caption <span class="op">=</span> <span class="st">"Recreation of OurWorldInData.org/technology-adoption | Plot by @lisadebruine"</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggthemes/man/theme_map.html">theme_map</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/theme.html">theme</a></span><span class="op">(</span>
+    legend.background <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span>,
+    legend.position <span class="op">=</span> <span class="st">"bottom"</span>,
+    legend.key.width <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fl">.187</span>, <span class="st">"npc"</span><span class="op">)</span>,
+    plot.title <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/element.html">element_text</a></span><span class="op">(</span>family <span class="op">=</span> <span class="st">"Playfair Display"</span>, size <span class="op">=</span> <span class="fl">20</span>, colour <span class="op">=</span> <span class="st">"#555555"</span><span class="op">)</span>,
+    plot.caption <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/element.html">element_text</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">10</span>, color <span class="op">=</span> <span class="st">"#555555"</span><span class="op">)</span>
+  <span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="30DCC_files/figure-html/owid-map-frame-1.png" width="100%" style="display: block; margin: auto;"></div>
+</div>
+<div id="animated-plot" class="section level2" number="6.8">
+<h2>
+<span class="header-section-number">6.8</span> Animated plot<a class="anchor" aria-label="anchor" href="#animated-plot"><i class="fas fa-link"></i></a>
+</h2>
+<div class="sourceCode" id="cb88"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">anim</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">data_map_int_final</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggsf.html">geom_sf</a></span><span class="op">(</span>mapping <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">it_net_users_no_na</span><span class="op">/</span><span class="fl">100</span><span class="op">)</span>,
+          size <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span> <span class="op">+</span>
+  <span class="va">crop_coords</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/scale_viridis.html">scale_fill_viridis_c</a></span><span class="op">(</span>
+    name <span class="op">=</span> <span class="cn">NULL</span>,
+    limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>,
+    breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">.1</span><span class="op">)</span>,
+    labels <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/scales/man/label_percent.html">percent</a></span><span class="op">(</span><span class="va">x</span>, accuracy <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>,
+    guide <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/guide_colourbar.html">guide_colorbar</a></span><span class="op">(</span>
+      label.position <span class="op">=</span> <span class="st">"top"</span>, 
+      barheight <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fl">.1</span>, <span class="st">"in"</span><span class="op">)</span>,
+      frame.colour <span class="op">=</span> <span class="st">"black"</span>,
+      ticks.colour <span class="op">=</span> <span class="st">"black"</span>
+    <span class="op">)</span>
+  <span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Share of the population using the internet, {frame_time}"</span>,
+       caption <span class="op">=</span> <span class="st">"Recreation of OurWorldInData.org/technology-adoption | Plot by @lisadebruine"</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggthemes/man/theme_map.html">theme_map</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/theme.html">theme</a></span><span class="op">(</span>
+    legend.background <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span>,
+    legend.position <span class="op">=</span> <span class="st">"bottom"</span>,
+    legend.key.width <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fl">.187</span>, <span class="st">"npc"</span><span class="op">)</span>,
+    plot.title <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/element.html">element_text</a></span><span class="op">(</span>family <span class="op">=</span> <span class="st">"Playfair Display"</span>, size <span class="op">=</span> <span class="fl">20</span>, colour <span class="op">=</span> <span class="st">"#555555"</span><span class="op">)</span>,
+    plot.caption <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/element.html">element_text</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">10</span>, color <span class="op">=</span> <span class="st">"#555555"</span><span class="op">)</span>
+  <span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/gganimate/man/transition_time.html">transition_time</a></span><span class="op">(</span><span class="va">year</span><span class="op">)</span></code></pre></div>
+<p>It takes absolutely forever to create the animation (I think because it's unnecessarily tweening the shapes, but I don't have time to learn more about gganimate today), so run this once and set the code chunk to <code>eval = FALSE</code> and load the gif from file.</p>
+<div class="sourceCode" id="cb89"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/gganimate/man/anim_save.html">anim_save</a></span><span class="op">(</span><span class="st">"images/day6.gif"</span>, animation <span class="op">=</span> <span class="va">anim</span>, 
+          nframes <span class="op">=</span> <span class="fl">30</span>, fps <span class="op">=</span> <span class="fl">4</span>, start_pause <span class="op">=</span> <span class="fl">2</span>, end_pause <span class="op">=</span> <span class="fl">2</span>, 
+          width <span class="op">=</span> <span class="fl">8</span>, height <span class="op">=</span> <span class="fl">5</span>, units <span class="op">=</span> <span class="st">"in"</span>, res <span class="op">=</span> <span class="fl">150</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb90"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/include_graphics.html">include_graphics</a></span><span class="op">(</span><span class="st">"images/day6.gif"</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="images/day6.gif" width="100%" style="display: block; margin: auto;"></div>
+
+</div>
 </div>
 
 
@@ -310,7 +553,17 @@ $( document ).ready(function() {
 <div class="next"><a href="physical.html"><span class="header-section-number">7</span> Physical</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
-      <ul class="nav navbar-nav"><li><a class="nav-link" href="#owid"><span class="header-section-number">6</span> OWID</a></li></ul>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#owid"><span class="header-section-number">6</span> OWiD</a></li>
+<li><a class="nav-link" href="#data"><span class="header-section-number">6.1</span> Data</a></li>
+<li><a class="nav-link" href="#map"><span class="header-section-number">6.2</span> Map</a></li>
+<li><a class="nav-link" href="#projection"><span class="header-section-number">6.3</span> Projection</a></li>
+<li><a class="nav-link" href="#data-map"><span class="header-section-number">6.4</span> Data Map</a></li>
+<li><a class="nav-link" href="#missing-data"><span class="header-section-number">6.5</span> Missing data</a></li>
+<li><a class="nav-link" href="#south-sudan"><span class="header-section-number">6.6</span> South Sudan</a></li>
+<li><a class="nav-link" href="#single-frame"><span class="header-section-number">6.7</span> Single frame</a></li>
+<li><a class="nav-link" href="#animated-plot"><span class="header-section-number">6.8</span> Animated plot</a></li>
+</ul>
 
       <div class="book-extra">
         <ul class="list-unstyled">
@@ -327,7 +580,7 @@ $( document ).ready(function() {
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>30-day Chart Challenge</strong>: 2022" was written by Lisa DeBruine. It was last built on 2022-04-05.</p>
+    <p>"<strong>30-day Chart Challenge</strong>: 2022" was written by Lisa DeBruine. It was last built on 2022-04-06.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
