@@ -13,7 +13,8 @@ knitr::opts_chunk$set(
   out.width  = '100%',
   fig.width  = 8,
   fig.height = 4.5,
-  fig.align  = 'center'
+  fig.align  = 'center',
+  cache = TRUE
 )
 
 ## set global theme options for figures

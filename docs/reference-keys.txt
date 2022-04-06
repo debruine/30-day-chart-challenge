@@ -7,13 +7,14 @@ basic-treemap
 adjust-labels
 colour-scheme
 change-text
+saving-a-treemap
 pictogram
 pictogram-data
 icons
 colour
 clean-it-up
 customise
-save
+save-pictogram
 historical
 population-data
 select-relevant-data

@@ -35,3 +35,42 @@ This is my first year participating in the [30-day chart challenge](https://gith
 
 I'm going to use data simulation for most of my charts, so this will also end up being a resource for how to simulate different types of data. 
 
+<style>
+.daily_imgs img { 
+  width: 100%; 
+  position: absolute;
+  top: 50%;
+  left: 0%;
+  transform: translate(0%, -50%);
+}
+.daily_imgs {
+    position: relative;
+    width: 31%;
+    height: 0;
+    display: inline-block;
+    margin: 1%;
+    padding-bottom: 31%;
+    float: left;
+}
+a:hover.daily_imgs { background-color: #CCCCCC; }
+</style>
+
+```{r day1, eval = FALSE, include = FALSE, results='asis'}
+imgpaths <- list.files("images", pattern = "^day\\d{1,2}\\.(png|gif)")
+chapters <- c("part-to-whole", "pictogram", "historical", "flora", "slope", "owid")[seq_along(imgpaths)]
+
+glue::glue("[![](images/{{imgpaths})]({{chapters}.html){class='daily_imgs'}",
+           .open = "{{") %>%
+  paste(collapse = "\n") %>%
+  cat()
+```
+
+
+[![](images/day1.png)](part-to-whole.html){class='daily_imgs'}
+[![](images/day2.png)](pictogram.html){class='daily_imgs'}
+[![](images/day3.png)](historical.html){class='daily_imgs'}
+[![](images/day4.png)](flora.html){class='daily_imgs'}
+[![](images/day5.png)](slope.html){class='daily_imgs'}
+[![](images/day6.gif)](owid.html){class='daily_imgs'}
+
+<br style="clear:both;">

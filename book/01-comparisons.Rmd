@@ -122,6 +122,39 @@ school2 <- school %>%
 Finally, make the borders thicker. It's starting to look like a Mondrian!.
 
 ```{r pth-treemap-final, fig.cap = "Treemap plot of classes nested in grades (P1 to P5). There are 2-4 classes in each grade with 16-35 students. The size of each box represents the size of the class, and the colour of the box represents the grade."}
+day1_plot <- school2 %>%
+  treemap(
+    index = c("grade", "class"), 
+    vSize = "n", 
+    title = "",
+    palette = dcc_theme,
+    fontcolor.labels = "white",
+    fontsize.labels = c(grade = 30, class = 15), 
+    bg.labels = 0,
+    align.labels = list(
+      grade = c("left", "top"), 
+      class = c("right", "bottom")
+    ),
+    xmod.labels = c(0, -.1),
+    ymod.labels = c(0, .1),
+    border.lwds = 5 # thicker borders
+  )
+```
+
+## Saving a treemap
+
+I tried `ggsave()` first and it took a *really* long time to save, and then the resulting image was blank. I should remember that not everything is ggplot; the output of the `treemap()` function is a list that draws a plot as a side effect (unless you set `draw = FALSE`), so you have to use base R plot saving techniques.
+
+I couldn't figure out how to re-plot from the `day1_plot` object, so just had to retype the plot. This didn't work well in an Rmd code chunk (I think treemap can sense if it's in a code chunk with inline plot rendering and overrides the dev), so I had to run it in the console. 
+
+```{r, eval = FALSE}
+# open the png file
+ragg::agg_png("images/day1.png", 
+              width = 8, height = 4.5, 
+              background = "transparent",
+              units = "in", res = 150)
+
+# plot the treemap
 school2 %>%
   treemap(
     index = c("grade", "class"), 
@@ -137,13 +170,12 @@ school2 %>%
     ),
     xmod.labels = c(0, -.1),
     ymod.labels = c(0, .1),
-    border.lwds = 5, # thicker borders
+    border.lwds = 5 # thicker borders
   )
-```
 
-
-```{r, include = FALSE}
-ggsave("images/day1.png", width = 8, height = 4.5)
+# close the png file
+while (!is.null(dev.list())) dev.off()
+ 
 ```
 
 # Pictogram
@@ -156,6 +188,17 @@ library(tidyverse)
 library(waffle)
 library(emojifont)
 library(showtext)
+```
+
+```{r}
+waffle::install_fa_fonts()
+font_add(family = "FontAwesome5Free-Brands",
+         regular = "/Library/Frameworks/R.framework/Versions/4.1/Resources/library/waffle/fonts/fa-brands-400.ttf")
+font_add(family = "FontAwesome5Free-Solid",
+         regular = "/Library/Frameworks/R.framework/Versions/4.1/Resources/library/waffle/fonts/fa-solid-900.ttf")
+font_add(family = "Avenir",
+         regular = "/System/Library/Fonts/Avenir.ttc")
+showtext_auto()
 ```
 
 
@@ -184,18 +227,6 @@ us_pets <- tibble::tribble(
 ## Icons
 
 Then I need to find matching free icons at [fontawesome](https://fontawesome.com/v5/search?q=animal&m=free&s=solid). 
-
-
-```{r}
-waffle::install_fa_fonts()
-font_add(family = "FontAwesome5Free-Brands",
-         regular = "/Library/Frameworks/R.framework/Versions/4.1/Resources/library/waffle/fonts/fa-brands-400.ttf")
-font_add(family = "FontAwesome5Free-Solid",
-         regular = "/Library/Frameworks/R.framework/Versions/4.1/Resources/library/waffle/fonts/fa-solid-900.ttf")
-showtext_auto()
-```
-
-
 
 Make sure you're searching the v5 icons; v6 icons won't work and will result in an impenetrable error-message from `scale_label_pictogram()`.
 
@@ -270,7 +301,7 @@ plot
 
 Finally, use `theme()` to really customise the look. I adjusted the spacing between the items on the legend with `legend.spacing.y`, which requires the guides to be set `byrow` to work. 
 
-```{r pictogram-final, fig.cap = "Number of US households (in millions) with each of 8 common pet types.", fig.alt="Number of US households (in millions) with each of 8 common pet types.  Data from the American Pet Products Association (APPA) 2021-2022 National Pet Owners Survey. Dog=69, Cat=45.3, Freshwater fish=11.8, Bird=9.9, Small animal=6.2, Reptile=5.7, Horse=3.5, Saltwater fish=2.9"}
+```{r pictogram-final, fig.cap = "Number of US households (in millions) with each of 8 common pet types.", fig.alt="Number of US households (in millions) with each of 8 common pet types.  Data from the American Pet Products Association (APPA) 2021-2022 National Pet Owners Survey. Dog=69, Cat=45.3, Freshwater fish=11.8, Bird=9.9, Small animal=6.2, Reptile=5.7, Horse=3.5, Saltwater fish=2.9", cache=FALSE}
 
 plot +
   theme(axis.ticks = element_blank(),
@@ -290,20 +321,20 @@ plot +
          label = guide_legend(byrow = TRUE))
 ```
 
-## Save
+## Save Pictogram
 
-However, I had trouble saving the plot using `ggsave()`. The icons end up garbled.
+However, I had trouble saving the plot using `ggsave()`. The icons end up all question marks. I eventually fixed that by doing something with the fonts, but the icons are still tiny.
 
-```{r, fig.alt="Same as above, but all the icons are question marks."}
-ggsave("images/day2_garbled.png", width = 8, height = 5)
-knitr::include_graphics("images/day2_garbled.png")
+```{r, fig.alt="Same as above, but all the icons are tiny."}
+ggsave("images/day2_garbled.png", width = 8, height = 4.5, units = "in")
+knitr::include_graphics("images/day2_garbled.png") 
 ```
 
 This turns out to be because `ggsave()` uses ragg by default (HT [Steve Haroz](https://twitter.com/sharoz/status/1510342578268516355)), which isn't playing well with fontawesome icons, so I have to set the device back to `png`.
 
 ```{r, fig.alt="fixed"}
-ggsave("images/day2.png", width = 8, height = 5, device = png)
-knitr::include_graphics("images/day2.png")
+ggsave("images/day2.png", width = 8, height = 4.5, device = png)
+knitr::include_graphics("images/day2.png") 
 ```
 
 
@@ -348,7 +379,7 @@ head(pop)
 <!--
 The continent column seems odd. It looks like maybe this used to be an excel file with merged rows, so now only one row for each region has a continent entry and the rest are NA. I'll make a filtered table with each entry that does have the continent listed, then join that back to the original dataset.
 
-```{r}
+```{r, eval = FALSE}
 continents <- pop %>%
   filter(!is.na(continent)) %>%
   select(code, continent)
@@ -592,8 +623,8 @@ ggplot(world_regions3, aes(x = year, y = population, color = region)) +
         plot.title = element_text(family = "Market Deco"))
 ```
 
-```{r, include = FALSE}
-ggsave("images/day3.png", width = 8, height = 4.5)
+```{r, include = FALSE, eval = FALSE}
+ggsave("images/day3.png", width = 8, height = 4.5, device = png)
 ```
 
 
@@ -602,8 +633,8 @@ ggsave("images/day3.png", width = 8, height = 4.5)
 
 ```{r, message=FALSE}
 library(tidyverse) # always useful
-library(rsvg) # to convert SVG to other formats
 library(glue) # for editing SVG text
+library(rsvg) # to convert SVG to other formats
 ```
 
 I'm going a little off-piste today. I was inspired by all of these [stock infographics](https://www.vectorstock.com/royalty-free-vectors/chart-flower-infographic-options-vectors), but I wondered if I could make something similar with code. You probably can do this with ggplot and annotations, but I wanted to try something different.
@@ -1177,8 +1208,8 @@ ggplot(data, aes(x = time, y = dv, color = country)) +
   scale_x_continuous(breaks = seq(0, 10, 2))
 ```
 
-```{r, include = FALSE}
-ggsave("images/day5.png", width = 8, height = 4.5)
+```{r, include = FALSE, eval = FALSE}
+ggsave("images/day5.png", width = 8, height = 4.5, device = png)
 ```
 
 
