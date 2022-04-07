@@ -68,7 +68,10 @@ pitch_analysis <- song_analysis$segments %>%
   group_by(start) %>%
   mutate(pitch = row_number()-1) %>%
   ungroup() %>%
-  filter(pitch_degree == 1)
+  filter(pitch_degree == 1) %>%
+  select(start, duration, loudness_start, pitch)
+
+head(pitch_analysis)
 ```
 
 Now I want to figure out the main pitch for each beat, so I need to somehow map the pitch table to the beat table. First, I need to work out the main segment in each beat.
@@ -98,16 +101,18 @@ head(main_seg_in_beat)
 And then join this with the pitch analysis table to get a main pitch for each beat.
 
 ```{r}
-pitch_by_beat <- left_join(main_seg_in_beat, 
-                           pitch_analysis, 
-                           by = c("seg_start" = "start"))
+pitch_by_beat <- main_seg_in_beat %>%
+  select(start = seg_start) %>%
+  left_join(pitch_analysis, "start")
+
+head(pitch_by_beat)
 ```
 
 ## Plot Pitch by Beat
 
 ```{r}
 ggplot(pitch_by_beat,
-       aes(x = beat_start, y = pitch, color = loudness_start)) +
+       aes(x = start, y = pitch, color = loudness_start)) +
   geom_point(show.legend = FALSE)
 ```
 
@@ -135,7 +140,7 @@ ggplot() +
                  data = song_analysis$sections,
                  size = 6) +
   coord_flip() +
-  geom_point(mapping = aes(y = beat_start, x = pitch, color = loudness_start),
+  geom_point(mapping = aes(y = start, x = pitch, color = loudness_start),
              data = pitch_by_beat, show.legend = FALSE)
 ```
 
@@ -159,7 +164,7 @@ ggplot() +
                  size = 10,
                  color = "#60E1FE") +
   coord_flip() +
-  geom_point(mapping = aes(y = beat_start, x = pitch, alpha = loudness_start),
+  geom_point(mapping = aes(y = start, x = pitch, alpha = loudness_start),
              data = pitch_by_beat, 
              color = "#BB1DA8", size = 3,
              show.legend = FALSE) +
