@@ -283,13 +283,13 @@ pitch
 <span class="va">main_seg_in_beat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/mutate-joins.html">inner_join</a></span><span class="op">(</span><span class="va">seg</span>, <span class="va">beat</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html">character</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/spotifyr/man/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/mutate.html">mutate</a></span><span class="op">(</span>seg_end <span class="op">=</span> <span class="va">seg_start</span> <span class="op">+</span> <span class="va">seg_dur</span>, 
          beat_end <span class="op">=</span> <span class="va">beat_start</span> <span class="op">+</span> <span class="va">beat_dur</span>,
-         seg_in_beat <span class="op">=</span> <span class="op">(</span><span class="va">seg_start</span> <span class="op">&lt;</span> <span class="va">beat_end</span><span class="op">)</span> <span class="op">&amp;</span> <span class="op">(</span><span class="va">seg_end</span> <span class="op">&gt;</span> <span class="va">beat_start</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/spotifyr/man/pipe.html">%&gt;%</a></span>
+         seg_in_beat <span class="op">=</span> <span class="op">(</span><span class="va">seg_start</span> <span class="op">&lt;=</span> <span class="va">beat_end</span><span class="op">)</span> <span class="op">&amp;</span> <span class="op">(</span><span class="va">seg_end</span> <span class="op">&gt;=</span> <span class="va">beat_start</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/spotifyr/man/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/filter.html">filter</a></span><span class="op">(</span><span class="va">seg_in_beat</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/spotifyr/man/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/rowwise.html">rowwise</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/spotifyr/man/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/mutate.html">mutate</a></span><span class="op">(</span>overlap <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">seg_end</span>, <span class="va">beat_end</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">seg_start</span>, <span class="va">beat_start</span><span class="op">)</span><span class="op">)</span>,
-         pcnt_in_beat <span class="op">=</span> <span class="va">overlap</span> <span class="op">/</span> <span class="op">(</span><span class="va">beat_dur</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/spotifyr/man/pipe.html">%&gt;%</a></span>
+         pcnt_in_beat <span class="op">=</span> <span class="va">overlap</span><span class="op">/</span><span class="va">beat_dur</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/spotifyr/man/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/group_by.html">group_by</a></span><span class="op">(</span><span class="va">beat_start</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/spotifyr/man/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/slice.html">slice_max</a></span><span class="op">(</span><span class="va">pcnt_in_beat</span>, n <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/spotifyr/man/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/slice.html">slice_max</a></span><span class="op">(</span>order_by <span class="op">=</span> <span class="va">pcnt_in_beat</span>, n <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/spotifyr/man/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/group_by.html">ungroup</a></span><span class="op">(</span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">main_seg_in_beat</span><span class="op">)</span></code></pre></div>
@@ -622,7 +622,7 @@ pitch
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">pitch_by_beat</span>,
        <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">start</span>, y <span class="op">=</span> <span class="va">pitch</span>, color <span class="op">=</span> <span class="va">loudness_start</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_point.html">geom_point</a></span><span class="op">(</span>show.legend <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="30DCC_files/figure-html/unnamed-chunk-69-1.png" width="100%" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="30DCC_files/figure-html/physical-pitch-1.png" width="100%" style="display: block; margin: auto;"></div>
 </div>
 <div id="plot-key-by-segment" class="section level2" number="7.5">
 <h2>
@@ -635,7 +635,7 @@ pitch
                                x <span class="op">=</span> <span class="va">key</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_linerange.html">geom_linerange</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">10</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/coord_flip.html">coord_flip</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="30DCC_files/figure-html/unnamed-chunk-70-1.png" width="100%" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="30DCC_files/figure-html/physical-key-1.png" width="100%" style="display: block; margin: auto;"></div>
 </div>
 <div id="combine-plots" class="section level2" number="7.6">
 <h2>
@@ -652,7 +652,7 @@ pitch
   <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/coord_flip.html">coord_flip</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_point.html">geom_point</a></span><span class="op">(</span>mapping <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">start</span>, x <span class="op">=</span> <span class="va">pitch</span>, color <span class="op">=</span> <span class="va">loudness_start</span><span class="op">)</span>,
              data <span class="op">=</span> <span class="va">pitch_by_beat</span>, show.legend <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="30DCC_files/figure-html/unnamed-chunk-71-1.png" width="100%" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="30DCC_files/figure-html/physical-combo-1.png" width="100%" style="display: block; margin: auto;"></div>
 </div>
 <div id="s-theme" class="section level2" number="7.7">
 <h2>
@@ -691,7 +691,7 @@ pitch
         panel.background <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/element.html">element_rect</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"#091131"</span><span class="op">)</span>,
         panel.grid.major.y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span>,
         panel.grid.minor.x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="30DCC_files/figure-html/unnamed-chunk-72-1.png" width="100%" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="30DCC_files/figure-html/physical-theme-1.png" width="100%" style="display: block; margin: auto;"></div>
 <p>OK, that's awful and I'm sorry.</p>
 </div>
 </div>

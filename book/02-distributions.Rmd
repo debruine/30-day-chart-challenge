@@ -86,13 +86,13 @@ beat <- song_analysis$beats %>%
 main_seg_in_beat <- inner_join(seg, beat, by = character()) %>%
   mutate(seg_end = seg_start + seg_dur, 
          beat_end = beat_start + beat_dur,
-         seg_in_beat = (seg_start < beat_end) & (seg_end > beat_start)) %>%
+         seg_in_beat = (seg_start <= beat_end) & (seg_end >= beat_start)) %>%
   filter(seg_in_beat) %>%
   rowwise() %>%
   mutate(overlap = min(seg_end, beat_end) - max(c(seg_start, beat_start)),
-         pcnt_in_beat = overlap / (beat_dur)) %>%
+         pcnt_in_beat = overlap/beat_dur) %>%
   group_by(beat_start) %>%
-  slice_max(pcnt_in_beat, n = 1) %>%
+  slice_max(order_by = pcnt_in_beat, n = 1) %>%
   ungroup()
 
 head(main_seg_in_beat)
@@ -110,7 +110,7 @@ head(pitch_by_beat)
 
 ## Plot Pitch by Beat
 
-```{r}
+```{r physical-pitch}
 ggplot(pitch_by_beat,
        aes(x = start, y = pitch, color = loudness_start)) +
   geom_point(show.legend = FALSE)
@@ -120,7 +120,7 @@ ggplot(pitch_by_beat,
 
 I also wanted to map the key of each segment using a horizontal linerange, so I mapped it vertically first and flipped the coordinates.
 
-```{r}
+```{r physical-key}
 ggplot(song_analysis$sections, aes(ymin = start, 
                                ymax = start + duration,
                                x = key)) +
@@ -132,7 +132,7 @@ ggplot(song_analysis$sections, aes(ymin = start,
 
 So to combine them, I need to move the data and mapping to the relevant geoms and swap the x and y coordinates for the pitch points.
 
-```{r}
+```{r physical-combo}
 ggplot() +
   geom_linerange(mapping = aes(ymin = start, 
                                ymax = start + duration,
@@ -151,7 +151,7 @@ If you haven't watched the [video](https://www.youtube.com/watch?v=vWz9VN40nCA),
 
 ![](images/physical.png)
 
-```{r}
+```{r physical-theme}
 # translate spotify's 0-11 to notes
 pitch_key_vals <- c('C', 'C#/Db', 'D', 'D#/Eb', 'E', 'F', 
                      'F#/Gb', 'G', 'G#/Ab', 'A', 'A#/Bb', 'B')
