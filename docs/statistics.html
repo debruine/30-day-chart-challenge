@@ -100,7 +100,7 @@
 <h1>
 <span class="header-section-number">9</span> Statistics<a class="anchor" aria-label="anchor" href="#statistics"><i class="fas fa-link"></i></a>
 </h1>
-<div class="sourceCode" id="cb105"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb106"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span> <span class="co"># for everything</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://gif.ski/">gifski</a></span><span class="op">)</span>    <span class="co"># for making the gif</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://sjmgarnier.github.io/viridis/">viridis</a></span><span class="op">)</span>   <span class="co"># for nicer colours</span>
@@ -111,7 +111,7 @@
 <span class="header-section-number">9.1</span> Make one frame<a class="anchor" aria-label="anchor" href="#make-one-frame"><i class="fas fa-link"></i></a>
 </h2>
 <p>As always, make one frame first. You can use <code><a href="https://rdrr.io/pkg/ggplot2/man/geom_function.html">stat_function()</a></code> to plot data from a distribution using functions like <code><a href="https://rdrr.io/r/stats/Normal.html">dnorm()</a></code>, and <code><a href="https://rdrr.io/r/stats/Beta.html">dbeta()</a></code>. I can't figure out how to set the <code>args</code> from the mapping, so I'm using a for loop to add each density line. This feels inefficient, but it works.</p>
-<div class="sourceCode" id="cb106"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb107"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">g</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/lims.html">xlim</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/lims.html">ylim</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">10</span><span class="op">)</span>
 
 <span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tidyr/man/expand.html">crossing</a></span><span class="op">(</span>
@@ -128,10 +128,10 @@
 <span class="op">}</span>
 
 <span class="va">g</span></code></pre></div>
-<div class="inline-figure"><img src="30DCC_files/figure-html/unnamed-chunk-71-1.png" width="100%" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="30DCC_files/figure-html/unnamed-chunk-57-1.png" width="100%" style="display: block; margin: auto;"></div>
 <p>Colours for each line come from <code><a href="https://sjmgarnier.github.io/viridisLite/reference/viridis.html">viridis()</a></code>, but this won't give you a colour guide, so add <code>geom_density(aes(x = 1, color = 1), alpha = 0)</code> to make an invisible line that generates a colour guide that you can modify with <code><a href="https://rdrr.io/pkg/ggplot2/man/scale_viridis.html">scale_color_viridis_c()</a></code>. This will generate a warning, so you can turn off warnings in the code chunk.</p>
 <p>Clean up the plot and add an annotation for the shape2 value.</p>
-<div class="sourceCode" id="cb107"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb108"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">label</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html">sprintf</a></span><span class="op">(</span><span class="st">"shape2 = %.2f"</span>, <span class="fl">2</span><span class="op">)</span>
 
 <span class="va">g</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="cn">NULL</span>, y <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span> <span class="op">+</span>
@@ -143,14 +143,14 @@
         legend.key.width <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fl">.15</span>, <span class="st">"npc"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_density.html">geom_density</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">1</span>, color <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>, alpha <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/scale_viridis.html">scale_color_viridis_c</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"shape1"</span>, limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">10</span><span class="op">)</span>, breaks <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="30DCC_files/figure-html/unnamed-chunk-72-1.png" width="100%" style="display: block; margin: auto;"></div>
+<div class="inline-figure"><img src="30DCC_files/figure-html/unnamed-chunk-58-1.png" width="100%" style="display: block; margin: auto;"></div>
 </div>
 <div id="functionalise-it" class="section level2" number="9.2">
 <h2>
 <span class="header-section-number">9.2</span> Functionalise it<a class="anchor" aria-label="anchor" href="#functionalise-it"><i class="fas fa-link"></i></a>
 </h2>
 <p>Now turn this into a function so you can vary shape1 and shape2.</p>
-<div class="sourceCode" id="cb108"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb109"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">beta_plot</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">shape1</span> <span class="op">=</span> <span class="fl">1</span>, <span class="va">shape2</span> <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">{</span>
   <span class="va">g</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/lims.html">xlim</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/lims.html">ylim</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">10</span><span class="op">)</span>
 
@@ -187,7 +187,7 @@
   <span class="va">f</span>
 <span class="op">}</span></code></pre></div>
 <p>Map the function over a range of shape2 values. Keep shape1 always the same vector.</p>
-<div class="sourceCode" id="cb109"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb110"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">beta_plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/purrr/man/map.html">map_chr</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">5</span>, <span class="fl">.25</span><span class="op">)</span><span class="op">)</span>, 
                       <span class="va">beta_plot</span>, 
                       shape1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">10</span>, <span class="fl">.25</span><span class="op">)</span><span class="op">)</span></code></pre></div>
@@ -197,7 +197,7 @@
 <span class="header-section-number">9.3</span> Animate<a class="anchor" aria-label="anchor" href="#animate"><i class="fas fa-link"></i></a>
 </h2>
 <p>Combine the plots in forward order with the same plots in reverse order to make the gif go back and forth, then save to a gif.</p>
-<div class="sourceCode" id="cb110"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb111"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">beta_plots</span>, <span class="fu"><a href="https://rdrr.io/r/base/rev.html">rev</a></span><span class="op">(</span><span class="va">beta_plots</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://rdrr.io/pkg/gifski/man/gifski.html">gifski</a></span><span class="op">(</span>gif_file <span class="op">=</span> <span class="st">"images/day9.gif"</span>, 
          width <span class="op">=</span> <span class="fl">800</span>, height <span class="op">=</span> <span class="fl">450</span>, delay <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span></code></pre></div>

@@ -3,7 +3,12 @@
 
 # Physical
 
-Every time I thought about today's prompt, by brain started playing [Let's Get Physical](https://www.youtube.com/watch?v=vWz9VN40nCA) by Olivia Newton John. So I decided to adapt some code from a tutorial I wrote on [spotifyr](https://psyteachr.github.io/ads-v1/spotify-data.html), which is based on a [tutorial by Michael Mullarkey](https://mcmullarkey.github.io/mcm-blog/posts/2022-01-07-spotify-api-r/). You can check those tutorials for the setup details if you haven't used `r pkg("spotifyr")` before.
+Every time I thought about today's prompt, by brain started playing Let's Get Physical by Olivia Newton John. If you haven't watched the [video](https://www.youtube.com/watch?v=vWz9VN40nCA), it's a real 80s experience. I'm going to try to theme the plot after the video.
+
+![](images/physical.png)
+
+
+So I decided to adapt some code from a tutorial I wrote on [spotifyr](https://psyteachr.github.io/ads-v1/spotify-data.html), which is based on a [tutorial by Michael Mullarkey](https://mcmullarkey.github.io/mcm-blog/posts/2022-01-07-spotify-api-r/). You can check those tutorials for the setup details if you haven't used `r pkg("spotifyr")` before.
 
 ```{r, message=FALSE}
 library(spotifyr)   # to access Spotify
@@ -147,7 +152,7 @@ ggplot() +
 
 ## 80s Theme
 
-If you haven't watched the [video](https://www.youtube.com/watch?v=vWz9VN40nCA), it's a real 80s experience. I'm going to try to theme the plot after the video.
+Let's remind ourselves of this monstrosity.
 
 ![](images/physical.png)
 

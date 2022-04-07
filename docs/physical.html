@@ -6,16 +6,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>7 Physical | 30-day Chart Challenge</title>
 <meta name="author" content="Lisa DeBruine">
-<meta name="description" content="Every time I thought about today's prompt, by brain started playing Let's Get Physical by Olivia Newton John. So I decided to adapt some code from a tutorial I wrote on spotifyr, which is based on...">
+<meta name="description" content="Every time I thought about today's prompt, by brain started playing Let's Get Physical by Olivia Newton John. If you haven't watched the video, it's a real 80s experience. I'm going to try to...">
 <meta name="generator" content="bookdown 0.24 with bs4_book()">
 <meta property="og:title" content="7 Physical | 30-day Chart Challenge">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://debruine.github.io/30-day-chart-challenge/physical.html">
 <meta property="og:image" content="https://debruine.github.io/30-day-chart-challenge/images/logos/logo.png">
-<meta property="og:description" content="Every time I thought about today's prompt, by brain started playing Let's Get Physical by Olivia Newton John. So I decided to adapt some code from a tutorial I wrote on spotifyr, which is based on...">
+<meta property="og:description" content="Every time I thought about today's prompt, by brain started playing Let's Get Physical by Olivia Newton John. If you haven't watched the video, it's a real 80s experience. I'm going to try to...">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="7 Physical | 30-day Chart Challenge">
-<meta name="twitter:description" content="Every time I thought about today's prompt, by brain started playing Let's Get Physical by Olivia Newton John. So I decided to adapt some code from a tutorial I wrote on spotifyr, which is based on...">
+<meta name="twitter:description" content="Every time I thought about today's prompt, by brain started playing Let's Get Physical by Olivia Newton John. If you haven't watched the video, it's a real 80s experience. I'm going to try to...">
 <meta name="twitter:image" content="https://debruine.github.io/30-day-chart-challenge/images/logos/logo.png">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.11/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
@@ -100,8 +100,10 @@
 <h1>
 <span class="header-section-number">7</span> Physical<a class="anchor" aria-label="anchor" href="#physical"><i class="fas fa-link"></i></a>
 </h1>
-<p>Every time I thought about today's prompt, by brain started playing <a href="https://www.youtube.com/watch?v=vWz9VN40nCA">Let's Get Physical</a> by Olivia Newton John. So I decided to adapt some code from a tutorial I wrote on <a href="https://psyteachr.github.io/ads-v1/spotify-data.html">spotifyr</a>, which is based on a <a href="https://mcmullarkey.github.io/mcm-blog/posts/2022-01-07-spotify-api-r/">tutorial by Michael Mullarkey</a>. You can check those tutorials for the setup details if you haven't used <code class="package">spotifyr</code> before.</p>
-<div class="sourceCode" id="cb92"><pre class="downlit sourceCode r">
+<p>Every time I thought about today's prompt, by brain started playing Let's Get Physical by Olivia Newton John. If you haven't watched the <a href="https://www.youtube.com/watch?v=vWz9VN40nCA">video</a>, it's a real 80s experience. I'm going to try to theme the plot after the video.</p>
+<div class="inline-figure"><img src="images/physical.png"></div>
+<p>So I decided to adapt some code from a tutorial I wrote on <a href="https://psyteachr.github.io/ads-v1/spotify-data.html">spotifyr</a>, which is based on a <a href="https://mcmullarkey.github.io/mcm-blog/posts/2022-01-07-spotify-api-r/">tutorial by Michael Mullarkey</a>. You can check those tutorials for the setup details if you haven't used <code class="package">spotifyr</code> before.</p>
+<div class="sourceCode" id="cb93"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/charlie86/spotifyr">spotifyr</a></span><span class="op">)</span>   <span class="co"># to access Spotify</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>  <span class="co"># for data wrangling</span></code></pre></div>
 <div id="get-song-id" class="section level2" number="7.1">
@@ -109,7 +111,7 @@
 <span class="header-section-number">7.1</span> Get song ID<a class="anchor" aria-label="anchor" href="#get-song-id"><i class="fas fa-link"></i></a>
 </h2>
 <p>This step requires access to spotify and you can get timed out if you try to access it too much, so I always save the result of calls to an API in scripts and set that code chunk to <code>eval = FALSE</code> so it doesn't run every time I render this book.</p>
-<div class="sourceCode" id="cb93"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb94"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># set to eval = FALSE to avoid too many call to spotify API</span>
 <span class="va">onj</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/spotifyr/man/get_artist_audio_features.html">get_artist_audio_features</a></span><span class="op">(</span>
   artist <span class="op">=</span> <span class="st">'Olivia Newton John'</span>,
@@ -117,7 +119,7 @@
 <span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">saveRDS</a></span><span class="op">(</span><span class="va">onj</span>, <span class="st">"data/onj.rds"</span><span class="op">)</span></code></pre></div>
 <p>Now I can search the tracks for "Physical". I'll choose the earliest release.</p>
-<div class="sourceCode" id="cb94"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb95"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">onj</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span><span class="st">"data/onj.rds"</span><span class="op">)</span>
 
 <span class="va">physical_id</span> <span class="op">&lt;-</span> <span class="va">onj</span> <span class="op"><a href="https://rdrr.io/pkg/spotifyr/man/pipe.html">%&gt;%</a></span>
@@ -133,11 +135,11 @@
 <span class="header-section-number">7.2</span> Song Analysis<a class="anchor" aria-label="anchor" href="#song-analysis"><i class="fas fa-link"></i></a>
 </h2>
 <p>Get the song analysis. It's a list with a bunch of info.</p>
-<div class="sourceCode" id="cb96"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb97"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># set to eval = FALSE to avoid too many call to spotify API</span>
 <span class="va">song_analysis</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/spotifyr/man/get_track_audio_analysis.html">get_track_audio_analysis</a></span><span class="op">(</span><span class="va">physical_id</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">saveRDS</a></span><span class="op">(</span><span class="va">song_analysis</span>, <span class="st">"data/song_analysis.rmd"</span><span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb97"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb98"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">song_analysis</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span><span class="st">"data/song_analysis.rmd"</span><span class="op">)</span></code></pre></div>
 <ul>
 <li>
@@ -157,7 +159,7 @@
 <span class="header-section-number">7.3</span> Pitches<a class="anchor" aria-label="anchor" href="#pitches"><i class="fas fa-link"></i></a>
 </h2>
 <p>The column <code>pitches</code> of the segments table has 12 values representing the degree of occurrence for each note in each time segment, so we have to unpack this a bit.</p>
-<div class="sourceCode" id="cb98"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb99"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">pitch_analysis</span> <span class="op">&lt;-</span> <span class="va">song_analysis</span><span class="op">$</span><span class="va">segments</span> <span class="op"><a href="https://rdrr.io/pkg/spotifyr/man/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://rdrr.io/pkg/tidyr/man/nest.html">unnest</a></span><span class="op">(</span><span class="va">pitches</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/spotifyr/man/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/rename.html">rename</a></span><span class="op">(</span>pitch_degree <span class="op">=</span> <span class="va">pitches</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/spotifyr/man/pipe.html">%&gt;%</a></span>
@@ -273,7 +275,7 @@ pitch
 </table></div>
 </div>
 <p>Now I want to figure out the main pitch for each beat, so I need to somehow map the pitch table to the beat table. First, I need to work out the main segment in each beat.</p>
-<div class="sourceCode" id="cb99"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb100"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">seg</span> <span class="op">&lt;-</span> <span class="va">song_analysis</span><span class="op">$</span><span class="va">segments</span> <span class="op"><a href="https://rdrr.io/pkg/spotifyr/man/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/select.html">select</a></span><span class="op">(</span>seg_start <span class="op">=</span> <span class="va">start</span>, seg_dur <span class="op">=</span> <span class="va">duration</span><span class="op">)</span>
 
@@ -503,7 +505,7 @@ TRUE
 </table></div>
 </div>
 <p>And then join this with the pitch analysis table to get a main pitch for each beat.</p>
-<div class="sourceCode" id="cb100"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb101"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">pitch_by_beat</span> <span class="op">&lt;-</span> <span class="va">main_seg_in_beat</span> <span class="op"><a href="https://rdrr.io/pkg/spotifyr/man/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/select.html">select</a></span><span class="op">(</span>start <span class="op">=</span> <span class="va">seg_start</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/spotifyr/man/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">pitch_analysis</span>, <span class="st">"start"</span><span class="op">)</span>
@@ -618,7 +620,7 @@ pitch
 <h2>
 <span class="header-section-number">7.4</span> Plot Pitch by Beat<a class="anchor" aria-label="anchor" href="#plot-pitch-by-beat"><i class="fas fa-link"></i></a>
 </h2>
-<div class="sourceCode" id="cb101"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb102"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">pitch_by_beat</span>,
        <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">start</span>, y <span class="op">=</span> <span class="va">pitch</span>, color <span class="op">=</span> <span class="va">loudness_start</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_point.html">geom_point</a></span><span class="op">(</span>show.legend <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
@@ -629,7 +631,7 @@ pitch
 <span class="header-section-number">7.5</span> Plot Key by Segment<a class="anchor" aria-label="anchor" href="#plot-key-by-segment"><i class="fas fa-link"></i></a>
 </h2>
 <p>I also wanted to map the key of each segment using a horizontal linerange, so I mapped it vertically first and flipped the coordinates.</p>
-<div class="sourceCode" id="cb102"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb103"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">song_analysis</span><span class="op">$</span><span class="va">sections</span>, <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>ymin <span class="op">=</span> <span class="va">start</span>, 
                                ymax <span class="op">=</span> <span class="va">start</span> <span class="op">+</span> <span class="va">duration</span>,
                                x <span class="op">=</span> <span class="va">key</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
@@ -642,7 +644,7 @@ pitch
 <span class="header-section-number">7.6</span> Combine Plots<a class="anchor" aria-label="anchor" href="#combine-plots"><i class="fas fa-link"></i></a>
 </h2>
 <p>So to combine them, I need to move the data and mapping to the relevant geoms and swap the x and y coordinates for the pitch points.</p>
-<div class="sourceCode" id="cb103"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb104"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_linerange.html">geom_linerange</a></span><span class="op">(</span>mapping <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>ymin <span class="op">=</span> <span class="va">start</span>, 
                                ymax <span class="op">=</span> <span class="va">start</span> <span class="op">+</span> <span class="va">duration</span>,
@@ -658,9 +660,9 @@ pitch
 <h2>
 <span class="header-section-number">7.7</span> 80s Theme<a class="anchor" aria-label="anchor" href="#s-theme"><i class="fas fa-link"></i></a>
 </h2>
-<p>If you haven't watched the <a href="https://www.youtube.com/watch?v=vWz9VN40nCA">video</a>, it's a real 80s experience. I'm going to try to theme the plot after the video.</p>
+<p>Let's remind ourselves of this monstrosity.</p>
 <div class="inline-figure"><img src="images/physical.png"></div>
-<div class="sourceCode" id="cb104"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb105"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># translate spotify's 0-11 to notes</span>
 <span class="va">pitch_key_vals</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'C'</span>, <span class="st">'C#/Db'</span>, <span class="st">'D'</span>, <span class="st">'D#/Eb'</span>, <span class="st">'E'</span>, <span class="st">'F'</span>, 
                      <span class="st">'F#/Gb'</span>, <span class="st">'G'</span>, <span class="st">'G#/Ab'</span>, <span class="st">'A'</span>, <span class="st">'A#/Bb'</span>, <span class="st">'B'</span><span class="op">)</span>
