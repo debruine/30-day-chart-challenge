@@ -6,16 +6,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>7 Physical | 30-day Chart Challenge</title>
 <meta name="author" content="Lisa DeBruine">
-<meta name="description" content='/* update total correct if #webex-total_correct exists */ update_total_correct = function() {  console.log("webex: update total_correct");  if (t = document.getElementById("webex-total_correct"))...'>
+<meta name="description" content="Every time I thought about today's prompt, by brain started playing Let's Get Physical by Olivia Newton John. So I decided to adapt some code from a tutorial I wrote on spotifyr, which is based on...">
 <meta name="generator" content="bookdown 0.24 with bs4_book()">
 <meta property="og:title" content="7 Physical | 30-day Chart Challenge">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://debruine.github.io/30-day-chart-challenge/physical.html">
 <meta property="og:image" content="https://debruine.github.io/30-day-chart-challenge/images/logos/logo.png">
-<meta property="og:description" content='/* update total correct if #webex-total_correct exists */ update_total_correct = function() {  console.log("webex: update total_correct");  if (t = document.getElementById("webex-total_correct"))...'>
+<meta property="og:description" content="Every time I thought about today's prompt, by brain started playing Let's Get Physical by Olivia Newton John. So I decided to adapt some code from a tutorial I wrote on spotifyr, which is based on...">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="7 Physical | 30-day Chart Challenge">
-<meta name="twitter:description" content='/* update total correct if #webex-total_correct exists */ update_total_correct = function() {  console.log("webex: update total_correct");  if (t = document.getElementById("webex-total_correct"))...'>
+<meta name="twitter:description" content="Every time I thought about today's prompt, by brain started playing Let's Get Physical by Olivia Newton John. So I decided to adapt some code from a tutorial I wrote on spotifyr, which is based on...">
 <meta name="twitter:image" content="https://debruine.github.io/30-day-chart-challenge/images/logos/logo.png">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.11/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
@@ -100,6 +100,387 @@
 <h1>
 <span class="header-section-number">7</span> Physical<a class="anchor" aria-label="anchor" href="#physical"><i class="fas fa-link"></i></a>
 </h1>
+<p>Every time I thought about today's prompt, by brain started playing <a href="https://www.youtube.com/watch?v=vWz9VN40nCA">Let's Get Physical</a> by Olivia Newton John. So I decided to adapt some code from a tutorial I wrote on <a href="https://psyteachr.github.io/ads-v1/spotify-data.html">spotifyr</a>, which is based on a <a href="https://mcmullarkey.github.io/mcm-blog/posts/2022-01-07-spotify-api-r/">tutorial by Michael Mullarkey</a>. You can check those tutorials for the setup details if you haven't used <code class="package">spotifyr</code> before.</p>
+<div class="sourceCode" id="cb92"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/charlie86/spotifyr">spotifyr</a></span><span class="op">)</span>   <span class="co"># to access Spotify</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>  <span class="co"># for data wrangling</span></code></pre></div>
+<div id="get-song-id" class="section level2" number="7.1">
+<h2>
+<span class="header-section-number">7.1</span> Get song ID<a class="anchor" aria-label="anchor" href="#get-song-id"><i class="fas fa-link"></i></a>
+</h2>
+<p>This step requires access to spotify and you can get timed out if you try to access it too much, so I always save the result of calls to an API in scripts and set that code chunk to <code>eval = FALSE</code> so it doesn't run every time I render this book.</p>
+<div class="sourceCode" id="cb93"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># set to eval = FALSE to avoid too many call to spotify API</span>
+<span class="va">onj</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/spotifyr/man/get_artist_audio_features.html">get_artist_audio_features</a></span><span class="op">(</span>
+  artist <span class="op">=</span> <span class="st">'Olivia Newton John'</span>,
+  include_groups <span class="op">=</span> <span class="st">"album"</span>
+<span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">saveRDS</a></span><span class="op">(</span><span class="va">onj</span>, <span class="st">"data/onj.rds"</span><span class="op">)</span></code></pre></div>
+<p>Now I can search the tracks for "Physical". I'll choose the earliest release.</p>
+<div class="sourceCode" id="cb94"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">onj</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span><span class="st">"data/onj.rds"</span><span class="op">)</span>
+
+<span class="va">physical_id</span> <span class="op">&lt;-</span> <span class="va">onj</span> <span class="op"><a href="https://rdrr.io/pkg/spotifyr/man/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/filter.html">filter</a></span><span class="op">(</span><span class="va">track_name</span> <span class="op">==</span> <span class="st">"Physical"</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/spotifyr/man/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/filter.html">filter</a></span><span class="op">(</span><span class="va">album_release_year</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">album_release_year</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/spotifyr/man/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/pull.html">pull</a></span><span class="op">(</span><span class="va">track_id</span><span class="op">)</span>
+
+<span class="va">physical_id</span></code></pre></div>
+<pre><code>## [1] "273paQDMbi4JPeRfbYZuKx"</code></pre>
+</div>
+<div id="song-analysis" class="section level2" number="7.2">
+<h2>
+<span class="header-section-number">7.2</span> Song Analysis<a class="anchor" aria-label="anchor" href="#song-analysis"><i class="fas fa-link"></i></a>
+</h2>
+<p>Get the song analysis. It's a list with a bunch of info.</p>
+<div class="sourceCode" id="cb96"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># set to eval = FALSE to avoid too many call to spotify API</span>
+<span class="va">song_analysis</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/spotifyr/man/get_track_audio_analysis.html">get_track_audio_analysis</a></span><span class="op">(</span><span class="va">physical_id</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">saveRDS</a></span><span class="op">(</span><span class="va">song_analysis</span>, <span class="st">"data/song_analysis.rmd"</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb97"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">song_analysis</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span><span class="st">"data/song_analysis.rmd"</span><span class="op">)</span></code></pre></div>
+<ul>
+<li>
+<code>meta</code> gives you a list of some info about the analysis.</li>
+<li>
+<code>track</code> gives you a list of attributes, including <code>duration</code>, <code>loudness</code>, <code>end_of_fade_in</code>, <code>start_of_fade_out</code>, and <code>time_signature</code>. Some of this info was available in the artist table.</li>
+<li>
+<code>bars</code>, <code>beats</code>, and <code>tatums</code> are tables with the <code>start</code>, <code>duration</code> and <code>confidence</code> for each bar, beat, or tatum of music (whatever a "tatum" is).</li>
+<li>
+<code>sections</code> is a table with the start, duration, loudness, tempo, key, mode, and time signature for each section of music, along with confidence measures of each.</li>
+<li>
+<code>segments</code> is a table with information about loudness, pitch and timbre of segments of analysis, which tend to be around 0.2 seconds.</li>
+</ul>
+</div>
+<div id="pitches" class="section level2" number="7.3">
+<h2>
+<span class="header-section-number">7.3</span> Pitches<a class="anchor" aria-label="anchor" href="#pitches"><i class="fas fa-link"></i></a>
+</h2>
+<p>The column <code>pitches</code> of the segments table has 12 values representing the degree of occurrence for each note in each time segment, so we have to unpack this a bit.</p>
+<div class="sourceCode" id="cb98"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">pitch_analysis</span> <span class="op">&lt;-</span> <span class="va">song_analysis</span><span class="op">$</span><span class="va">segments</span> <span class="op"><a href="https://rdrr.io/pkg/spotifyr/man/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/pkg/tidyr/man/nest.html">unnest</a></span><span class="op">(</span><span class="va">pitches</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/spotifyr/man/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/rename.html">rename</a></span><span class="op">(</span>pitch_degree <span class="op">=</span> <span class="va">pitches</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/spotifyr/man/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/group_by.html">group_by</a></span><span class="op">(</span><span class="va">start</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/spotifyr/man/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/mutate.html">mutate</a></span><span class="op">(</span>pitch <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/ranking.html">row_number</a></span><span class="op">(</span><span class="op">)</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/spotifyr/man/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/group_by.html">ungroup</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/spotifyr/man/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/filter.html">filter</a></span><span class="op">(</span><span class="va">pitch_degree</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
+<p>Now I want to figure out the main pitch for each beat, so I need to somehow map the pitch table to the beat table. First, I need to work out the main segment in each beat.</p>
+<div class="sourceCode" id="cb99"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">seg</span> <span class="op">&lt;-</span> <span class="va">song_analysis</span><span class="op">$</span><span class="va">segments</span> <span class="op"><a href="https://rdrr.io/pkg/spotifyr/man/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/select.html">select</a></span><span class="op">(</span>seg_start <span class="op">=</span> <span class="va">start</span>, seg_dur <span class="op">=</span> <span class="va">duration</span><span class="op">)</span>
+
+<span class="va">beat</span> <span class="op">&lt;-</span> <span class="va">song_analysis</span><span class="op">$</span><span class="va">beats</span> <span class="op"><a href="https://rdrr.io/pkg/spotifyr/man/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/select.html">select</a></span><span class="op">(</span>beat_start <span class="op">=</span> <span class="va">start</span>, beat_dur <span class="op">=</span> <span class="va">duration</span><span class="op">)</span>
+
+<span class="va">main_seg_in_beat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/mutate-joins.html">inner_join</a></span><span class="op">(</span><span class="va">seg</span>, <span class="va">beat</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html">character</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/spotifyr/man/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/mutate.html">mutate</a></span><span class="op">(</span>seg_end <span class="op">=</span> <span class="va">seg_start</span> <span class="op">+</span> <span class="va">seg_dur</span>, 
+         beat_end <span class="op">=</span> <span class="va">beat_start</span> <span class="op">+</span> <span class="va">beat_dur</span>,
+         seg_in_beat <span class="op">=</span> <span class="op">(</span><span class="va">seg_start</span> <span class="op">&lt;</span> <span class="va">beat_end</span><span class="op">)</span> <span class="op">&amp;</span> <span class="op">(</span><span class="va">seg_end</span> <span class="op">&gt;</span> <span class="va">beat_start</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/spotifyr/man/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/filter.html">filter</a></span><span class="op">(</span><span class="va">seg_in_beat</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/spotifyr/man/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/rowwise.html">rowwise</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/spotifyr/man/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/mutate.html">mutate</a></span><span class="op">(</span>overlap <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">seg_end</span>, <span class="va">beat_end</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">seg_start</span>, <span class="va">beat_start</span><span class="op">)</span><span class="op">)</span>,
+         pcnt_in_beat <span class="op">=</span> <span class="va">overlap</span> <span class="op">/</span> <span class="op">(</span><span class="va">beat_dur</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/spotifyr/man/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/group_by.html">group_by</a></span><span class="op">(</span><span class="va">beat_start</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/spotifyr/man/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/slice.html">slice_max</a></span><span class="op">(</span><span class="va">pcnt_in_beat</span>, n <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/spotifyr/man/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/group_by.html">ungroup</a></span><span class="op">(</span><span class="op">)</span>
+
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">main_seg_in_beat</span><span class="op">)</span></code></pre></div>
+<div class="kable-table">
+<div class="inline-table"><table class="table table-sm">
+<thead><tr>
+<th style="text-align:right;">
+seg_start
+</th>
+<th style="text-align:right;">
+seg_dur
+</th>
+<th style="text-align:right;">
+beat_start
+</th>
+<th style="text-align:right;">
+beat_dur
+</th>
+<th style="text-align:right;">
+seg_end
+</th>
+<th style="text-align:right;">
+beat_end
+</th>
+<th style="text-align:left;">
+seg_in_beat
+</th>
+<th style="text-align:right;">
+overlap
+</th>
+<th style="text-align:right;">
+pcnt_in_beat
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+0.48776
+</td>
+<td style="text-align:right;">
+0.35946
+</td>
+<td style="text-align:right;">
+0.50359
+</td>
+<td style="text-align:right;">
+0.46010
+</td>
+<td style="text-align:right;">
+0.84722
+</td>
+<td style="text-align:right;">
+0.96369
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:right;">
+0.34363
+</td>
+<td style="text-align:right;">
+0.7468594
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1.05102
+</td>
+<td style="text-align:right;">
+0.25565
+</td>
+<td style="text-align:right;">
+0.96369
+</td>
+<td style="text-align:right;">
+0.47298
+</td>
+<td style="text-align:right;">
+1.30667
+</td>
+<td style="text-align:right;">
+1.43667
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:right;">
+0.25565
+</td>
+<td style="text-align:right;">
+0.5405091
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1.30667
+</td>
+<td style="text-align:right;">
+0.57329
+</td>
+<td style="text-align:right;">
+1.43667
+</td>
+<td style="text-align:right;">
+0.47354
+</td>
+<td style="text-align:right;">
+1.87996
+</td>
+<td style="text-align:right;">
+1.91021
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:right;">
+0.44329
+</td>
+<td style="text-align:right;">
+0.9361194
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1.87995
+</td>
+<td style="text-align:right;">
+0.48268
+</td>
+<td style="text-align:right;">
+1.91021
+</td>
+<td style="text-align:right;">
+0.46931
+</td>
+<td style="text-align:right;">
+2.36263
+</td>
+<td style="text-align:right;">
+2.37952
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:right;">
+0.45242
+</td>
+<td style="text-align:right;">
+0.9640110
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2.36263
+</td>
+<td style="text-align:right;">
+0.46454
+</td>
+<td style="text-align:right;">
+2.37952
+</td>
+<td style="text-align:right;">
+0.46933
+</td>
+<td style="text-align:right;">
+2.82717
+</td>
+<td style="text-align:right;">
+2.84885
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:right;">
+0.44765
+</td>
+<td style="text-align:right;">
+0.9538065
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2.82717
+</td>
+<td style="text-align:right;">
+0.44649
+</td>
+<td style="text-align:right;">
+2.84886
+</td>
+<td style="text-align:right;">
+0.47357
+</td>
+<td style="text-align:right;">
+3.27366
+</td>
+<td style="text-align:right;">
+3.32243
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+<td style="text-align:right;">
+0.42480
+</td>
+<td style="text-align:right;">
+0.8970163
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<p>And then join this with the pitch analysis table to get a main pitch for each beat.</p>
+<div class="sourceCode" id="cb100"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">pitch_by_beat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">main_seg_in_beat</span>, 
+                           <span class="va">pitch_analysis</span>, 
+                           by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"seg_start"</span> <span class="op">=</span> <span class="st">"start"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+</div>
+<div id="plot-pitch-by-beat" class="section level2" number="7.4">
+<h2>
+<span class="header-section-number">7.4</span> Plot Pitch by Beat<a class="anchor" aria-label="anchor" href="#plot-pitch-by-beat"><i class="fas fa-link"></i></a>
+</h2>
+<div class="sourceCode" id="cb101"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">pitch_by_beat</span>,
+       <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">beat_start</span>, y <span class="op">=</span> <span class="va">pitch</span>, color <span class="op">=</span> <span class="va">loudness_start</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_point.html">geom_point</a></span><span class="op">(</span>show.legend <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="30DCC_files/figure-html/unnamed-chunk-55-1.png" width="100%" style="display: block; margin: auto;"></div>
+</div>
+<div id="plot-key-by-segment" class="section level2" number="7.5">
+<h2>
+<span class="header-section-number">7.5</span> Plot Key by Segment<a class="anchor" aria-label="anchor" href="#plot-key-by-segment"><i class="fas fa-link"></i></a>
+</h2>
+<p>I also wanted to map the key of each segment using a horizontal linerange, so I mapped it vertically first and flipped the coordinates.</p>
+<div class="sourceCode" id="cb102"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">song_analysis</span><span class="op">$</span><span class="va">sections</span>, <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>ymin <span class="op">=</span> <span class="va">start</span>, 
+                               ymax <span class="op">=</span> <span class="va">start</span> <span class="op">+</span> <span class="va">duration</span>,
+                               x <span class="op">=</span> <span class="va">key</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_linerange.html">geom_linerange</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">10</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/coord_flip.html">coord_flip</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="30DCC_files/figure-html/unnamed-chunk-56-1.png" width="100%" style="display: block; margin: auto;"></div>
+</div>
+<div id="combine-plots" class="section level2" number="7.6">
+<h2>
+<span class="header-section-number">7.6</span> Combine Plots<a class="anchor" aria-label="anchor" href="#combine-plots"><i class="fas fa-link"></i></a>
+</h2>
+<p>So to combine them, I need to move the data and mapping to the relevant geoms and swap the x and y coordinates for the pitch points.</p>
+<div class="sourceCode" id="cb103"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_linerange.html">geom_linerange</a></span><span class="op">(</span>mapping <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>ymin <span class="op">=</span> <span class="va">start</span>, 
+                               ymax <span class="op">=</span> <span class="va">start</span> <span class="op">+</span> <span class="va">duration</span>,
+                               x <span class="op">=</span> <span class="va">key</span><span class="op">)</span>,
+                 data <span class="op">=</span> <span class="va">song_analysis</span><span class="op">$</span><span class="va">sections</span>,
+                 size <span class="op">=</span> <span class="fl">6</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/coord_flip.html">coord_flip</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_point.html">geom_point</a></span><span class="op">(</span>mapping <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">beat_start</span>, x <span class="op">=</span> <span class="va">pitch</span>, color <span class="op">=</span> <span class="va">loudness_start</span><span class="op">)</span>,
+             data <span class="op">=</span> <span class="va">pitch_by_beat</span>, show.legend <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="30DCC_files/figure-html/unnamed-chunk-57-1.png" width="100%" style="display: block; margin: auto;"></div>
+</div>
+<div id="s-theme" class="section level2" number="7.7">
+<h2>
+<span class="header-section-number">7.7</span> 80s Theme<a class="anchor" aria-label="anchor" href="#s-theme"><i class="fas fa-link"></i></a>
+</h2>
+<p>If you haven't watched the <a href="https://www.youtube.com/watch?v=vWz9VN40nCA">video</a>, it's a real 80s experience. I'm going to try to theme the plot after the video.</p>
+<div class="inline-figure"><img src="images/physical.png"></div>
+<div class="sourceCode" id="cb104"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># translate spotify's 0-11 to notes</span>
+<span class="va">pitch_key_vals</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'C'</span>, <span class="st">'C#/Db'</span>, <span class="st">'D'</span>, <span class="st">'D#/Eb'</span>, <span class="st">'E'</span>, <span class="st">'F'</span>, 
+                     <span class="st">'F#/Gb'</span>, <span class="st">'G'</span>, <span class="st">'G#/Ab'</span>, <span class="st">'A'</span>, <span class="st">'A#/Bb'</span>, <span class="st">'B'</span><span class="op">)</span>
+
+<span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_linerange.html">geom_linerange</a></span><span class="op">(</span>mapping <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>ymin <span class="op">=</span> <span class="va">start</span>, 
+                               ymax <span class="op">=</span> <span class="va">start</span> <span class="op">+</span> <span class="va">duration</span>,
+                               x <span class="op">=</span> <span class="va">key</span><span class="op">)</span>,
+                 data <span class="op">=</span> <span class="va">song_analysis</span><span class="op">$</span><span class="va">sections</span>,
+                 size <span class="op">=</span> <span class="fl">10</span>,
+                 color <span class="op">=</span> <span class="st">"#60E1FE"</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/coord_flip.html">coord_flip</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_point.html">geom_point</a></span><span class="op">(</span>mapping <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">beat_start</span>, x <span class="op">=</span> <span class="va">pitch</span>, alpha <span class="op">=</span> <span class="va">loudness_start</span><span class="op">)</span>,
+             data <span class="op">=</span> <span class="va">pitch_by_beat</span>, 
+             color <span class="op">=</span> <span class="st">"#BB1DA8"</span>, size <span class="op">=</span> <span class="fl">3</span>,
+             show.legend <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/scale_continuous.html">scale_y_continuous</a></span><span class="op">(</span>breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">250</span>, <span class="fl">10</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/scale_continuous.html">scale_x_continuous</a></span><span class="op">(</span>breaks <span class="op">=</span> <span class="fl">0</span><span class="op">:</span><span class="fl">11</span>,
+                     labels <span class="op">=</span> <span class="va">pitch_key_vals</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/scale_alpha.html">scale_alpha</a></span><span class="op">(</span>range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">.6</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Key/Pitch"</span>,
+       y <span class="op">=</span> <span class="cn">NULL</span>,
+       title <span class="op">=</span> <span class="st">"Let's Get Physical — Olivia Newton John"</span>,
+       subtitle <span class="op">=</span> <span class="st">"Main pitch for each beat (in pink) and key for each segment (in blue)"</span>,
+       caption <span class="op">=</span> <span class="st">"Data from Spotify via spotifyr | plot by @lisadebruine"</span><span class="op">)</span>  <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/theme.html">theme</a></span><span class="op">(</span>plot.subtitle <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/element.html">element_text</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span>,
+        panel.background <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/element.html">element_rect</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"#091131"</span><span class="op">)</span>,
+        panel.grid.major.y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span>,
+        panel.grid.minor.x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="30DCC_files/figure-html/unnamed-chunk-58-1.png" width="100%" style="display: block; margin: auto;"></div>
+<p>OK, that's awful and I'm sorry.</p>
+</div>
 </div>
 <script>
 
@@ -306,7 +687,16 @@ $( document ).ready(function() {
 <div class="next"><a href="mountains.html"><span class="header-section-number">8</span> Mountains</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
-      <ul class="nav navbar-nav"><li><a class="nav-link" href="#physical"><span class="header-section-number">7</span> Physical</a></li></ul>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#physical"><span class="header-section-number">7</span> Physical</a></li>
+<li><a class="nav-link" href="#get-song-id"><span class="header-section-number">7.1</span> Get song ID</a></li>
+<li><a class="nav-link" href="#song-analysis"><span class="header-section-number">7.2</span> Song Analysis</a></li>
+<li><a class="nav-link" href="#pitches"><span class="header-section-number">7.3</span> Pitches</a></li>
+<li><a class="nav-link" href="#plot-pitch-by-beat"><span class="header-section-number">7.4</span> Plot Pitch by Beat</a></li>
+<li><a class="nav-link" href="#plot-key-by-segment"><span class="header-section-number">7.5</span> Plot Key by Segment</a></li>
+<li><a class="nav-link" href="#combine-plots"><span class="header-section-number">7.6</span> Combine Plots</a></li>
+<li><a class="nav-link" href="#s-theme"><span class="header-section-number">7.7</span> 80s Theme</a></li>
+</ul>
 
       <div class="book-extra">
         <ul class="list-unstyled">
@@ -323,7 +713,7 @@ $( document ).ready(function() {
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>30-day Chart Challenge</strong>: 2022" was written by Lisa DeBruine. It was last built on 2022-04-06.</p>
+    <p>"<strong>30-day Chart Challenge</strong>: 2022" was written by Lisa DeBruine. It was last built on 2022-04-07.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

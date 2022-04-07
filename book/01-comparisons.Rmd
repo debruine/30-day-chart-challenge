@@ -198,6 +198,8 @@ font_add(family = "FontAwesome5Free-Solid",
          regular = "/Library/Frameworks/R.framework/Versions/4.1/Resources/library/waffle/fonts/fa-solid-900.ttf")
 font_add(family = "Avenir",
          regular = "/System/Library/Fonts/Avenir.ttc")
+font_add(family = "Market Deco",
+         regular = "~/Library/Fonts/Market_Deco.ttf")
 showtext_auto()
 ```
 
@@ -1412,7 +1414,7 @@ data_map_int_final <- data_map_int_no_missing %>%
 
 Now I want to set up what a single frame will look like in my animation. I'll filter the data down to the year 2019 and work on the plot until I'm happy.
 
-```{r owid-map-frame}
+```{r owid-map-frame, fig.width = 8, fig.height = 5}
 
 ggplot(filter(data_map_int_final, year == 2019)) + 
   geom_sf(mapping = aes(fill = it_net_users_no_na/100),

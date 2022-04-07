@@ -57,7 +57,7 @@ a:hover.daily_imgs { background-color: #CCCCCC; }
 
 ```{r day1, eval = FALSE, include = FALSE, results='asis'}
 imgpaths <- list.files("images", pattern = "^day\\d{1,2}\\.(png|gif)")
-chapters <- c("part-to-whole", "pictogram", "historical", "flora", "slope", "owid")[seq_along(imgpaths)]
+chapters <- c("part-to-whole", "pictogram", "historical", "flora", "slope", "owid", "physical")[seq_along(imgpaths)]
 
 glue::glue("[![](images/{{imgpaths})]({{chapters}.html){class='daily_imgs'}",
            .open = "{{") %>%
@@ -72,5 +72,6 @@ glue::glue("[![](images/{{imgpaths})]({{chapters}.html){class='daily_imgs'}",
 [![](images/day4.png)](flora.html){class='daily_imgs'}
 [![](images/day5.png)](slope.html){class='daily_imgs'}
 [![](images/day6.gif)](owid.html){class='daily_imgs'}
+[![](images/day7.png)](physical.html){class='daily_imgs'}
 
 <br style="clear:both;">
