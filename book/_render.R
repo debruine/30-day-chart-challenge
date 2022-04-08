@@ -4,17 +4,15 @@ browseURL("docs/index.html")
 
 # copy data directory to docs
 R.utils::copyDirectory(
-  from = "book/data",
-  to = "docs/data",
+  from = "book/images",
+  to = "docs/images",
   overwrite = TRUE,
   recursive = TRUE)
 
 
-# add fonts
+# add fonts example
 library(emojifont)
 library(showtext)
-font_add(family = "Avenir",
-         regular = "/System/Library/Fonts/Avenir.ttc")
 
 font_add_google(name = "Playfair Display", family = "Playfair")
 font_add(family = "Playfair",

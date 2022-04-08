@@ -61,6 +61,10 @@ plot-key-by-segment
 combine-plots
 s-theme
 mountains
+data-1
+map-of-scotland
+make-it-prettier
+make-it-interactive
 statistics
 make-one-frame
 functionalise-it
