@@ -359,7 +359,7 @@ ggplot() +
 
 There's no munros on the Northern Isles, so I've cropped them out of the map. I also made the colours better. I added a label to `geom_point()`, which will produce a warning that it isn't used, but you'll see why in the next step.
 
-```{r mountains-pretty, fig.width = 5, fig.height = 6, warning=FALSE}
+```{r mountains-pretty, fig.width = 4.5, fig.height = 6, warning=FALSE}
 munro_plot <- ggplot() + 
   geom_sf(data = scotland_sf,
           mapping = aes(),
@@ -379,7 +379,7 @@ munro_plot <- ggplot() +
   theme(legend.position = c(0, 0),
         legend.background = element_blank(),
         panel.background = element_rect(fill = "transparent", color = "transparent"),
-        plot.background = element_rect(fill = "lightskyblue1"),
+        plot.background = element_rect(fill = "lightskyblue1", color = "transparent"),
         plot.title = element_text(family = "Hill House", size = 26, hjust = .5)
   )
 
@@ -388,7 +388,7 @@ munro_plot
 
 ```{r, include = FALSE, eval = FALSE}
 ggsave("images/day8.png", plot = munro_plot, 
-       width = 5, height = 6, device = png)
+       width = 4.5, height = 6, device = png)
 ```
 
 ## Make it interactive

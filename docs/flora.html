@@ -200,7 +200,7 @@ Figure 4.1: Flower infographics from vectorstock.com
       <span class="st">"&lt;/svg&gt;"</span>,
       sep <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://rdrr.io/pkg/glue/man/glue.html">glue</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<svg viewbox="0 0 1000 1000"><circle cx="800" cy="500" r="200" fill="#FF0000"></circle><circle cx="650" cy="759.81" r="200" fill="#FFFF00"></circle><circle cx="350" cy="759.81" r="200" fill="#00FF00"></circle><circle cx="200" cy="500" r="200" fill="#00FFFF"></circle><circle cx="350" cy="240.19" r="200" fill="#0000FF"></circle><circle cx="650" cy="240.19" r="200" fill="#FF00FF"></circle></svg>
+<svg viewbox="0 0 1000 1000"><circle cx="500" cy="200" r="200" fill="#FF0000"></circle><circle cx="759.81" cy="350" r="200" fill="#FFFF00"></circle><circle cx="759.81" cy="650" r="200" fill="#00FF00"></circle><circle cx="500" cy="800" r="200" fill="#00FFFF"></circle><circle cx="240.19" cy="650" r="200" fill="#0000FF"></circle><circle cx="240.19" cy="350" r="200" fill="#FF00FF"></circle></svg>
 </div>
 <div id="fix-the-overlap" class="section level2" number="4.4">
 <h2>
@@ -226,7 +226,21 @@ Figure 4.1: Flower infographics from vectorstock.com
       <span class="st">"&lt;/svg&gt;"</span>,
       sep <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://rdrr.io/pkg/glue/man/glue.html">glue</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<svg viewbox="0 0 1000 1000"><circle cx="500" cy="200" r="200" fill="#FF0000"></circle><circle cx="759.81" cy="350" r="200" fill="#FFFF00"></circle><circle cx="759.81" cy="650" r="200" fill="#00FF00"></circle><circle cx="500" cy="800" r="200" fill="#00FFFF"></circle><circle cx="240.19" cy="650" r="200" fill="#0000FF"></circle><circle cx="240.19" cy="350" r="200" fill="#FF00FF"></circle></svg><p>Now I want to add a center hexagon that just touches each petal.</p>
+<svg viewbox="0 0 1650 1650"><style type="text/css">
+  svg { 
+    font-family: sans-serif;
+    font-size: 125px; 
+    text-anchor: middle; 
+    fill: white;
+  }
+</style>
+<polygon points="825,575 1041.51,700 1041.51,950 825,1075 608.49,950 608.49,700" fill="#808080"></polygon><text x="825" y="808.333333333333" fill="white" font-size="83.3333333333333px">All of the</text><text x="825" y="900" fill="white" font-size="83.3333333333333px">Things</text><g transform="rotate(90, 825, 325)"><path d="M 575 325
+A 250 250 0 0 1 1075 325
+L 575 325
+Z" fill="#FF0000" fill-opacity="1"></path></g><circle cx="825" cy="325" r="250" fill="#FF0000" fill-opacity="1"></circle><circle cx="1258.01" cy="575" r="250" fill="#FFFF00" fill-opacity="1"></circle><circle cx="1258.01" cy="1075" r="250" fill="#00FF00" fill-opacity="1"></circle><circle cx="825" cy="1325" r="250" fill="#00FFFF" fill-opacity="1"></circle><circle cx="391.99" cy="1075" r="250" fill="#0000FF" fill-opacity="1"></circle><circle cx="391.99" cy="575" r="250" fill="#FF00FF" fill-opacity="1"></circle><g transform="rotate(-90, 825, 325)"><path d="M 575 325
+A 250 250 0 0 1 1075 325
+L 575 325
+Z" fill="#FF0000" fill-opacity="1"></path></g><text x="825" y="387.5">A</text><text x="1258.01" y="637.5">B</text><text x="1258.01" y="1137.5">C</text><text x="825" y="1387.5">D</text><text x="391.99" y="1137.5">E</text><text x="391.99" y="637.5">F</text></svg><p>Now I want to add a center hexagon that just touches each petal.</p>
 <div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">center</span> <span class="op">&lt;-</span> <span class="fu">poly_coords</span><span class="op">(</span><span class="va">n</span>, <span class="va">petal_dist</span><span class="op">-</span><span class="va">r</span>, <span class="va">cx</span>, <span class="va">cy</span>, <span class="va">rot</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://rdrr.io/pkg/glue/man/glue.html">glue</a></span><span class="op">(</span><span class="st">"{cc$x},{cc$y}"</span>, cc <span class="op">=</span> <span class="va">.</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
@@ -239,10 +253,25 @@ Figure 4.1: Flower infographics from vectorstock.com
       <span class="st">"&lt;/svg&gt;"</span>,
       sep <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://rdrr.io/pkg/glue/man/glue.html">glue</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<svg viewbox="0 0 1000 1000"><circle cx="500" cy="200" r="200" fill="#FF0000"></circle><circle cx="759.81" cy="350" r="200" fill="#FFFF00"></circle><circle cx="759.81" cy="650" r="200" fill="#00FF00"></circle><circle cx="500" cy="800" r="200" fill="#00FFFF"></circle><circle cx="240.19" cy="650" r="200" fill="#0000FF"></circle><circle cx="240.19" cy="350" r="200" fill="#FF00FF"></circle><g transform="rotate(-90, 500, 200)"><path d="M 300 200
-A 200 200 0 0 1 700 200
-L 300 200
-Z" fill="#FF0000"></path></g></svg>
+<svg viewbox="0 0 1320 1320"><style type="text/css">
+svg { 
+  font-family: sans-serif;
+  font-size: 80px; 
+  text-anchor: middle; 
+  fill: white;
+}
+</style>
+<polygon points="503.63,535.3 660,460 816.37,535.3 854.99,704.5 746.78,840.19 573.22,840.19 465.01,704.5" fill="grey"></polygon><text x="660" y="640">All of the</text><text x="660" y="750">Things</text><circle cx="347.27" cy="410.6" r="200" fill="#FF0000"></circle><circle cx="660" cy="260" r="200" fill="#FFDB00"></circle><circle cx="972.73" cy="410.6" r="200" fill="#49FF00"></circle><circle cx="1049.97" cy="749.01" r="200" fill="#00FF92"></circle><circle cx="833.55" cy="1020.39" r="200" fill="#0092FF"></circle><circle cx="486.45" cy="1020.39" r="200" fill="#4900FF"></circle><circle cx="270.03" cy="749.01" r="200" fill="#FF00DB"></circle><g transform="rotate(218.571428571429, 347.27, 410.6)"><path d="M 147.27 410.6
+A 200 200 0 0 1 547.27 410.6
+L 147.27 410.6
+Z" fill="#FF0000"></path></g><text x="347.27" y="450.6">A</text>"
+<text x="660" y="300">B</text>"
+<text x="972.73" y="450.6">C</text>"
+<text x="1049.97" y="789.01">D</text>"
+<text x="833.55" y="1060.39">E</text>"
+<text x="486.45" y="1060.39">F</text>"
+<text x="270.03" y="789.01">G</text>"
+</svg>
 </div>
 <div id="petals" class="section level2" number="4.5">
 <h2>
@@ -295,10 +324,25 @@ svg {
              <span class="va">petals</span>, <span class="va">petal_fix</span>, <span class="va">text</span>, <span class="st">"&lt;/svg&gt;"</span>,
              sep <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://rdrr.io/pkg/glue/man/glue.html">glue</a></span><span class="op">(</span>.open <span class="op">=</span> <span class="st">"{{"</span>, .close <span class="op">=</span> <span class="st">"}}"</span><span class="op">)</span></code></pre></div>
-<svg viewbox="0 0 1000 1000"><polygon points="500,400 586.6,450 586.6,550 500,600 413.4,550 413.4,450" fill="grey"></polygon><circle cx="500" cy="200" r="200" fill="#FF0000"></circle><circle cx="759.81" cy="350" r="200" fill="#FFFF00"></circle><circle cx="759.81" cy="650" r="200" fill="#00FF00"></circle><circle cx="500" cy="800" r="200" fill="#00FFFF"></circle><circle cx="240.19" cy="650" r="200" fill="#0000FF"></circle><circle cx="240.19" cy="350" r="200" fill="#FF00FF"></circle><g transform="rotate(-90, 500, 200)"><path d="M 300 200
-A 200 200 0 0 1 700 200
-L 300 200
-Z" fill="#FF0000"></path></g></svg>
+<svg viewbox="0 0 1320 1320"><style type="text/css">
+svg { 
+  font-family: sans-serif;
+  font-size: 80px; 
+  text-anchor: middle; 
+  fill: white;
+}
+</style>
+<polygon points="503.63,535.3 660,460 816.37,535.3 854.99,704.5 746.78,840.19 573.22,840.19 465.01,704.5" fill="grey"></polygon><text x="660" y="640">All of the</text><text x="660" y="750">Things</text><circle cx="347.27" cy="410.6" r="200" fill="#FF0000"></circle><circle cx="660" cy="260" r="200" fill="#FFDB00"></circle><circle cx="972.73" cy="410.6" r="200" fill="#49FF00"></circle><circle cx="1049.97" cy="749.01" r="200" fill="#00FF92"></circle><circle cx="833.55" cy="1020.39" r="200" fill="#0092FF"></circle><circle cx="486.45" cy="1020.39" r="200" fill="#4900FF"></circle><circle cx="270.03" cy="749.01" r="200" fill="#FF00DB"></circle><g transform="rotate(218.571428571429, 347.27, 410.6)"><path d="M 147.27 410.6
+A 200 200 0 0 1 547.27 410.6
+L 147.27 410.6
+Z" fill="#FF0000"></path></g><text x="347.27" y="450.6">A</text>"
+<text x="660" y="300">B</text>"
+<text x="972.73" y="450.6">C</text>"
+<text x="1049.97" y="789.01">D</text>"
+<text x="833.55" y="1060.39">E</text>"
+<text x="486.45" y="1060.39">F</text>"
+<text x="270.03" y="789.01">G</text>"
+</svg>
 </div>
 <div id="make-a-function" class="section level2" number="4.6">
 <h2>
@@ -427,24 +471,20 @@ Z" fill="#FF0000" fill-opacity="1"></path></g><text x="825" y="387.5">A</text><t
               center_text_color <span class="op">=</span> <span class="st">"white"</span>
 <span class="op">)</span></code></pre></div>
 <svg viewbox="0 0 1320 1320"><style type="text/css">
-svg { 
-  font-family: sans-serif;
-  font-size: 80px; 
-  text-anchor: middle; 
-  fill: white;
-}
+  svg { 
+    font-family: sans-serif;
+    font-size: 70px; 
+    text-anchor: middle; 
+    fill: #222222;
+  }
 </style>
-<polygon points="503.63,535.3 660,460 816.37,535.3 854.99,704.5 746.78,840.19 573.22,840.19 465.01,704.5" fill="grey"></polygon><text x="660" y="640">All of the</text><text x="660" y="750">Things</text><circle cx="347.27" cy="410.6" r="200" fill="#FF0000"></circle><circle cx="660" cy="260" r="200" fill="#FFDB00"></circle><circle cx="972.73" cy="410.6" r="200" fill="#49FF00"></circle><circle cx="1049.97" cy="749.01" r="200" fill="#00FF92"></circle><circle cx="833.55" cy="1020.39" r="200" fill="#0092FF"></circle><circle cx="486.45" cy="1020.39" r="200" fill="#4900FF"></circle><circle cx="270.03" cy="749.01" r="200" fill="#FF00DB"></circle><g transform="rotate(218.571428571429, 347.27, 410.6)"><path d="M 147.27 410.6
-A 200 200 0 0 1 547.27 410.6
-L 147.27 410.6
-Z" fill="#FF0000"></path></g><text x="347.27" y="450.6">A</text>"
-<text x="660" y="300">B</text>"
-<text x="972.73" y="450.6">C</text>"
-<text x="1049.97" y="789.01">D</text>"
-<text x="833.55" y="1060.39">E</text>"
-<text x="486.45" y="1060.39">F</text>"
-<text x="270.03" y="789.01">G</text>"
-</svg>
+<polygon points="660,460 801.42,518.58 860,660 801.42,801.42 660,860 518.58,801.42 460,660 518.58,518.58" fill="black"></polygon><text x="660" y="600" fill="white" font-size="80px">Original</text><text x="660" y="700" fill="white" font-size="80px">Pride</text><text x="660" y="800" fill="white" font-size="80px">Flag</text><g transform="rotate(90, 660, 260)"><path d="M 460 260
+A 200 200 0 0 1 860 260
+L 460 260
+Z" fill="#FF66B1" fill-opacity="0.8"></path></g><circle cx="660" cy="260" r="200" fill="#FF66B1" fill-opacity="0.8"></circle><circle cx="942.84" cy="377.16" r="200" fill="#FF0000" fill-opacity="0.8"></circle><circle cx="1060" cy="660" r="200" fill="#FF8F1A" fill-opacity="0.8"></circle><circle cx="942.84" cy="942.84" r="200" fill="#FEFF3A" fill-opacity="0.8"></circle><circle cx="660" cy="1060" r="200" fill="#008F1D" fill-opacity="0.8"></circle><circle cx="377.16" cy="942.84" r="200" fill="#00C0C0" fill-opacity="0.8"></circle><circle cx="260" cy="660" r="200" fill="#420095" fill-opacity="0.8"></circle><circle cx="377.16" cy="377.16" r="200" fill="#8F008B" fill-opacity="0.8"></circle><g transform="rotate(-90, 660, 260)"><path d="M 460 260
+A 200 200 0 0 1 860 260
+L 460 260
+Z" fill="#FF66B1" fill-opacity="0.8"></path></g><text x="660" y="295">Sex</text><text x="942.84" y="412.16">Life</text><text x="1060" y="695">Healing</text><text x="942.84" y="977.84">Sunlight</text><text x="660" y="1095">Nature</text><text x="377.16" y="977.84">Magic/Art</text><text x="260" y="695">Serenity</text><text x="377.16" y="412.16">Spirit</text></svg>
 </div>
 <div id="save-as-svg-or-png" class="section level2" number="4.8">
 <h2>
