@@ -105,10 +105,14 @@
 <p>I recently discovered the <code class="package"><a href="https://github.com/hrbrmstr/waffle/" target="_blank">waffle</a></code> package for making waffle plots. Emily and I refuse to teach students on our <a href="https://psyteachr.github.io/ads-v1/">Applied Data Skills</a> course how to make pie charts, and these are a sweet alternative.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#devtools::install_github("hrbrmstr/waffle")</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://gitlab.com/hrbrmstr/waffle">waffle</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/GuangchuangYu/emojifont">emojifont</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/yixuan/showtext">showtext</a></span><span class="op">)</span></code></pre></div>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>  <span class="co"># for data wrangling</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://gitlab.com/hrbrmstr/waffle">waffle</a></span><span class="op">)</span>     <span class="co"># for pictograms</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/yixuan/showtext">showtext</a></span><span class="op">)</span>   <span class="co"># for fonts</span></code></pre></div>
+<div id="fonts" class="section level2" number="2.1">
+<h2>
+<span class="header-section-number">2.1</span> Fonts<a class="anchor" aria-label="anchor" href="#fonts"><i class="fas fa-link"></i></a>
+</h2>
+<p>I'm never sure what I'm doing with fonts, but this procedure seems to work to install the FontAwesome fonts that you need for pictograms and also any other specialist fonts you'd like.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">waffle</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/waffle/man/install_fa_fonts.html">install_fa_fonts</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <pre><code>## The TTF font files for Font Awesome 5 fonts are in:
@@ -117,18 +121,20 @@
 ## 
 ## Please navigate to that directory and install them on your system.</code></pre>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/sysfonts/man/font_add.html">font_add</a></span><span class="op">(</span>family <span class="op">=</span> <span class="st">"FontAwesome5Free-Brands"</span>,
-         regular <span class="op">=</span> <span class="st">"/Library/Frameworks/R.framework/Versions/4.1/Resources/library/waffle/fonts/fa-brands-400.ttf"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/sysfonts/man/font_add.html">font_add</a></span><span class="op">(</span>family <span class="op">=</span> <span class="st">"FontAwesome5Free-Solid"</span>,
-         regular <span class="op">=</span> <span class="st">"/Library/Frameworks/R.framework/Versions/4.1/Resources/library/waffle/fonts/fa-solid-900.ttf"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">fontdir</span> <span class="op">&lt;-</span> <span class="st">"/Library/Frameworks/R.framework/Versions/4.1/Resources/library/waffle/fonts/"</span>
+<span class="fu"><a href="https://rdrr.io/pkg/sysfonts/man/font_add.html">font_add</a></span><span class="op">(</span>family <span class="op">=</span> <span class="fu">waffle</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/waffle/man/fa5_brand.html">fa5_brand</a></span>,
+         regular <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">fontdir</span>, <span class="st">"fa-brands-400.ttf"</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/sysfonts/man/font_add.html">font_add</a></span><span class="op">(</span>family <span class="op">=</span> <span class="fu">waffle</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/waffle/man/fa5_solid.html">fa5_solid</a></span>,
+         regular <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">fontdir</span>, <span class="st">"fa-solid-900.ttf"</span><span class="op">)</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/sysfonts/man/font_add.html">font_add</a></span><span class="op">(</span>family <span class="op">=</span> <span class="st">"Avenir"</span>,
          regular <span class="op">=</span> <span class="st">"/System/Library/Fonts/Avenir.ttc"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/sysfonts/man/font_add.html">font_add</a></span><span class="op">(</span>family <span class="op">=</span> <span class="st">"Market Deco"</span>,
          regular <span class="op">=</span> <span class="st">"~/Library/Fonts/Market_Deco.ttf"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/showtext/man/showtext_auto.html">showtext_auto</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<div id="pictogram-data" class="section level2" number="2.1">
+</div>
+<div id="pictogram-data" class="section level2" number="2.2">
 <h2>
-<span class="header-section-number">2.1</span> Pictogram data<a class="anchor" aria-label="anchor" href="#pictogram-data"><i class="fas fa-link"></i></a>
+<span class="header-section-number">2.2</span> Pictogram data<a class="anchor" aria-label="anchor" href="#pictogram-data"><i class="fas fa-link"></i></a>
 </h2>
 <p>Pictograms are generally used for counts, and pets are my go-to example for unordered categorical data (even though ferrets are obviously the best).</p>
 <p>I found a table of <a href="https://www.iii.org/fact-statistic/facts-statistics-pet-ownership-and-insurance">pet ownership in the USA</a>. They had an excel file download option for the data, but the file was corrupted, so I used <code class="package">datapasta</code> to copy it below.</p>
@@ -145,11 +151,11 @@
             <span class="st">"Horse"</span>,     <span class="fl">3.5</span>,
    <span class="st">"Saltwater fish"</span>,     <span class="fl">2.9</span>
   <span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/mutate.html">mutate</a></span><span class="op">(</span>Pet <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">Pet</span>, <span class="va">Pet</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/mutate.html">mutate</a></span><span class="op">(</span>Pet <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">Pet</span>, <span class="va">Pet</span><span class="op">)</span><span class="op">)</span> <span class="co"># keep this order</span></code></pre></div>
 </div>
-<div id="icons" class="section level2" number="2.2">
+<div id="icons" class="section level2" number="2.3">
 <h2>
-<span class="header-section-number">2.2</span> Icons<a class="anchor" aria-label="anchor" href="#icons"><i class="fas fa-link"></i></a>
+<span class="header-section-number">2.3</span> Icons<a class="anchor" aria-label="anchor" href="#icons"><i class="fas fa-link"></i></a>
 </h2>
 <p>Then I need to find matching free icons at <a href="https://fontawesome.com/v5/search?q=animal&amp;m=free&amp;s=solid">fontawesome</a>.</p>
 <p>Make sure you're searching the v5 icons; v6 icons won't work and will result in an impenetrable error-message from <code><a href="https://rdrr.io/pkg/waffle/man/scale_label_pictogram.html">scale_label_pictogram()</a></code>.</p>
@@ -168,9 +174,9 @@
   <span class="fu"><a href="https://rdrr.io/pkg/waffle/man/scale_label_pictogram.html">scale_label_pictogram</a></span><span class="op">(</span>values <span class="op">=</span> <span class="va">icons</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="30DCC_files/figure-html/pictogram-icons-1.png" width="100%" style="display: block; margin: auto;"></div>
 </div>
-<div id="colour" class="section level2" number="2.3">
+<div id="colour" class="section level2" number="2.4">
 <h2>
-<span class="header-section-number">2.3</span> Colour<a class="anchor" aria-label="anchor" href="#colour"><i class="fas fa-link"></i></a>
+<span class="header-section-number">2.4</span> Colour<a class="anchor" aria-label="anchor" href="#colour"><i class="fas fa-link"></i></a>
 </h2>
 <p>Now, let's add some colour. I'm also going to make the icon size a little smaller.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
@@ -193,13 +199,13 @@
   <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/scale_manual.html">scale_colour_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="va">pet_colours</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="30DCC_files/figure-html/pictogram-custom-colour-1.png" width="100%" style="display: block; margin: auto;"></div>
 </div>
-<div id="clean-it-up" class="section level2" number="2.4">
+<div id="clean-it-up" class="section level2" number="2.5">
 <h2>
-<span class="header-section-number">2.4</span> Clean it up<a class="anchor" aria-label="anchor" href="#clean-it-up"><i class="fas fa-link"></i></a>
+<span class="header-section-number">2.5</span> Clean it up<a class="anchor" aria-label="anchor" href="#clean-it-up"><i class="fas fa-link"></i></a>
 </h2>
-<p>Make sure the coordinates are equal to not stretch out the aspect ratio of the icons, add <code><a href="https://rdrr.io/pkg/waffle/man/theme_enhance_waffle.html">theme_enhance_waffle()</a></code> to get rid of extraneous background, and add labels to aid interpretation and for the data provenance.</p>
+<p>Add <code><a href="https://rdrr.io/pkg/ggplot2/man/coord_fixed.html">coord_equal()</a></code> to make sure the horizontal and vertical spacing are the same. Add <code><a href="https://rdrr.io/pkg/waffle/man/theme_enhance_waffle.html">theme_enhance_waffle()</a></code> to get rid of extraneous background, and add labels to aid interpretation and for the data provenance.</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">us_pets</span>, <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="va">Pet</span>, values <span class="op">=</span> <span class="va">Number</span>, color <span class="op">=</span> <span class="va">Pet</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">us_pets</span>, <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="va">Pet</span>, values <span class="op">=</span> <span class="va">Number</span>, color <span class="op">=</span> <span class="va">Pet</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://rdrr.io/pkg/waffle/man/geom_pictogram.html">geom_pictogram</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">6.5</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://rdrr.io/pkg/waffle/man/scale_label_pictogram.html">scale_label_pictogram</a></span><span class="op">(</span>values <span class="op">=</span> <span class="va">icons</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/scale_manual.html">scale_colour_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="va">pet_colours</span><span class="op">)</span> <span class="op">+</span>
@@ -207,31 +213,38 @@
   <span class="fu"><a href="https://rdrr.io/pkg/waffle/man/theme_enhance_waffle.html">theme_enhance_waffle</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Pet Ownership in America"</span>,
        subtitle <span class="op">=</span> <span class="st">"Each icon represents 1 million houeholds"</span>,
-       caption <span class="op">=</span> <span class="st">"Data from the American Pet Products Association (APPA) 2021-2022 National Pet Owners Survey"</span><span class="op">)</span>
-
-<span class="va">plot</span></code></pre></div>
+       caption <span class="op">=</span> <span class="st">"Data from the American Pet Products Association (APPA) 2021-2022 National Pet Owners Survey"</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="30DCC_files/figure-html/pictogram-clean-1.png" width="100%" style="display: block; margin: auto;"></div>
 </div>
-<div id="customise" class="section level2" number="2.5">
+<div id="customise" class="section level2" number="2.6">
 <h2>
-<span class="header-section-number">2.5</span> Customise<a class="anchor" aria-label="anchor" href="#customise"><i class="fas fa-link"></i></a>
+<span class="header-section-number">2.6</span> Customise<a class="anchor" aria-label="anchor" href="#customise"><i class="fas fa-link"></i></a>
 </h2>
 <p>Finally, use <code><a href="https://rdrr.io/pkg/ggplot2/man/theme.html">theme()</a></code> to really customise the look. I adjusted the spacing between the items on the legend with <code>legend.spacing.y</code>, which requires the guides to be set <code>byrow</code> to work.</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">plot</span> <span class="op">+</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">us_pets</span>, <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="va">Pet</span>, values <span class="op">=</span> <span class="va">Number</span>, color <span class="op">=</span> <span class="va">Pet</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/waffle/man/geom_pictogram.html">geom_pictogram</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">6.5</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/waffle/man/scale_label_pictogram.html">scale_label_pictogram</a></span><span class="op">(</span>values <span class="op">=</span> <span class="va">icons</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/scale_manual.html">scale_colour_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="va">pet_colours</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/coord_fixed.html">coord_equal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/waffle/man/theme_enhance_waffle.html">theme_enhance_waffle</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Pet Ownership in America"</span>,
+       subtitle <span class="op">=</span> <span class="st">"Each icon represents 1 million houeholds"</span>,
+       caption <span class="op">=</span> <span class="st">"Data from the American Pet Products Association (APPA) 2021-2022 National Pet Owners Survey"</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/theme.html">theme</a></span><span class="op">(</span>axis.ticks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span>,
         plot.background <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/element.html">element_rect</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"black"</span>, color <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span>,
         plot.margin <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">.5</span>, <span class="fl">.5</span>, <span class="fl">.5</span>, <span class="fl">.0</span><span class="op">)</span>, <span class="st">'cm'</span><span class="op">)</span>,
         plot.title <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/element.html">element_text</a></span><span class="op">(</span>family <span class="op">=</span> <span class="st">"Market Deco"</span>, hjust <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span>,
         plot.subtitle <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/element.html">element_text</a></span><span class="op">(</span>hjust <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span>,
         plot.caption.position <span class="op">=</span> <span class="st">"plot"</span>,
-        panel.background <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/element.html">element_rect</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"black"</span>, color <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span>,
+        panel.background <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/element.html">element_rect</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"black"</span>, color <span class="op">=</span> <span class="st">"transparent"</span><span class="op">)</span>,
         legend.background <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span>,
         legend.title <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span>,
         legend.key <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span>,
+        legend.text <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/element.html">element_text</a></span><span class="op">(</span>vjust <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>,
         legend.spacing.y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fl">.25</span>, <span class="st">'cm'</span><span class="op">)</span>,
         text <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/element.html">element_text</a></span><span class="op">(</span>family <span class="op">=</span> <span class="st">"Avenir"</span>, color <span class="op">=</span> <span class="st">"white"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-  <span class="co">## important additional element</span>
+  <span class="co">## required to make legend.spacing.y work</span>
   <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/guides.html">guides</a></span><span class="op">(</span>color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/guide_legend.html">guide_legend</a></span><span class="op">(</span>byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,
          label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/guide_legend.html">guide_legend</a></span><span class="op">(</span>byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div class="figure" style="text-align: center">
@@ -241,11 +254,11 @@ Figure 2.1: Number of US households (in millions) with each of 8 common pet type
 </p>
 </div>
 </div>
-<div id="save-pictogram" class="section level2" number="2.6">
+<div id="save-pictogram" class="section level2" number="2.7">
 <h2>
-<span class="header-section-number">2.6</span> Save Pictogram<a class="anchor" aria-label="anchor" href="#save-pictogram"><i class="fas fa-link"></i></a>
+<span class="header-section-number">2.7</span> Save Pictogram<a class="anchor" aria-label="anchor" href="#save-pictogram"><i class="fas fa-link"></i></a>
 </h2>
-<p>However, I had trouble saving the plot using <code><a href="https://rdrr.io/pkg/ggplot2/man/ggsave.html">ggsave()</a></code>. The icons end up all question marks. I eventually fixed that by doing something with the fonts, but the icons are still tiny.</p>
+<p>However, I had trouble saving the plot using <code><a href="https://rdrr.io/pkg/ggplot2/man/ggsave.html">ggsave()</a></code>. The icons ended up all question marks. I eventually fixed that by doing something with the fonts (maybe adding them with <code class="package">showtext</code>?), but the icons are still tiny, and the font is blurry at a dpi that makes the icons look right.</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggsave.html">ggsave</a></span><span class="op">(</span><span class="st">"images/day2_garbled.png"</span>, width <span class="op">=</span> <span class="fl">8</span>, height <span class="op">=</span> <span class="fl">4.5</span>, units <span class="op">=</span> <span class="st">"in"</span><span class="op">)</span>
 <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/include_graphics.html">include_graphics</a></span><span class="op">(</span><span class="st">"images/day2_garbled.png"</span><span class="op">)</span> </code></pre></div>
@@ -464,12 +477,13 @@ $( document ).ready(function() {
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
 <li><a class="nav-link" href="#pictogram"><span class="header-section-number">2</span> Pictogram</a></li>
-<li><a class="nav-link" href="#pictogram-data"><span class="header-section-number">2.1</span> Pictogram data</a></li>
-<li><a class="nav-link" href="#icons"><span class="header-section-number">2.2</span> Icons</a></li>
-<li><a class="nav-link" href="#colour"><span class="header-section-number">2.3</span> Colour</a></li>
-<li><a class="nav-link" href="#clean-it-up"><span class="header-section-number">2.4</span> Clean it up</a></li>
-<li><a class="nav-link" href="#customise"><span class="header-section-number">2.5</span> Customise</a></li>
-<li><a class="nav-link" href="#save-pictogram"><span class="header-section-number">2.6</span> Save Pictogram</a></li>
+<li><a class="nav-link" href="#fonts"><span class="header-section-number">2.1</span> Fonts</a></li>
+<li><a class="nav-link" href="#pictogram-data"><span class="header-section-number">2.2</span> Pictogram data</a></li>
+<li><a class="nav-link" href="#icons"><span class="header-section-number">2.3</span> Icons</a></li>
+<li><a class="nav-link" href="#colour"><span class="header-section-number">2.4</span> Colour</a></li>
+<li><a class="nav-link" href="#clean-it-up"><span class="header-section-number">2.5</span> Clean it up</a></li>
+<li><a class="nav-link" href="#customise"><span class="header-section-number">2.6</span> Customise</a></li>
+<li><a class="nav-link" href="#save-pictogram"><span class="header-section-number">2.7</span> Save Pictogram</a></li>
 </ul>
 
       <div class="book-extra">
@@ -487,7 +501,7 @@ $( document ).ready(function() {
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>30-day Chart Challenge</strong>: 2022" was written by Lisa DeBruine. It was last built on 2022-04-08.</p>
+    <p>"<strong>30-day Chart Challenge</strong>: 2022" was written by Lisa DeBruine. It was last built on 2022-04-09.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

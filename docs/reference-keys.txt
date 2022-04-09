@@ -9,6 +9,7 @@ colour-scheme
 change-text
 saving-a-treemap
 pictogram
+fonts
 pictogram-data
 icons
 colour

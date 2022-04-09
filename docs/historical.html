@@ -115,9 +115,9 @@
 <h2>
 <span class="header-section-number">3.1</span> Population Data<a class="anchor" aria-label="anchor" href="#population-data"><i class="fas fa-link"></i></a>
 </h2>
-<p>I got this dataset from a class assignment that cites <a href="https://ourworldindata.org/population-sources">Our World in Data</a>, but I'm still not sure exactly where the data file came from, so you can <a href="data/disease-burden-vs-health-expenditure-per-capita.csv" download>get the file here</a>.</p>
+<p>I got this dataset from <a href="https://ourworldindata.org/population-sources">Our World in Data</a>.</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">pop</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/readr/man/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"data/disease-burden-vs-health-expenditure-per-capita.csv"</span>,
+<code class="sourceCode R"><span class="va">pop</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/readr/man/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"data/population-past-future.csv"</span>,
                 show_col_types <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/pkg/readr/man/spec.html">spec</a></span><span class="op">(</span><span class="va">pop</span><span class="op">)</span></code></pre></div>
@@ -125,17 +125,14 @@
 ##   Entity = col_character(),
 ##   Code = col_character(),
 ##   Year = col_double(),
-##   `DALYs (Disability-Adjusted Life Years) - All causes - Sex: Both - Age: Age-standardized (Rate)` = col_double(),
-##   `Health expenditure per capita (current US$)` = col_double(),
-##   `Population (historical estimates)` = col_double(),
-##   Continent = col_character()
+##   `Population (historical estimates and future projections)` = col_double()
 ## )</code></pre>
 <p>The column names need some cleaning (I prefer to work with column names that are all lowercase with no spaces), and I don't need some of the data.</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">pop</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/readr/man/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"data/disease-burden-vs-health-expenditure-per-capita.csv"</span>,
-                col_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"region"</span>, <span class="st">"code"</span>, <span class="st">"year"</span>, <span class="st">"population"</span>, <span class="st">"continent"</span><span class="op">)</span>,
+<code class="sourceCode R"><span class="va">pop</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/readr/man/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"data/population-past-future.csv"</span>,
+                col_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"region"</span>, <span class="st">"year"</span>, <span class="st">"population"</span><span class="op">)</span>,
                 skip <span class="op">=</span> <span class="fl">1</span>,
-                col_types <span class="op">=</span> <span class="st">"cci--dc"</span><span class="op">)</span>
+                col_types <span class="op">=</span> <span class="st">"c-id"</span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">pop</span><span class="op">)</span></code></pre></div>
 <div class="kable-table">
@@ -144,140 +141,83 @@
 <th style="text-align:left;">
 region
 </th>
-<th style="text-align:left;">
-code
-</th>
 <th style="text-align:right;">
 year
 </th>
 <th style="text-align:right;">
 population
 </th>
-<th style="text-align:left;">
-continent
-</th>
 </tr></thead>
 <tbody>
 <tr>
 <td style="text-align:left;">
-Abkhazia
-</td>
-<td style="text-align:left;">
-OWID_ABK
+Afghanistan
 </td>
 <td style="text-align:right;">
-2015
+-10000
 </td>
 <td style="text-align:right;">
-NA
-</td>
-<td style="text-align:left;">
-Asia
+14737
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 Afghanistan
 </td>
-<td style="text-align:left;">
-AFG
+<td style="text-align:right;">
+-9000
 </td>
 <td style="text-align:right;">
-1990
-</td>
-<td style="text-align:right;">
-12412311
-</td>
-<td style="text-align:left;">
-NA
+20405
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 Afghanistan
 </td>
-<td style="text-align:left;">
-AFG
+<td style="text-align:right;">
+-8000
 </td>
 <td style="text-align:right;">
-1991
-</td>
-<td style="text-align:right;">
-13299016
-</td>
-<td style="text-align:left;">
-NA
+28253
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 Afghanistan
 </td>
-<td style="text-align:left;">
-AFG
+<td style="text-align:right;">
+-7000
 </td>
 <td style="text-align:right;">
-1992
-</td>
-<td style="text-align:right;">
-14485543
-</td>
-<td style="text-align:left;">
-NA
+39120
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 Afghanistan
 </td>
-<td style="text-align:left;">
-AFG
+<td style="text-align:right;">
+-6000
 </td>
 <td style="text-align:right;">
-1993
-</td>
-<td style="text-align:right;">
-15816601
-</td>
-<td style="text-align:left;">
-NA
+54166
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 Afghanistan
 </td>
-<td style="text-align:left;">
-AFG
+<td style="text-align:right;">
+-5000
 </td>
 <td style="text-align:right;">
-1994
-</td>
-<td style="text-align:right;">
-17075728
-</td>
-<td style="text-align:left;">
-NA
+74999
 </td>
 </tr>
 </tbody>
 </table></div>
 </div>
-<!--
-The continent column seems odd. It looks like maybe this used to be an excel file with merged rows, so now only one row for each region has a continent entry and the rest are NA. I'll make a filtered table with each entry that does have the continent listed, then join that back to the original dataset.
-
-
-```r
-continents <- pop %>%
-  filter(!is.na(continent)) %>%
-  select(code, continent)
-
-pop2 <- pop %>%
-  select(-continent) %>%
-  left_join(continents, by = "code")
-```
-
--->
 </div>
 <div id="select-relevant-data" class="section level2" number="3.2">
 <h2>
@@ -286,7 +226,6 @@ pop2 <- pop %>%
 <p>I just want to plot the population for the 6 major world regions, so I'll filter that and make a quick line plot to see what I've got.</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">world_regions</span> <span class="op">&lt;-</span> <span class="va">pop</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">code</span>, <span class="op">-</span><span class="va">continent</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/filter.html">filter</a></span><span class="op">(</span><span class="va">region</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Africa"</span>, <span class="st">"Asia"</span>, <span class="st">"Europe"</span>, <span class="st">"Oceania"</span>, <span class="st">"North America"</span>, <span class="st">"South America"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">world_regions</span>, <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">year</span>, y <span class="op">=</span> <span class="va">population</span>, color <span class="op">=</span> <span class="va">region</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
@@ -730,7 +669,7 @@ $( document ).ready(function() {
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>30-day Chart Challenge</strong>: 2022" was written by Lisa DeBruine. It was last built on 2022-04-08.</p>
+    <p>"<strong>30-day Chart Challenge</strong>: 2022" was written by Lisa DeBruine. It was last built on 2022-04-09.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

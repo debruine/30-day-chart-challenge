@@ -112,7 +112,7 @@
 <span class="header-section-number">1.1</span> Simulate data<a class="anchor" aria-label="anchor" href="#simulate-data"><i class="fas fa-link"></i></a>
 </h2>
 <p>I always like to start my exploration with simulated data. The mixed design simulation functions below are from <a href="https://debruine.github.io/faux/articles/sim_mixed.html">faux</a>.</p>
-<p>Make a school with 5 grades, 1-4 classes per grade, and 15-35 students per class. Get some random names from the 2010 Scottish babies.</p>
+<p>Make a school with 5 grades, 1-4 classes per grade, and 15-35 students per class.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">8675309</span><span class="op">)</span> <span class="co"># for reproducible data simulation</span>
 
@@ -120,11 +120,7 @@
   <span class="fu"><a href="https://rdrr.io/pkg/faux/man/add_random.html">add_random</a></span><span class="op">(</span>class <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span>, <span class="cn">TRUE</span><span class="op">)</span>, 
              .nested_in <span class="op">=</span> <span class="st">"grade"</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/faux/man/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://rdrr.io/pkg/faux/man/add_random.html">add_random</a></span><span class="op">(</span>student <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fl">15</span><span class="op">:</span><span class="fl">35</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span>, <span class="cn">TRUE</span><span class="op">)</span>, 
-             .nested_in <span class="op">=</span> <span class="st">"class"</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/faux/man/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/mutate.html">mutate</a></span><span class="op">(</span>name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span>,
-                       x <span class="op">=</span> <span class="fu">ukbabynames</span><span class="fu">::</span><span class="va"><a href="https://mine-cetinkaya-rundel.github.io/ukbabynames/reference/scotbabynames.html">scotbabynames</a></span> <span class="op"><a href="https://rdrr.io/pkg/faux/man/pipe.html">%&gt;%</a></span>
-                         <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/filter.html">filter</a></span><span class="op">(</span><span class="va">year</span> <span class="op">==</span> <span class="fl">2010</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/faux/man/pipe.html">%&gt;%</a></span>
-                         <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/pull.html">pull</a></span><span class="op">(</span><span class="va">name</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+             .nested_in <span class="op">=</span> <span class="st">"class"</span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">school</span><span class="op">)</span></code></pre></div>
 <div class="kable-table">
@@ -139,9 +135,6 @@ class
 <th style="text-align:left;">
 student
 </th>
-<th style="text-align:left;">
-name
-</th>
 </tr></thead>
 <tbody>
 <tr>
@@ -154,9 +147,6 @@ class01
 <td style="text-align:left;">
 student001
 </td>
-<td style="text-align:left;">
-Bobby
-</td>
 </tr>
 <tr>
 <td style="text-align:left;">
@@ -167,9 +157,6 @@ class01
 </td>
 <td style="text-align:left;">
 student002
-</td>
-<td style="text-align:left;">
-Chloe-Ann
 </td>
 </tr>
 <tr>
@@ -182,9 +169,6 @@ class01
 <td style="text-align:left;">
 student003
 </td>
-<td style="text-align:left;">
-Laggan
-</td>
 </tr>
 <tr>
 <td style="text-align:left;">
@@ -195,9 +179,6 @@ class01
 </td>
 <td style="text-align:left;">
 student004
-</td>
-<td style="text-align:left;">
-Isha
 </td>
 </tr>
 <tr>
@@ -210,9 +191,6 @@ class01
 <td style="text-align:left;">
 student005
 </td>
-<td style="text-align:left;">
-Neva
-</td>
 </tr>
 <tr>
 <td style="text-align:left;">
@@ -223,9 +201,6 @@ class01
 </td>
 <td style="text-align:left;">
 student006
-</td>
-<td style="text-align:left;">
-Khoray
 </td>
 </tr>
 </tbody>
@@ -610,7 +585,7 @@ $( document ).ready(function() {
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>30-day Chart Challenge</strong>: 2022" was written by Lisa DeBruine. It was last built on 2022-04-08.</p>
+    <p>"<strong>30-day Chart Challenge</strong>: 2022" was written by Lisa DeBruine. It was last built on 2022-04-09.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

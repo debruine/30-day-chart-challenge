@@ -14,7 +14,7 @@ I've been wanting to get more familiar with treemap plots.
 
 I always like to start my exploration with simulated data. The mixed design simulation functions below are from [faux](https://debruine.github.io/faux/articles/sim_mixed.html).
 
-Make a school with 5 grades, 1-4 classes per grade, and 15-35 students per class. Get some random names from the 2010 Scottish babies.
+Make a school with 5 grades, 1-4 classes per grade, and 15-35 students per class.
 
 ```{r pth-data-sim}
 set.seed(8675309) # for reproducible data simulation
@@ -23,11 +23,7 @@ school <- add_random(grade = 5) %>%
   add_random(class = sample(1:4, nrow(.), TRUE), 
              .nested_in = "grade") %>%
   add_random(student = sample(15:35, nrow(.), TRUE), 
-             .nested_in = "class") %>%
-  mutate(name = sample(size = nrow(.),
-                       x = ukbabynames::scotbabynames %>%
-                         filter(year == 2010) %>%
-                         pull(name)))
+             .nested_in = "class")
 
 head(school)
 ```
@@ -147,7 +143,7 @@ I tried `ggsave()` first and it took a *really* long time to save, and then the 
 
 I couldn't figure out how to re-plot from the `day1_plot` object, so just had to retype the plot. This didn't work well in an Rmd code chunk (I think treemap can sense if it's in a code chunk with inline plot rendering and overrides the dev), so I had to run it in the console. 
 
-```{r, eval = FALSE}
+```{r pth-treemap-save, eval = FALSE}
 # open the png file
 ragg::agg_png("images/day1.png", 
               width = 8, height = 4.5, 
@@ -184,18 +180,22 @@ I recently discovered the `r pkg("waffle", "https://github.com/hrbrmstr/waffle/"
 
 ```{r, message=FALSE}
 #devtools::install_github("hrbrmstr/waffle")
-library(tidyverse)
-library(waffle)
-library(emojifont)
-library(showtext)
+library(tidyverse)  # for data wrangling
+library(waffle)     # for pictograms
+library(showtext)   # for fonts
 ```
+
+## Fonts
+
+I'm never sure what I'm doing with fonts, but this procedure seems to work to install the FontAwesome fonts that you need for pictograms and also any other specialist fonts you'd like.
 
 ```{r}
 waffle::install_fa_fonts()
-font_add(family = "FontAwesome5Free-Brands",
-         regular = "/Library/Frameworks/R.framework/Versions/4.1/Resources/library/waffle/fonts/fa-brands-400.ttf")
-font_add(family = "FontAwesome5Free-Solid",
-         regular = "/Library/Frameworks/R.framework/Versions/4.1/Resources/library/waffle/fonts/fa-solid-900.ttf")
+fontdir <- "/Library/Frameworks/R.framework/Versions/4.1/Resources/library/waffle/fonts/"
+font_add(family = waffle::fa5_brand,
+         regular = paste0(fontdir, "fa-brands-400.ttf"))
+font_add(family = waffle::fa5_solid,
+         regular = paste0(fontdir, "fa-solid-900.ttf"))
 font_add(family = "Avenir",
          regular = "/System/Library/Fonts/Avenir.ttc")
 font_add(family = "Market Deco",
@@ -223,7 +223,7 @@ us_pets <- tibble::tribble(
             "Horse",     3.5,
    "Saltwater fish",     2.9
   ) %>%
-  mutate(Pet = factor(Pet, Pet))
+  mutate(Pet = factor(Pet, Pet)) # keep this order
 ```
 
 ## Icons
@@ -283,10 +283,10 @@ ggplot(us_pets, aes(label = Pet, values = Number, color = Pet)) +
 
 ## Clean it up
 
-Make sure the coordinates are equal to not stretch out the aspect ratio of the icons, add `theme_enhance_waffle()` to get rid of extraneous background, and add labels to aid interpretation and for the data provenance.
+Add `coord_equal()` to make sure the horizontal and vertical spacing are the same. Add `theme_enhance_waffle()` to get rid of extraneous background, and add labels to aid interpretation and for the data provenance.
 
 ```{r pictogram-clean}
-plot <- ggplot(us_pets, aes(label = Pet, values = Number, color = Pet)) +
+ggplot(us_pets, aes(label = Pet, values = Number, color = Pet)) +
   geom_pictogram(size = 6.5) +
   scale_label_pictogram(values = icons) +
   scale_colour_manual(values = pet_colours) +
@@ -295,8 +295,6 @@ plot <- ggplot(us_pets, aes(label = Pet, values = Number, color = Pet)) +
   labs(title = "Pet Ownership in America",
        subtitle = "Each icon represents 1 million houeholds",
        caption = "Data from the American Pet Products Association (APPA) 2021-2022 National Pet Owners Survey")
-
-plot
 ```
 
 ## Customise
@@ -305,36 +303,45 @@ Finally, use `theme()` to really customise the look. I adjusted the spacing betw
 
 ```{r pictogram-final, fig.cap = "Number of US households (in millions) with each of 8 common pet types.", fig.alt="Number of US households (in millions) with each of 8 common pet types.  Data from the American Pet Products Association (APPA) 2021-2022 National Pet Owners Survey. Dog=69, Cat=45.3, Freshwater fish=11.8, Bird=9.9, Small animal=6.2, Reptile=5.7, Horse=3.5, Saltwater fish=2.9", cache=FALSE}
 
-plot +
+ggplot(us_pets, aes(label = Pet, values = Number, color = Pet)) +
+  geom_pictogram(size = 6.5) +
+  scale_label_pictogram(values = icons) +
+  scale_colour_manual(values = pet_colours) +
+  coord_equal() +
+  theme_enhance_waffle() +
+  labs(title = "Pet Ownership in America",
+       subtitle = "Each icon represents 1 million houeholds",
+       caption = "Data from the American Pet Products Association (APPA) 2021-2022 National Pet Owners Survey") +
   theme(axis.ticks = element_blank(),
         plot.background = element_rect(fill = "black", color = "black"),
         plot.margin = unit(c(.5, .5, .5, .0), 'cm'),
         plot.title = element_text(family = "Market Deco", hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5),
         plot.caption.position = "plot",
-        panel.background = element_rect(fill = "black", color = "black"),
+        panel.background = element_rect(fill = "black", color = "transparent"),
         legend.background = element_blank(),
         legend.title = element_blank(),
         legend.key = element_blank(),
+        legend.text = element_text(vjust = 1),
         legend.spacing.y = unit(.25, 'cm'),
         text = element_text(family = "Avenir", color = "white")) +
-  ## important additional element
+  ## required to make legend.spacing.y work
   guides(color = guide_legend(byrow = TRUE),
          label = guide_legend(byrow = TRUE))
 ```
 
 ## Save Pictogram
 
-However, I had trouble saving the plot using `ggsave()`. The icons end up all question marks. I eventually fixed that by doing something with the fonts, but the icons are still tiny.
+However, I had trouble saving the plot using `ggsave()`. The icons ended up all question marks. I eventually fixed that by doing something with the fonts (maybe adding them with `r pkg("showtext")`?), but the icons are still tiny, and the font is blurry at a dpi that makes the icons look right.
 
-```{r, fig.alt="Same as above, but all the icons are tiny."}
+```{r pictogram-garbled, fig.alt="Same as above, but all the icons are tiny."}
 ggsave("images/day2_garbled.png", width = 8, height = 4.5, units = "in")
 knitr::include_graphics("images/day2_garbled.png") 
 ```
 
 This turns out to be because `ggsave()` uses ragg by default (HT [Steve Haroz](https://twitter.com/sharoz/status/1510342578268516355)), which isn't playing well with fontawesome icons, so I have to set the device back to `png`.
 
-```{r, fig.alt="fixed"}
+```{r pictogram-png, fig.alt="fixed"}
 ggsave("images/day2.png", width = 8, height = 4.5, device = png)
 knitr::include_graphics("images/day2.png") 
 ```
@@ -358,10 +365,10 @@ showtext_auto()
 
 ## Population Data
 
-I got this dataset from a class assignment that cites [Our World in Data](https://ourworldindata.org/population-sources), but I'm still not sure exactly where the data file came from, so you can <a href="data/disease-burden-vs-health-expenditure-per-capita.csv" download>get the file here</a>.
+I got this dataset from [Our World in Data](https://ourworldindata.org/population-sources).
 
 ```{r hist-data}
-pop <- read_csv("data/disease-burden-vs-health-expenditure-per-capita.csv",
+pop <- read_csv("data/population-past-future.csv",
                 show_col_types = FALSE)
 
 spec(pop)
@@ -370,28 +377,14 @@ spec(pop)
 The column names need some cleaning (I prefer to work with column names that are all lowercase with no spaces), and I don't need some of the data.
 
 ```{r hist-data-clean}
-pop <- read_csv("data/disease-burden-vs-health-expenditure-per-capita.csv",
-                col_names = c("region", "code", "year", "population", "continent"),
+pop <- read_csv("data/population-past-future.csv",
+                col_names = c("region", "year", "population"),
                 skip = 1,
-                col_types = "cci--dc")
+                col_types = "c-id")
 
 head(pop)
 ```
 
-<!--
-The continent column seems odd. It looks like maybe this used to be an excel file with merged rows, so now only one row for each region has a continent entry and the rest are NA. I'll make a filtered table with each entry that does have the continent listed, then join that back to the original dataset.
-
-```{r, eval = FALSE}
-continents <- pop %>%
-  filter(!is.na(continent)) %>%
-  select(code, continent)
-
-pop2 <- pop %>%
-  select(-continent) %>%
-  left_join(continents, by = "code")
-```
-
--->
 
 ## Select relevant data
 
@@ -399,7 +392,6 @@ I just want to plot the population for the 6 major world regions, so I'll filter
 
 ```{r hist-world-regions}
 world_regions <- pop %>%
-  select(-code, -continent) %>%
   filter(region %in% c("Africa", "Asia", "Europe", "Oceania", "North America", "South America"))
 ```
 
@@ -625,7 +617,7 @@ ggplot(world_regions3, aes(x = year, y = population, color = region)) +
         plot.title = element_text(family = "Market Deco"))
 ```
 
-```{r, include = FALSE, eval = FALSE}
+```{r hist-png, include = FALSE, eval = FALSE}
 ggsave("images/day3.png", width = 8, height = 4.5, device = png)
 ```
 
@@ -689,6 +681,7 @@ poly_coords <- function(n = 6, r = 1, cx = 0, cy = 0, rot = 0, digits = 2) {
   )
 }
 
+# example hexagon
 poly_coords(n = 6)
 ```
 
@@ -713,7 +706,7 @@ svg <- paste("<svg viewBox = '0 0 {2*cx} {2*cy}'>",
 ```
 
 
-```{r, results='asis', echo = FALSE}
+```{r flora-basic, results='asis', echo = FALSE}
 viewsvg(svg)
 ```
 
@@ -736,7 +729,7 @@ svg <- paste("<svg viewBox = '0 0 {2*cx} {2*cy}'>",
 ```
 
 
-```{r, results='asis', echo = FALSE}
+```{r flora-rotated, results='asis', echo = FALSE}
 viewsvg(svg)
 ```
 
