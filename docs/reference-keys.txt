@@ -79,6 +79,11 @@ data-plots
 design-plots
 combo-plots
 circular
+data-3
+simple-polar-plot
+polar-y
+fix-it-up
+theme
 the-economist
 correlation
 dimensional
