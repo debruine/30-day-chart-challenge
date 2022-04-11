@@ -224,10 +224,7 @@
 <span class="op">}</span></code></pre></div>
 <p>Test out the function. I hid a few warnings, including one about setting legend.text colour to 10 values, but it seems to work fine for now.</p>
 <div class="sourceCode" id="cb118"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu">beta_plot</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">10</span>, <span class="fl">.25</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span>
-
-<span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/include_graphics.html">include_graphics</a></span><span class="op">(</span><span class="va">f</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="/private/var/folders/6w/y3tyzgs1403cz7tgw8k4lk600000gq/T/RtmpnIDZiM/file3452f2e7758.png" width="100%" style="display: block; margin: auto;"></div>
+<code class="sourceCode R"><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu">beta_plot</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">10</span>, <span class="fl">.25</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span></code></pre></div>
 <p>Map the function over a range of shape2 values. Keep shape1 always the same vector.</p>
 <div class="sourceCode" id="cb119"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">beta_plots</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/purrr/man/map.html">map_chr</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">10</span>, <span class="fl">.25</span><span class="op">)</span><span class="op">)</span>, 
@@ -473,7 +470,7 @@ $( document ).ready(function() {
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>30-day Chart Challenge</strong>: 2022" was written by Lisa DeBruine. It was last built on 2022-04-09.</p>
+    <p>"<strong>30-day Chart Challenge</strong>: 2022" was written by Lisa DeBruine. It was last built on 2022-04-11.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

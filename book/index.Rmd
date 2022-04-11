@@ -50,7 +50,7 @@ I'm going to use data simulation for most of my charts, so this will also end up
 </style>
 
 ```{r day1, eval = FALSE, include = FALSE, results='asis'}
-imgpaths <- list.files("images", pattern = "^day\\d{1,2}\\.(png|gif)")
+imgpaths <- list.files("images", pattern = "^day\\d{1}\\.(png|gif)")
 chapters <- c("part-to-whole", "pictogram", "historical", "flora", "slope", "owid", "physical", "mountains", "statistics")[seq_along(imgpaths)]
 
 glue::glue("<a href='{{chapters}.html' style='background-image: url(\"images/{{imgpaths}\")'></a>",
@@ -59,6 +59,6 @@ glue::glue("<a href='{{chapters}.html' style='background-image: url(\"images/{{i
   cat()
 ```
 
-<div class='daily_imgs'><a href='part-to-whole.html' style='background-image: url("images/day1.png")'></a><a href='pictogram.html' style='background-image: url("images/day2.png")'></a><a href='historical.html' style='background-image: url("images/day3.png")'></a><a href='flora.html' style='background-image: url("images/day4.png")'></a><a href='slope.html' style='background-image: url("images/day5.png")'></a><a href='owid.html' style='background-image: url("images/day6.gif")'></a><a href='physical.html' style='background-image: url("images/day7.png")'></a><a href='mountains.html' style='background-image: url("images/day8.png")'></a><a href='statistics.html' style='background-image: url("images/day9.gif")'></a></div>
+<div class='daily_imgs'><a href='part-to-whole.html' style='background-image: url("images/day1.png")'></a><a href='pictogram.html' style='background-image: url("images/day2.png")'></a><a href='historical.html' style='background-image: url("images/day3.png")'></a><a href='flora.html' style='background-image: url("images/day4.png")'></a><a href='slope.html' style='background-image: url("images/day5.png")'></a><a href='owid.html' style='background-image: url("images/day6.gif")'></a><a href='physical.html' style='background-image: url("images/day7.png")'></a><a href='mountains.html' style='background-image: url("images/day8.png")'></a><a href='statistics.html' style='background-image: url("images/day9.gif")'></a><a href='experimental.html' style='background-image: url("images/day10.png")'></a></div>
 
 <br style="clear:both;">

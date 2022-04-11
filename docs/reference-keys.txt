@@ -71,6 +71,13 @@ make-one-frame
 functionalise-it
 animate
 experimental
+data-2
+one-factor
+two-factors
+plots
+data-plots
+design-plots
+combo-plots
 circular
 the-economist
 correlation
