@@ -842,6 +842,88 @@ knitr::include_graphics("images/day11.png")
 ```
 
 # The Economist
+ 
+I hadn't realised The Economist do a [daily chart](https://www.economist.com/search?q=daily%20chart). They range from the simple and powerful to really complex visualisations. I won't show any here, as their website/blog licensing of a single chart for 1 month to an academic costs £159, but you can see the map I'm going to recreate here: [Which countries offer gender-neutral passports?](https://www.economist.com/graphic-detail/2022/04/11/which-countries-offer-gender-neutral-passports)
+
+```{r, message = FALSE}
+library(tidyverse)     # for data wrangling and visualisation
+library(sf)            # for maps
+library(rnaturalearth) # for map coordinates
+library(ggthemes)      # for map theme
+library(lwgeom)        # for map projection
+```
+
+
+## Data
+
+They don't give a data source beyond "Press reports; *The Economist*", but there aren't that many countries, so I can just create the data table myself, with the help of Wikipedia's article on  [legal recognition of non-binary gender](https://en.wikipedia.org/wiki/Legal_recognition_of_non-binary_gender).
+
+```{r}
+nb_passports <- tribble(
+  ~country, ~type, ~year,
+  "Argentina", "Self-declaration", 2021,
+  "Australia", "Self-declaration", 2003,
+  "Canada", "Self-declaration", 2017,
+  "Colombia", "Self-declaration", 2022,
+  "Denmark", "Self-declaration", 2014,
+  "Ireland", "Self-declaration", 2015, # unclear if X or just gender change introduced then
+  "Iceland", "Self-declaration", 2020,
+  "Nepal", "Self-declaration", 2007,
+  "New Zealand", "Self-declaration", 2012,
+  "Pakistan", "Self-declaration", 2017,
+  "United States", "Self-declaration", 2021,
+  "Malta", "Self-declaration", 2017,
+  #"Taiwan", "Medical assessment", 2020, # planned, not confirmed https://en.wikipedia.org/wiki/Intersex_rights_in_Taiwan
+  "India", "Medical assessment", 2005,
+  "Bangladesh", "Medical assessment", 2001,
+  "Germany", "Medical assessment", 2019,
+  "Austria", "Medical assessment", 2018,
+  "Netherlands", "Medical assessment", 2018
+)
+```
+
+## Map 
+
+I'll use the code from Day\ \@ref(OWiD) to make the map.
+
+```{r econ-map}
+# translate the coordinate reference system
+crs <- "+proj=wintri"  # winkel tripel projection
+world_wintri <- ne_countries(returnclass = "sf", scale = "medium") %>%
+  lwgeom::st_transform_proj(crs = crs)
+
+# translate and crop coordinates
+trans_coords <- st_sfc(
+  st_point(c(-1.4e7, -6.5e6)), # lower left lat and lon
+  st_point(c(2e7, 1e7)),       # upper right lat and lon
+  crs = crs) %>%
+  st_transform(crs = crs) %>%
+  st_coordinates()
+
+crop_coords <- coord_sf(
+  datum = NULL, 
+  xlim = trans_coords[,'X'], 
+  ylim = trans_coords[,'Y'], 
+  expand = FALSE)
+```
+
+## Add Data
+
+```{r}
+data_map <- left_join(world_wintri, data_na, 
+                          by = c("gu_a3" = "code")) %>%
+  select(country, year, code = gu_a3, it_net_users, geometry)
+```
+
+
+
+```{r}
+ggplot(world_wintri) + 
+  geom_sf(size = 0.5/.pt) +
+  crop_coords +
+  theme_map()
+```
+
 
 
 
