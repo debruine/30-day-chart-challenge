@@ -1,5 +1,7 @@
 # render the book as HTML and open in a browser
-xfun::in_dir("book", bookdown::render_book("index.Rmd", "bookdown::bs4_book"))
+xfun::in_dir("book", bookdown::render_book("index.Rmd",
+                                           "bookdown::bs4_book",
+                                           quiet = TRUE))
 browseURL("docs/index.html")
 
 # copy data directory to docs

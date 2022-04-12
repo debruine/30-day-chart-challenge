@@ -109,7 +109,8 @@
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ropenscilabs/rnaturalearth">rnaturalearth</a></span><span class="op">)</span> <span class="co"># for map coordinates</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jrnold/ggthemes">ggthemes</a></span><span class="op">)</span>      <span class="co"># for map theme</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/lwgeom/">lwgeom</a></span><span class="op">)</span>        <span class="co"># for map projection</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/yixuan/showtext">showtext</a></span><span class="op">)</span>      <span class="co"># for adding fonts</span></code></pre></div>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/yixuan/showtext">showtext</a></span><span class="op">)</span>      <span class="co"># for adding fonts</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://docs.ropensci.org/magick/">magick</a></span><span class="op">)</span>        <span class="co"># for adding a red rectangle to the top of the plot</span></code></pre></div>
 <div id="data-4" class="section level2" number="12.1">
 <h2>
 <span class="header-section-number">12.1</span> Data<a class="anchor" aria-label="anchor" href="#data-4"><i class="fas fa-link"></i></a>
@@ -176,9 +177,10 @@
 <p>I found the <a href="https://eng.m.fontke.com/font/17459412/download/">Econ Sans Cnd font</a> that matched The Economist plots. You can use Arial Narrow if you can't find this one.</p>
 <div class="sourceCode" id="cb140"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/sysfonts/man/font_add.html">font_add</a></span><span class="op">(</span>family <span class="op">=</span> <span class="st">"EconSans"</span>,
-         regular <span class="op">=</span> <span class="st">"~/Library/Fonts/econsanscndreg-webfont.woff.ttf"</span><span class="op">)</span>
+         regular <span class="op">=</span> <span class="st">"~/Library/Fonts/econsanscndreg-webfont.woff.ttf"</span>,
+         bold <span class="op">=</span> <span class="st">"~/Library/Fonts/econsanscndmed-webfont.woff.ttf"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/showtext/man/showtext_auto.html">showtext_auto</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<p>Now build the plot without anotations and try to match the theme.</p>
+<p>Now build the plot without annotations and try to match the theme.</p>
 <div class="sourceCode" id="cb141"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">base_map</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">data_map</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggsf.html">geom_sf</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">0.5</span><span class="op">/</span><span class="va">.pt</span>,
@@ -191,13 +193,16 @@
   <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/scale_manual.html">scale_fill_manual</a></span><span class="op">(</span>name <span class="op">=</span> <span class="cn">NULL</span>,
                     values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"#2F5C94"</span>, <span class="st">"#5DBDCC"</span><span class="op">)</span>, 
                     na.translate <span class="op">=</span> <span class="cn">F</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Countries which include a third-gender marker on their passport, April 2022"</span>,
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Press X to Enter"</span>,
+       subtitle <span class="op">=</span> <span class="st">"Countries which include a third-gender marker on their passport, April 2022"</span>,
        caption <span class="op">=</span> <span class="st">"Data: Wikipedia | Plot: @lisadebruine"</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://rdrr.io/pkg/ggthemes/man/theme_map.html">theme_map</a></span><span class="op">(</span>base_family <span class="op">=</span> <span class="st">"EconSans"</span>, base_size <span class="op">=</span> <span class="fl">12</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/theme.html">theme</a></span><span class="op">(</span>
-    plot.title <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/element.html">element_text</a></span><span class="op">(</span>hjust <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span>,
+    plot.title <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/element.html">element_text</a></span><span class="op">(</span>hjust <span class="op">=</span> <span class="fl">0.025</span>, face <span class="op">=</span> <span class="st">"bold"</span><span class="op">)</span>,
+    plot.subtitle <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/element.html">element_text</a></span><span class="op">(</span>hjust <span class="op">=</span> <span class="fl">0.07</span><span class="op">)</span>,
+    plot.margin <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>, <span class="st">"in"</span><span class="op">)</span>,
     legend.position <span class="op">=</span> <span class="st">"top"</span>,
-    legend.text <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/element.html">element_text</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">13</span><span class="op">)</span>,
+    legend.text <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/element.html">element_text</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">11</span><span class="op">)</span>,
     plot.caption <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/element.html">element_text</a></span><span class="op">(</span>hjust <span class="op">=</span> <span class="fl">0</span>, color <span class="op">=</span> <span class="st">"grey30"</span><span class="op">)</span>
   <span class="op">)</span>
 
@@ -329,6 +334,22 @@
             size <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span>
   <span class="va">curves</span></code></pre></div>
 <div class="inline-figure"><img src="30DCC_files/figure-html/econ-day12-1.png" width="100%" style="display: block; margin: auto;"></div>
+</div>
+<div id="add-red-rectangle" class="section level2" number="12.6">
+<h2>
+<span class="header-section-number">12.6</span> Add red rectangle<a class="anchor" aria-label="anchor" href="#add-red-rectangle"><i class="fas fa-link"></i></a>
+</h2>
+<p>Last, we need to add the classic red rectangle to the top left of the plot. Save the plot as a PNG, then add the red rectangle using <code class="package">magick</code>.</p>
+<div class="sourceCode" id="cb145"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggsave.html">ggsave</a></span><span class="op">(</span><span class="st">"images/day12.png"</span>, width <span class="op">=</span> <span class="fl">8</span>, height <span class="op">=</span> <span class="fl">5</span>, device <span class="op">=</span> <span class="va">png</span>, bg <span class="op">=</span> <span class="st">"white"</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb146"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">chart</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://docs.ropensci.org/magick/reference/editing.html">image_read</a></span><span class="op">(</span><span class="st">"images/day12.png"</span><span class="op">)</span>
+<span class="va">rect</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://docs.ropensci.org/magick/reference/editing.html">image_blank</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">20</span>, <span class="st">"#D9352C"</span><span class="op">)</span>
+<span class="va">img</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://docs.ropensci.org/magick/reference/composite.html">image_composite</a></span><span class="op">(</span><span class="va">chart</span>, <span class="va">rect</span>, offset <span class="op">=</span> <span class="st">"+180+0"</span><span class="op">)</span>
+<span class="fu"><a href="https://docs.ropensci.org/magick/reference/editing.html">image_write</a></span><span class="op">(</span><span class="va">img</span>, <span class="st">"images/day12.png"</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb147"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/include_graphics.html">include_graphics</a></span><span class="op">(</span><span class="st">"images/day12.png"</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="images/day12.png" width="100%" style="display: block; margin: auto;"></div>
 
 </div>
 </div>
@@ -547,6 +568,7 @@ $( document ).ready(function() {
 <li><a class="nav-link" href="#map-in-economist-theme"><span class="header-section-number">12.3</span> Map in Economist theme</a></li>
 <li><a class="nav-link" href="#get-centroids"><span class="header-section-number">12.4</span> Get Centroids</a></li>
 <li><a class="nav-link" href="#add-annotations"><span class="header-section-number">12.5</span> Add Annotations</a></li>
+<li><a class="nav-link" href="#add-red-rectangle"><span class="header-section-number">12.6</span> Add red rectangle</a></li>
 </ul>
 
       <div class="book-extra">

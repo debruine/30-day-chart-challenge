@@ -29,4 +29,8 @@ li.book-part:nth-of-type(30) { color: var(--cert); }
 
 svg { width: 100%; }
 
+.inline-figure {
+  border: none;
+}
+
 

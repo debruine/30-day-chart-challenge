@@ -852,6 +852,7 @@ library(rnaturalearth) # for map coordinates
 library(ggthemes)      # for map theme
 library(lwgeom)        # for map projection
 library(showtext)      # for adding fonts
+library(magick)        # for adding a red rectangle to the top of the plot
 ```
 
 
@@ -924,11 +925,12 @@ I found the [Econ Sans Cnd font](https://eng.m.fontke.com/font/17459412/download
 
 ```{r}
 font_add(family = "EconSans",
-         regular = "~/Library/Fonts/econsanscndreg-webfont.woff.ttf")
+         regular = "~/Library/Fonts/econsanscndreg-webfont.woff.ttf",
+         bold = "~/Library/Fonts/econsanscndmed-webfont.woff.ttf")
 showtext_auto()
 ```
 
-Now build the plot without anotations and try to match the theme.
+Now build the plot without annotations and try to match the theme.
 
 ```{r econ-base, fig.width = 8, fig.height = 5}
 base_map <- ggplot(data_map) + 
@@ -942,13 +944,16 @@ base_map <- ggplot(data_map) +
   scale_fill_manual(name = NULL,
                     values = c("#2F5C94", "#5DBDCC"), 
                     na.translate = F) +
-  labs(title = "Countries which include a third-gender marker on their passport, April 2022",
+  labs(title = "Press X to Enter",
+       subtitle = "Countries which include a third-gender marker on their passport, April 2022",
        caption = "Data: Wikipedia | Plot: @lisadebruine") +
   theme_map(base_family = "EconSans", base_size = 12) +
   theme(
-    plot.title = element_text(hjust = 0.1),
+    plot.title = element_text(hjust = 0.025, face = "bold"),
+    plot.subtitle = element_text(hjust = 0.07),
+    plot.margin = unit(c(0.2, 0, 0, 0), "in"),
     legend.position = "top",
-    legend.text = element_text(size = 13),
+    legend.text = element_text(size = 11),
     plot.caption = element_text(hjust = 0, color = "grey30")
   )
 
@@ -1083,10 +1088,27 @@ base_map +
 
 ```
 
-```{r, include = FALSE, eval = FALSE}
+## Add red rectangle
+
+Last, we need to add the classic red rectangle to the top left of the plot. Save the plot as a PNG, then add the red rectangle using `r pkg("magick")`.
+
+```{r, eval = FALSE}
 ggsave("images/day12.png", width = 8, height = 5, device = png, bg = "white")
+```
+
+
+```{r, eval = FALSE}
+chart <- image_read("images/day12.png")
+rect <- image_blank(100, 20, "#D9352C")
+img <- image_composite(chart, rect, offset = "+180+0")
+image_write(img, "images/day12.png")
+```
+
+
+```{r}
 knitr::include_graphics("images/day12.png")
 ```
+
 
 
 

@@ -90,6 +90,7 @@ map-setup
 map-in-economist-theme
 get-centroids
 add-annotations
+add-red-rectangle
 correlation
 dimensional
 multivariate
