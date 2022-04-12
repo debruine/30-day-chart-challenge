@@ -1084,7 +1084,7 @@ base_map +
 ```
 
 ```{r, include = FALSE, eval = FALSE}
-ggsave("images/day12.png", width = 8, height = 5, device = png)
+ggsave("images/day12.png", width = 8, height = 5, device = png, bg = "white")
 knitr::include_graphics("images/day12.png")
 ```
 
