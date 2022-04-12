@@ -1312,7 +1312,7 @@ ggplot(world_wintri) +
 Now to add the internet use data to the map data. I select down to the relevant columns to make visual inspection easier.
 
 ```{r}
-data_map_int <- left_join(world_wintri, nb_passports, 
+data_map_int <- left_join(world_wintri, data_na, 
                           by = c("gu_a3" = "code")) %>%
   select(country, year, code = gu_a3, it_net_users, geometry)
 ```

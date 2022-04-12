@@ -6,16 +6,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>12 The Economist | 30-day Chart Challenge</title>
 <meta name="author" content="Lisa DeBruine">
-<meta name="description" content='/* update total correct if #webex-total_correct exists */ update_total_correct = function() {  console.log("webex: update total_correct");  if (t = document.getElementById("webex-total_correct"))...'>
+<meta name="description" content="I hadn't realised The Economist do a daily chart. They range from the simple and powerful to really complex visualisations. I won't show any here, as their website/blog licensing of a single chart...">
 <meta name="generator" content="bookdown 0.24 with bs4_book()">
 <meta property="og:title" content="12 The Economist | 30-day Chart Challenge">
 <meta property="og:type" content="book">
 <meta property="og:url" content="https://debruine.github.io/30-day-chart-challenge/the-economist.html">
 <meta property="og:image" content="https://debruine.github.io/30-day-chart-challenge/images/logos/logo.png">
-<meta property="og:description" content='/* update total correct if #webex-total_correct exists */ update_total_correct = function() {  console.log("webex: update total_correct");  if (t = document.getElementById("webex-total_correct"))...'>
+<meta property="og:description" content="I hadn't realised The Economist do a daily chart. They range from the simple and powerful to really complex visualisations. I won't show any here, as their website/blog licensing of a single chart...">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="12 The Economist | 30-day Chart Challenge">
-<meta name="twitter:description" content='/* update total correct if #webex-total_correct exists */ update_total_correct = function() {  console.log("webex: update total_correct");  if (t = document.getElementById("webex-total_correct"))...'>
+<meta name="twitter:description" content="I hadn't realised The Economist do a daily chart. They range from the simple and powerful to really complex visualisations. I won't show any here, as their website/blog licensing of a single chart...">
 <meta name="twitter:image" content="https://debruine.github.io/30-day-chart-challenge/images/logos/logo.png">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.11/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
@@ -102,7 +102,235 @@
 <h1>
 <span class="header-section-number">12</span> The Economist<a class="anchor" aria-label="anchor" href="#the-economist"><i class="fas fa-link"></i></a>
 </h1>
+<p>I hadn't realised The Economist do a <a href="https://www.economist.com/search?q=daily%20chart">daily chart</a>. They range from the simple and powerful to really complex visualisations. I won't show any here, as their website/blog licensing of a single chart for 1 month to an academic costs £159, but you can see the map I'm going to recreate here: <a href="https://www.economist.com/graphic-detail/2022/04/11/which-countries-offer-gender-neutral-passports">Which countries offer gender-neutral passports?</a></p>
+<div class="sourceCode" id="cb136"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>     <span class="co"># for data wrangling and visualisation</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/">sf</a></span><span class="op">)</span>            <span class="co"># for maps</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ropenscilabs/rnaturalearth">rnaturalearth</a></span><span class="op">)</span> <span class="co"># for map coordinates</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jrnold/ggthemes">ggthemes</a></span><span class="op">)</span>      <span class="co"># for map theme</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/lwgeom/">lwgeom</a></span><span class="op">)</span>        <span class="co"># for map projection</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/yixuan/showtext">showtext</a></span><span class="op">)</span>      <span class="co"># for adding fonts</span></code></pre></div>
+<div id="data-4" class="section level2" number="12.1">
+<h2>
+<span class="header-section-number">12.1</span> Data<a class="anchor" aria-label="anchor" href="#data-4"><i class="fas fa-link"></i></a>
+</h2>
+<p>They don't give a data source beyond "Press reports; <em>The Economist</em>", but there aren't that many countries, so I can just create the data table myself, with the help of Wikipedia's article on <a href="https://en.wikipedia.org/wiki/Legal_recognition_of_non-binary_gender">legal recognition of non-binary gender</a>. I also added the year that the first non-gendered passport was issued.</p>
+<div class="sourceCode" id="cb137"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">nb_passports</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tibble/man/tribble.html">tribble</a></span><span class="op">(</span>
+  <span class="op">~</span><span class="va">country</span>, <span class="op">~</span><span class="va">restriction</span>, <span class="op">~</span><span class="va">year</span>,
+  <span class="st">"Argentina"</span>, <span class="st">"Self-declaration"</span>, <span class="fl">2021</span>,
+  <span class="st">"Australia"</span>, <span class="st">"Self-declaration"</span>, <span class="fl">2003</span>,
+  <span class="st">"Canada"</span>, <span class="st">"Self-declaration"</span>, <span class="fl">2017</span>,
+  <span class="st">"Colombia"</span>, <span class="st">"Self-declaration"</span>, <span class="fl">2022</span>,
+  <span class="st">"Denmark"</span>, <span class="st">"Self-declaration"</span>, <span class="fl">2014</span>,
+  <span class="st">"Ireland"</span>, <span class="st">"Self-declaration"</span>, <span class="fl">2015</span>, <span class="co"># unclear if X or just gender change introduced then</span>
+  <span class="st">"Iceland"</span>, <span class="st">"Self-declaration"</span>, <span class="fl">2020</span>,
+  <span class="st">"Nepal"</span>, <span class="st">"Self-declaration"</span>, <span class="fl">2007</span>,
+  <span class="st">"New Zealand"</span>, <span class="st">"Self-declaration"</span>, <span class="fl">2012</span>,
+  <span class="st">"Pakistan"</span>, <span class="st">"Self-declaration"</span>, <span class="fl">2017</span>,
+  <span class="st">"United States of America"</span>, <span class="st">"Self-declaration"</span>, <span class="fl">2021</span>,
+  <span class="st">"Malta"</span>, <span class="st">"Self-declaration"</span>, <span class="fl">2017</span>,
+  <span class="co">#"Taiwan", "Medical assessment", 2020, # planned, not confirmed https://en.wikipedia.org/wiki/Intersex_rights_in_Taiwan</span>
+  <span class="st">"India"</span>, <span class="st">"Medical assessment"</span>, <span class="fl">2005</span>,
+  <span class="st">"Bangladesh"</span>, <span class="st">"Medical assessment"</span>, <span class="fl">2001</span>,
+  <span class="st">"Germany"</span>, <span class="st">"Medical assessment"</span>, <span class="fl">2019</span>,
+  <span class="st">"Austria"</span>, <span class="st">"Medical assessment"</span>, <span class="fl">2018</span>,
+  <span class="st">"Netherlands"</span>, <span class="st">"Medical assessment"</span>, <span class="fl">2018</span>
+<span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/mutate.html">mutate</a></span><span class="op">(</span>restriction <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">restriction</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Self-declaration"</span>, <span class="st">"Medical assessment"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+</div>
+<div id="map-setup" class="section level2" number="12.2">
+<h2>
+<span class="header-section-number">12.2</span> Map Setup<a class="anchor" aria-label="anchor" href="#map-setup"><i class="fas fa-link"></i></a>
+</h2>
+<p>I'll use the code from Day <a href="owid.html#owid">6</a> to make the map.</p>
+<div class="sourceCode" id="cb138"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># translate the coordinate reference system</span>
+<span class="va">crs</span> <span class="op">&lt;-</span> <span class="st">"+proj=wintri"</span>  <span class="co"># winkel tripel projection</span>
+<span class="va">world_wintri</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rnaturalearth/man/ne_countries.html">ne_countries</a></span><span class="op">(</span>returnclass <span class="op">=</span> <span class="st">"sf"</span>, scale <span class="op">=</span> <span class="st">"medium"</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
+  <span class="fu">lwgeom</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lwgeom/man/st_transform_proj.html">st_transform_proj</a></span><span class="op">(</span>crs <span class="op">=</span> <span class="va">crs</span><span class="op">)</span>
 
+<span class="co"># translate and crop coordinates</span>
+<span class="va">trans_coords</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/sfc.html">st_sfc</a></span><span class="op">(</span>
+  <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st.html">st_point</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1.4e7</span>, <span class="op">-</span><span class="fl">6.5e6</span><span class="op">)</span><span class="op">)</span>, <span class="co"># lower left lat and lon</span>
+  <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st.html">st_point</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2e7</span>, <span class="fl">1e7</span><span class="op">)</span><span class="op">)</span>,       <span class="co"># upper right lat and lon</span>
+  crs <span class="op">=</span> <span class="va">crs</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_transform.html">st_transform</a></span><span class="op">(</span>crs <span class="op">=</span> <span class="va">crs</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_coordinates.html">st_coordinates</a></span><span class="op">(</span><span class="op">)</span>
+
+<span class="va">crop_coords</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggsf.html">coord_sf</a></span><span class="op">(</span>
+  datum <span class="op">=</span> <span class="cn">NULL</span>, 
+  xlim <span class="op">=</span> <span class="va">trans_coords</span><span class="op">[</span>,<span class="st">'X'</span><span class="op">]</span>, 
+  ylim <span class="op">=</span> <span class="va">trans_coords</span><span class="op">[</span>,<span class="st">'Y'</span><span class="op">]</span>, 
+  expand <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+<p>Add the data</p>
+<div class="sourceCode" id="cb139"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">data_map</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">world_wintri</span>, <span class="va">nb_passports</span>, 
+                          by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"geounit"</span> <span class="op">=</span> <span class="st">"country"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/select.html">select</a></span><span class="op">(</span>country <span class="op">=</span> <span class="va">geounit</span>, <span class="va">restriction</span>, <span class="va">year</span>, <span class="va">geometry</span><span class="op">)</span></code></pre></div>
+</div>
+<div id="map-in-economist-theme" class="section level2" number="12.3">
+<h2>
+<span class="header-section-number">12.3</span> Map in Economist theme<a class="anchor" aria-label="anchor" href="#map-in-economist-theme"><i class="fas fa-link"></i></a>
+</h2>
+<p>I found the <a href="https://eng.m.fontke.com/font/17459412/download/">Econ Sans Cnd font</a> that matched The Economist plots. You can use Arial Narrow if you can't find this one.</p>
+<div class="sourceCode" id="cb140"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/sysfonts/man/font_add.html">font_add</a></span><span class="op">(</span>family <span class="op">=</span> <span class="st">"EconSans"</span>,
+         regular <span class="op">=</span> <span class="st">"~/Library/Fonts/econsanscndreg-webfont.woff.ttf"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/showtext/man/showtext_auto.html">showtext_auto</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<p>Now build the plot without anotations and try to match the theme.</p>
+<div class="sourceCode" id="cb141"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">base_map</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">data_map</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggsf.html">geom_sf</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">0.5</span><span class="op">/</span><span class="va">.pt</span>,
+          fill <span class="op">=</span> <span class="st">"#CECCBF"</span>,
+          color <span class="op">=</span> <span class="st">"white"</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggsf.html">geom_sf</a></span><span class="op">(</span>mapping <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">restriction</span><span class="op">)</span>, 
+          size <span class="op">=</span> <span class="fl">0.5</span><span class="op">/</span><span class="va">.pt</span>,
+          color <span class="op">=</span> <span class="st">"white"</span><span class="op">)</span> <span class="op">+</span>
+  <span class="va">crop_coords</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/scale_manual.html">scale_fill_manual</a></span><span class="op">(</span>name <span class="op">=</span> <span class="cn">NULL</span>,
+                    values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"#2F5C94"</span>, <span class="st">"#5DBDCC"</span><span class="op">)</span>, 
+                    na.translate <span class="op">=</span> <span class="cn">F</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Countries which include a third-gender marker on their passport, April 2022"</span>,
+       caption <span class="op">=</span> <span class="st">"Data: Wikipedia | Plot: @lisadebruine"</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggthemes/man/theme_map.html">theme_map</a></span><span class="op">(</span>base_family <span class="op">=</span> <span class="st">"EconSans"</span>, base_size <span class="op">=</span> <span class="fl">12</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/theme.html">theme</a></span><span class="op">(</span>
+    plot.title <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/element.html">element_text</a></span><span class="op">(</span>hjust <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span>,
+    legend.position <span class="op">=</span> <span class="st">"top"</span>,
+    legend.text <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/element.html">element_text</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">13</span><span class="op">)</span>,
+    plot.caption <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/element.html">element_text</a></span><span class="op">(</span>hjust <span class="op">=</span> <span class="fl">0</span>, color <span class="op">=</span> <span class="st">"grey30"</span><span class="op">)</span>
+  <span class="op">)</span>
+
+<span class="va">base_map</span></code></pre></div>
+<div class="inline-figure"><img src="30DCC_files/figure-html/econ-base-1.png" width="100%" style="display: block; margin: auto;"></div>
+</div>
+<div id="get-centroids" class="section level2" number="12.4">
+<h2>
+<span class="header-section-number">12.4</span> Get Centroids<a class="anchor" aria-label="anchor" href="#get-centroids"><i class="fas fa-link"></i></a>
+</h2>
+<p>Get the centre x- and y- coordinates from each country to plot the annotations.</p>
+<div class="sourceCode" id="cb142"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">get_centroid</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">geounit</span><span class="op">)</span> <span class="op">{</span>
+  <span class="va">data_map</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/filter.html">filter</a></span><span class="op">(</span><span class="va">country</span> <span class="op">==</span> <span class="va">geounit</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/pull.html">pull</a></span><span class="op">(</span><span class="va">geometry</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
+    <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_unary.html">st_centroid</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
+    <span class="fu">`[[`</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://rdrr.io/r/base/class.html">unclass</a></span><span class="op">(</span><span class="op">)</span>
+<span class="op">}</span>
+
+<span class="va">usa</span> <span class="op">&lt;-</span> <span class="fu">get_centroid</span><span class="op">(</span><span class="st">"United States of America"</span><span class="op">)</span>
+<span class="va">arg</span> <span class="op">&lt;-</span> <span class="fu">get_centroid</span><span class="op">(</span><span class="st">"Argentina"</span><span class="op">)</span>
+<span class="va">col</span> <span class="op">&lt;-</span> <span class="fu">get_centroid</span><span class="op">(</span><span class="st">"Colombia"</span><span class="op">)</span>
+<span class="va">nep</span> <span class="op">&lt;-</span> <span class="fu">get_centroid</span><span class="op">(</span><span class="st">"Nepal"</span><span class="op">)</span>
+<span class="va">ind</span> <span class="op">&lt;-</span> <span class="fu">get_centroid</span><span class="op">(</span><span class="st">"India"</span><span class="op">)</span>
+<span class="va">pak</span> <span class="op">&lt;-</span> <span class="fu">get_centroid</span><span class="op">(</span><span class="st">"Pakistan"</span><span class="op">)</span>
+<span class="va">ger</span> <span class="op">&lt;-</span> <span class="fu">get_centroid</span><span class="op">(</span><span class="st">"Germany"</span><span class="op">)</span>
+<span class="va">ire</span> <span class="op">&lt;-</span> <span class="fu">get_centroid</span><span class="op">(</span><span class="st">"Ireland"</span><span class="op">)</span></code></pre></div>
+</div>
+<div id="add-annotations" class="section level2" number="12.5">
+<h2>
+<span class="header-section-number">12.5</span> Add Annotations<a class="anchor" aria-label="anchor" href="#add-annotations"><i class="fas fa-link"></i></a>
+</h2>
+<p>These needed a lot of trial-and-error.</p>
+<div class="sourceCode" id="cb143"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">base_map</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/annotate.html">annotate</a></span><span class="op">(</span><span class="st">"text"</span>, label <span class="op">=</span> <span class="st">"United States"</span>, color <span class="op">=</span> <span class="st">"white"</span>, 
+           hjust <span class="op">=</span> <span class="fl">0.5</span>, vjust <span class="op">=</span> <span class="fl">0.5</span>,
+           x <span class="op">=</span> <span class="va">usa</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">+</span> <span class="fl">2e5</span>, y <span class="op">=</span> <span class="va">usa</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">-</span> <span class="fl">5e5</span>, size <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/annotate.html">annotate</a></span><span class="op">(</span><span class="st">"text"</span>, label <span class="op">=</span> <span class="st">"Argentina"</span>, color <span class="op">=</span> <span class="st">"#2F5C94"</span>, 
+           hjust <span class="op">=</span> <span class="fl">0</span>, vjust <span class="op">=</span> <span class="fl">1</span>,
+           x <span class="op">=</span> <span class="va">arg</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">+</span> <span class="fl">1e6</span>, y <span class="op">=</span> <span class="va">arg</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">-</span> <span class="fl">1.4e6</span>, size <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/annotate.html">annotate</a></span><span class="op">(</span>geom <span class="op">=</span> <span class="st">"curve"</span>, curvature <span class="op">=</span> <span class="fl">0.3</span>, size <span class="op">=</span> <span class="fl">0.25</span>,
+            x <span class="op">=</span> <span class="va">arg</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">+</span> <span class="fl">1e6</span>, y <span class="op">=</span> <span class="va">arg</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">-</span> <span class="fl">1.4e6</span>, 
+            xend <span class="op">=</span> <span class="va">arg</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, yend <span class="op">=</span> <span class="va">arg</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>,
+            arrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/arrow.html">arrow</a></span><span class="op">(</span>length <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="st">"lines"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/annotate.html">annotate</a></span><span class="op">(</span><span class="st">"text"</span>, label <span class="op">=</span> <span class="st">"Colombia"</span>, color <span class="op">=</span> <span class="st">"#2F5C94"</span>, 
+           hjust <span class="op">=</span> <span class="fl">1</span>, vjust <span class="op">=</span> <span class="fl">1</span>,
+           x <span class="op">=</span> <span class="va">col</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">-</span> <span class="fl">1.5e6</span>, y <span class="op">=</span> <span class="va">col</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">-</span> <span class="fl">2e5</span>, size <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/annotate.html">annotate</a></span><span class="op">(</span>geom <span class="op">=</span> <span class="st">"curve"</span>, curvature <span class="op">=</span> <span class="op">-</span><span class="fl">0.3</span>, size <span class="op">=</span> <span class="fl">0.25</span>,
+            x <span class="op">=</span> <span class="va">col</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">-</span> <span class="fl">1.5e6</span>, y <span class="op">=</span> <span class="va">col</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">-</span> <span class="fl">2e5</span>, 
+            xend <span class="op">=</span> <span class="va">col</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, yend <span class="op">=</span> <span class="va">col</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>,
+            arrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/arrow.html">arrow</a></span><span class="op">(</span>length <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="st">"lines"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/annotate.html">annotate</a></span><span class="op">(</span><span class="st">"text"</span>, label <span class="op">=</span> <span class="st">"Nepal"</span>, color <span class="op">=</span> <span class="st">"#2F5C94"</span>,
+           hjust <span class="op">=</span> <span class="fl">0</span>, vjust <span class="op">=</span> <span class="fl">0</span>,
+           x <span class="op">=</span> <span class="va">nep</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">+</span> <span class="fl">5e5</span>, y <span class="op">=</span> <span class="va">nep</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">+</span> <span class="fl">7e5</span>, size <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/annotate.html">annotate</a></span><span class="op">(</span>geom <span class="op">=</span> <span class="st">"curve"</span>, curvature <span class="op">=</span> <span class="fl">0.1</span>, size <span class="op">=</span> <span class="fl">0.25</span>,
+            x <span class="op">=</span> <span class="va">nep</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">+</span> <span class="fl">4e5</span>, y <span class="op">=</span> <span class="va">nep</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">+</span> <span class="fl">6e5</span>, 
+            xend <span class="op">=</span> <span class="va">nep</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, yend <span class="op">=</span> <span class="va">nep</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>,
+            arrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/arrow.html">arrow</a></span><span class="op">(</span>length <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="st">"lines"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/annotate.html">annotate</a></span><span class="op">(</span><span class="st">"text"</span>, label <span class="op">=</span> <span class="st">"India"</span>, color <span class="op">=</span> <span class="st">"#35809B"</span>,
+           hjust <span class="op">=</span> <span class="fl">0.5</span>, vjust <span class="op">=</span> <span class="fl">1</span>,
+           x <span class="op">=</span> <span class="va">ind</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">+</span> <span class="fl">1e6</span>, y <span class="op">=</span> <span class="va">ind</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">-</span> <span class="fl">2.5e6</span>, size <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/annotate.html">annotate</a></span><span class="op">(</span>geom <span class="op">=</span> <span class="st">"curve"</span>, curvature <span class="op">=</span> <span class="fl">0.3</span>, size <span class="op">=</span> <span class="fl">0.25</span>,
+            x <span class="op">=</span> <span class="va">ind</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">+</span> <span class="fl">1e6</span>, y <span class="op">=</span> <span class="va">ind</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">-</span> <span class="fl">2.4e6</span>, 
+            xend <span class="op">=</span> <span class="va">ind</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, yend <span class="op">=</span> <span class="va">ind</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>,
+            arrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/arrow.html">arrow</a></span><span class="op">(</span>length <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="st">"lines"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/annotate.html">annotate</a></span><span class="op">(</span><span class="st">"text"</span>, label <span class="op">=</span> <span class="st">"Pakistan"</span>, color <span class="op">=</span> <span class="st">"#2F5C94"</span>,
+           hjust <span class="op">=</span> <span class="fl">0.5</span>, vjust <span class="op">=</span> <span class="fl">1</span>,
+           x <span class="op">=</span> <span class="va">pak</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">-</span> <span class="fl">5e5</span>, y <span class="op">=</span> <span class="va">pak</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">-</span> <span class="fl">2.1e6</span>, size <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/annotate.html">annotate</a></span><span class="op">(</span>geom <span class="op">=</span> <span class="st">"curve"</span>, curvature <span class="op">=</span> <span class="op">-</span><span class="fl">0.1</span>, size <span class="op">=</span> <span class="fl">0.25</span>,
+            x <span class="op">=</span> <span class="va">pak</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">-</span> <span class="fl">5e5</span>, y <span class="op">=</span> <span class="va">pak</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">-</span> <span class="fl">2e6</span>, 
+            xend <span class="op">=</span> <span class="va">pak</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, yend <span class="op">=</span> <span class="va">pak</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>,
+            arrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/arrow.html">arrow</a></span><span class="op">(</span>length <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="st">"lines"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/annotate.html">annotate</a></span><span class="op">(</span><span class="st">"text"</span>, label <span class="op">=</span> <span class="st">"Germany"</span>, color <span class="op">=</span> <span class="st">"#35809B"</span>,
+           hjust <span class="op">=</span> <span class="fl">0.5</span>, vjust <span class="op">=</span> <span class="fl">0</span>,
+           x <span class="op">=</span> <span class="va">ger</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">-</span> <span class="fl">1.2e6</span>, y <span class="op">=</span> <span class="va">ger</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">+</span> <span class="fl">2.5e6</span>, size <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/annotate.html">annotate</a></span><span class="op">(</span>geom <span class="op">=</span> <span class="st">"curve"</span>, curvature <span class="op">=</span> <span class="fl">0.2</span>, size <span class="op">=</span> <span class="fl">0.25</span>,
+            x <span class="op">=</span> <span class="va">ger</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">-</span> <span class="fl">1.2e6</span>, y <span class="op">=</span> <span class="va">ger</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">+</span> <span class="fl">2.4e6</span>, 
+            xend <span class="op">=</span> <span class="va">ger</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, yend <span class="op">=</span> <span class="va">ger</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>,
+            arrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/arrow.html">arrow</a></span><span class="op">(</span>length <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="st">"lines"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/annotate.html">annotate</a></span><span class="op">(</span><span class="st">"text"</span>, label <span class="op">=</span> <span class="st">"Ireland"</span>, color <span class="op">=</span> <span class="st">"#2F5C94"</span>,
+           hjust <span class="op">=</span> <span class="fl">1</span>, vjust <span class="op">=</span> <span class="fl">1</span>,
+           x <span class="op">=</span> <span class="va">ire</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">-</span> <span class="fl">1e6</span>, y <span class="op">=</span> <span class="va">ire</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">-</span> <span class="fl">5e5</span>, size <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/annotate.html">annotate</a></span><span class="op">(</span>geom <span class="op">=</span> <span class="st">"curve"</span>, curvature <span class="op">=</span> <span class="op">-</span><span class="fl">0.2</span>, size <span class="op">=</span> <span class="fl">0.25</span>,
+            x <span class="op">=</span> <span class="va">ire</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">-</span> <span class="fl">1e6</span>, y <span class="op">=</span> <span class="va">ire</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">-</span> <span class="fl">5e5</span>, 
+            xend <span class="op">=</span> <span class="va">ire</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, yend <span class="op">=</span> <span class="va">ire</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>,
+            arrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/arrow.html">arrow</a></span><span class="op">(</span>length <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="st">"lines"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="30DCC_files/figure-html/econ-annotate-1.png" width="100%" style="display: block; margin: auto;"></div>
+<p>I tried do this with a new data table containing each country's label, plus values for the text's color, hjust, vjust, x, y, and the curve's curvature, x, y, xend, and yend. However, you can't set curvature in the mapping, so I had to sort that with <code><a href="https://rdrr.io/pkg/purrr/man/map2.html">pmap()</a></code>.</p>
+<div class="sourceCode" id="cb144"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">annotations</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tibble/man/tribble.html">tribble</a></span><span class="op">(</span>
+  <span class="op">~</span><span class="va">label</span>, <span class="op">~</span><span class="va">color</span>, <span class="op">~</span><span class="va">hjust</span>, <span class="op">~</span><span class="va">vjust</span>, <span class="op">~</span><span class="va">x</span>, <span class="op">~</span><span class="va">y</span>, <span class="op">~</span><span class="va">text_x</span>, <span class="op">~</span><span class="va">text_y</span>, <span class="op">~</span><span class="va">curvature</span>, <span class="op">~</span><span class="va">curve_x</span>, <span class="op">~</span><span class="va">curve_y</span>,
+  <span class="st">"United States"</span>, <span class="st">"white"</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="va">usa</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">usa</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, <span class="op">+</span><span class="fl">2e5</span>, <span class="op">-</span><span class="fl">5e5</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span>,
+  <span class="st">"Argentina"</span>, <span class="st">"#2F5C94"</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="va">arg</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">arg</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, <span class="fl">1e6</span>, <span class="op">-</span><span class="fl">1.4e6</span>, <span class="fl">0.3</span>, <span class="fl">1e6</span>, <span class="op">-</span><span class="fl">1.4e6</span>,
+  <span class="st">"Colombia"</span>, <span class="st">"#2F5C94"</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="va">col</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">col</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, <span class="op">-</span><span class="fl">1.5e6</span>, <span class="op">-</span><span class="fl">2e5</span>, <span class="op">-</span><span class="fl">0.3</span>, <span class="op">-</span><span class="fl">1.5e6</span>, <span class="op">-</span><span class="fl">2e5</span>,
+  <span class="st">"Nepal"</span>, <span class="st">"#2F5C94"</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="va">nep</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">nep</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, <span class="fl">5e5</span>, <span class="fl">7e5</span>, <span class="fl">0.1</span>, <span class="fl">4e5</span>, <span class="fl">6e5</span>, 
+  <span class="st">"India"</span>, <span class="st">"#35809B"</span>, <span class="fl">0.5</span>, <span class="fl">1</span>, <span class="va">ind</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">ind</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, <span class="fl">1e6</span>, <span class="op">-</span><span class="fl">2.5e6</span>, <span class="fl">0.3</span>, <span class="fl">1e6</span>, <span class="op">-</span><span class="fl">2.4e6</span>, 
+  <span class="st">"Pakistan"</span>, <span class="st">"#2F5C94"</span>, <span class="fl">0.5</span>, <span class="fl">1</span>, <span class="va">pak</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">pak</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, <span class="op">-</span><span class="fl">5e5</span>, <span class="op">-</span><span class="fl">2.1e6</span>, <span class="op">-</span><span class="fl">0.1</span>, <span class="op">-</span><span class="fl">5e5</span>, <span class="op">-</span><span class="fl">2e6</span>, 
+  <span class="st">"Germany"</span>, <span class="st">"#35809B"</span>, <span class="fl">0.5</span>, <span class="fl">0</span>, <span class="va">ger</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">ger</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, <span class="op">-</span><span class="fl">1.2e6</span>, <span class="fl">2.5e6</span>, <span class="fl">0.2</span>, <span class="op">-</span><span class="fl">1.2e6</span>, <span class="fl">2.4e6</span>,
+  <span class="st">"Ireland"</span>, <span class="st">"#2F5C94"</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="va">ire</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">ire</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, <span class="op">-</span><span class="fl">1e6</span>, <span class="op">-</span><span class="fl">5e5</span>, <span class="op">-</span><span class="fl">0.2</span>, <span class="op">-</span><span class="fl">1e6</span>, <span class="op">-</span><span class="fl">5e5</span>
+<span class="op">)</span>
+
+<span class="va">curves</span> <span class="op">&lt;-</span> <span class="va">annotations</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/filter.html">filter</a></span><span class="op">(</span><span class="va">label</span> <span class="op">!=</span> <span class="st">"United States"</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/pkg/purrr/man/map2.html">pmap</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">label</span>, <span class="va">color</span>, <span class="va">hjust</span>, <span class="va">vjust</span>, 
+                 <span class="va">x</span>, <span class="va">y</span>, <span class="va">text_x</span>, <span class="va">text_y</span>, 
+                 <span class="va">curvature</span>, <span class="va">curve_x</span>, <span class="va">curve_y</span><span class="op">)</span> <span class="op">{</span>
+    <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/annotate.html">annotate</a></span><span class="op">(</span>geom <span class="op">=</span> <span class="st">"curve"</span>, 
+             x <span class="op">=</span> <span class="va">x</span> <span class="op">+</span> <span class="va">curve_x</span>, 
+             y <span class="op">=</span> <span class="va">y</span> <span class="op">+</span> <span class="va">curve_y</span>, 
+             xend <span class="op">=</span> <span class="va">x</span>, 
+             yend <span class="op">=</span> <span class="va">y</span>, 
+             curvature <span class="op">=</span> <span class="va">curvature</span>, 
+             size <span class="op">=</span> <span class="fl">0.3</span>, 
+             arrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/arrow.html">arrow</a></span><span class="op">(</span>length <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="st">"lines"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+  <span class="op">}</span><span class="op">)</span>
+
+
+<span class="va">base_map</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_text.html">geom_text</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">annotations</span>, 
+            mapping <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="va">label</span>, 
+            color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/AsIs.html">I</a></span><span class="op">(</span><span class="va">color</span><span class="op">)</span>,
+            hjust <span class="op">=</span> <span class="va">hjust</span>,
+            vjust <span class="op">=</span> <span class="va">vjust</span>,
+            x <span class="op">=</span> <span class="va">x</span> <span class="op">+</span> <span class="va">text_x</span>,
+            y <span class="op">=</span> <span class="va">y</span> <span class="op">+</span> <span class="va">text_y</span><span class="op">)</span>,
+            size <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span>
+  <span class="va">curves</span></code></pre></div>
+<div class="inline-figure"><img src="30DCC_files/figure-html/econ-day12-1.png" width="100%" style="display: block; margin: auto;"></div>
+
+</div>
 </div>
 
 
@@ -312,7 +540,14 @@ $( document ).ready(function() {
 <div class="next"><a href="correlation.html"><span class="header-section-number">13</span> Correlation</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
-      <ul class="nav navbar-nav"><li><a class="nav-link" href="#the-economist"><span class="header-section-number">12</span> The Economist</a></li></ul>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#the-economist"><span class="header-section-number">12</span> The Economist</a></li>
+<li><a class="nav-link" href="#data-4"><span class="header-section-number">12.1</span> Data</a></li>
+<li><a class="nav-link" href="#map-setup"><span class="header-section-number">12.2</span> Map Setup</a></li>
+<li><a class="nav-link" href="#map-in-economist-theme"><span class="header-section-number">12.3</span> Map in Economist theme</a></li>
+<li><a class="nav-link" href="#get-centroids"><span class="header-section-number">12.4</span> Get Centroids</a></li>
+<li><a class="nav-link" href="#add-annotations"><span class="header-section-number">12.5</span> Add Annotations</a></li>
+</ul>
 
       <div class="book-extra">
         <ul class="list-unstyled">
@@ -329,7 +564,7 @@ $( document ).ready(function() {
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>30-day Chart Challenge</strong>: 2022" was written by Lisa DeBruine. It was last built on 2022-04-11.</p>
+    <p>"<strong>30-day Chart Challenge</strong>: 2022" was written by Lisa DeBruine. It was last built on 2022-04-12.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

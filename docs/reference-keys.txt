@@ -85,6 +85,11 @@ polar-y
 fix-it-up
 theme
 the-economist
+data-4
+map-setup
+map-in-economist-theme
+get-centroids
+add-annotations
 correlation
 dimensional
 multivariate

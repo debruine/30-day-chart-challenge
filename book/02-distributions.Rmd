@@ -788,7 +788,7 @@ ggplot(ukso, aes(x = `Sexual orientation`,
 
 Now I'll really customise the appearance. I found the `theme()` function intimidating at first, but once you work with it for a bit and get your head around the `element_*` functions, it's straightforward and very powerful. I just wish I could figure out how to put the plot caption in the margin like I did for the legend.
 
-```{r circulare-day11, fig.width = 5, fig.height = 5}
+```{r circular-day11, fig.width = 5, fig.height = 5}
 rbcol <- c("red3", 
            "darkgoldenrod1", 
            "springgreen3", 
@@ -851,16 +851,17 @@ library(sf)            # for maps
 library(rnaturalearth) # for map coordinates
 library(ggthemes)      # for map theme
 library(lwgeom)        # for map projection
+library(showtext)      # for adding fonts
 ```
 
 
 ## Data
 
-They don't give a data source beyond "Press reports; *The Economist*", but there aren't that many countries, so I can just create the data table myself, with the help of Wikipedia's article on  [legal recognition of non-binary gender](https://en.wikipedia.org/wiki/Legal_recognition_of_non-binary_gender).
+They don't give a data source beyond "Press reports; *The Economist*", but there aren't that many countries, so I can just create the data table myself, with the help of Wikipedia's article on  [legal recognition of non-binary gender](https://en.wikipedia.org/wiki/Legal_recognition_of_non-binary_gender). I also added the year that the first non-gendered passport was issued.
 
 ```{r}
 nb_passports <- tribble(
-  ~country, ~type, ~year,
+  ~country, ~restriction, ~year,
   "Argentina", "Self-declaration", 2021,
   "Australia", "Self-declaration", 2003,
   "Canada", "Self-declaration", 2017,
@@ -871,7 +872,7 @@ nb_passports <- tribble(
   "Nepal", "Self-declaration", 2007,
   "New Zealand", "Self-declaration", 2012,
   "Pakistan", "Self-declaration", 2017,
-  "United States", "Self-declaration", 2021,
+  "United States of America", "Self-declaration", 2021,
   "Malta", "Self-declaration", 2017,
   #"Taiwan", "Medical assessment", 2020, # planned, not confirmed https://en.wikipedia.org/wiki/Intersex_rights_in_Taiwan
   "India", "Medical assessment", 2005,
@@ -879,12 +880,13 @@ nb_passports <- tribble(
   "Germany", "Medical assessment", 2019,
   "Austria", "Medical assessment", 2018,
   "Netherlands", "Medical assessment", 2018
-)
+) %>%
+  mutate(restriction = factor(restriction, c("Self-declaration", "Medical assessment")))
 ```
 
-## Map 
+## Map Setup
 
-I'll use the code from Day\ \@ref(OWiD) to make the map.
+I'll use the code from Day\ \@ref(owid) to make the map.
 
 ```{r econ-map}
 # translate the coordinate reference system
@@ -907,21 +909,183 @@ crop_coords <- coord_sf(
   expand = FALSE)
 ```
 
-## Add Data
+Add the data
 
 ```{r}
-data_map <- left_join(world_wintri, data_na, 
-                          by = c("gu_a3" = "code")) %>%
-  select(country, year, code = gu_a3, it_net_users, geometry)
+data_map <- left_join(world_wintri, nb_passports, 
+                          by = c("geounit" = "country")) %>%
+  select(country = geounit, restriction, year, geometry)
 ```
 
 
+## Map in Economist theme
+
+I found the [Econ Sans Cnd font](https://eng.m.fontke.com/font/17459412/download/) that matched The Economist plots. You can use Arial Narrow if you can't find this one.
 
 ```{r}
-ggplot(world_wintri) + 
-  geom_sf(size = 0.5/.pt) +
+font_add(family = "EconSans",
+         regular = "~/Library/Fonts/econsanscndreg-webfont.woff.ttf")
+showtext_auto()
+```
+
+Now build the plot without anotations and try to match the theme.
+
+```{r econ-base, fig.width = 8, fig.height = 5}
+base_map <- ggplot(data_map) + 
+  geom_sf(size = 0.5/.pt,
+          fill = "#CECCBF",
+          color = "white") +
+  geom_sf(mapping = aes(fill = restriction), 
+          size = 0.5/.pt,
+          color = "white") +
   crop_coords +
-  theme_map()
+  scale_fill_manual(name = NULL,
+                    values = c("#2F5C94", "#5DBDCC"), 
+                    na.translate = F) +
+  labs(title = "Countries which include a third-gender marker on their passport, April 2022",
+       caption = "Data: Wikipedia | Plot: @lisadebruine") +
+  theme_map(base_family = "EconSans", base_size = 12) +
+  theme(
+    plot.title = element_text(hjust = 0.1),
+    legend.position = "top",
+    legend.text = element_text(size = 13),
+    plot.caption = element_text(hjust = 0, color = "grey30")
+  )
+
+base_map
+```
+
+## Get Centroids
+
+Get the centre x- and y- coordinates from each country to plot the annotations.
+
+```{r}
+get_centroid <- function(geounit) {
+  data_map %>%
+    filter(country == geounit) %>%
+    pull(geometry) %>%
+    sf::st_centroid() %>%
+    `[[`(1) %>%
+    unclass()
+}
+
+usa <- get_centroid("United States of America")
+arg <- get_centroid("Argentina")
+col <- get_centroid("Colombia")
+nep <- get_centroid("Nepal")
+ind <- get_centroid("India")
+pak <- get_centroid("Pakistan")
+ger <- get_centroid("Germany")
+ire <- get_centroid("Ireland")
+```
+
+## Add Annotations
+
+These needed a lot of trial-and-error.
+
+```{r econ-annotate, fig.width = 8, fig.height = 5}
+base_map +
+  annotate("text", label = "United States", color = "white", 
+           hjust = 0.5, vjust = 0.5,
+           x = usa[1] + 2e5, y = usa[2] - 5e5, size = 3) +
+  annotate("text", label = "Argentina", color = "#2F5C94", 
+           hjust = 0, vjust = 1,
+           x = arg[1] + 1e6, y = arg[2] - 1.4e6, size = 3) +
+  annotate(geom = "curve", curvature = 0.3, size = 0.25,
+            x = arg[1] + 1e6, y = arg[2] - 1.4e6, 
+            xend = arg[1], yend = arg[2],
+            arrow = arrow(length = unit(0.2, "lines"))) +
+  annotate("text", label = "Colombia", color = "#2F5C94", 
+           hjust = 1, vjust = 1,
+           x = col[1] - 1.5e6, y = col[2] - 2e5, size = 3) +
+  annotate(geom = "curve", curvature = -0.3, size = 0.25,
+            x = col[1] - 1.5e6, y = col[2] - 2e5, 
+            xend = col[1], yend = col[2],
+            arrow = arrow(length = unit(0.2, "lines"))) +
+  annotate("text", label = "Nepal", color = "#2F5C94",
+           hjust = 0, vjust = 0,
+           x = nep[1] + 5e5, y = nep[2] + 7e5, size = 3) +
+  annotate(geom = "curve", curvature = 0.1, size = 0.25,
+            x = nep[1] + 4e5, y = nep[2] + 6e5, 
+            xend = nep[1], yend = nep[2],
+            arrow = arrow(length = unit(0.2, "lines"))) +
+  annotate("text", label = "India", color = "#35809B",
+           hjust = 0.5, vjust = 1,
+           x = ind[1] + 1e6, y = ind[2] - 2.5e6, size = 3) +
+  annotate(geom = "curve", curvature = 0.3, size = 0.25,
+            x = ind[1] + 1e6, y = ind[2] - 2.4e6, 
+            xend = ind[1], yend = ind[2],
+            arrow = arrow(length = unit(0.2, "lines"))) +
+  annotate("text", label = "Pakistan", color = "#2F5C94",
+           hjust = 0.5, vjust = 1,
+           x = pak[1] - 5e5, y = pak[2] - 2.1e6, size = 3) +
+  annotate(geom = "curve", curvature = -0.1, size = 0.25,
+            x = pak[1] - 5e5, y = pak[2] - 2e6, 
+            xend = pak[1], yend = pak[2],
+            arrow = arrow(length = unit(0.2, "lines"))) +
+  annotate("text", label = "Germany", color = "#35809B",
+           hjust = 0.5, vjust = 0,
+           x = ger[1] - 1.2e6, y = ger[2] + 2.5e6, size = 3) +
+  annotate(geom = "curve", curvature = 0.2, size = 0.25,
+            x = ger[1] - 1.2e6, y = ger[2] + 2.4e6, 
+            xend = ger[1], yend = ger[2],
+            arrow = arrow(length = unit(0.2, "lines"))) +
+  annotate("text", label = "Ireland", color = "#2F5C94",
+           hjust = 1, vjust = 1,
+           x = ire[1] - 1e6, y = ire[2] - 5e5, size = 3) +
+  annotate(geom = "curve", curvature = -0.2, size = 0.25,
+            x = ire[1] - 1e6, y = ire[2] - 5e5, 
+            xend = ire[1], yend = ire[2],
+            arrow = arrow(length = unit(0.2, "lines")))
+```
+
+I tried do this with a new data table containing each country's label, plus values for the text's color, hjust, vjust, x, y, and the curve's curvature, x, y, xend, and yend. However, you can't set curvature in the mapping, so I had to sort that with `pmap()`.
+
+```{r econ-day12, fig.width = 8, fig.height = 5}
+annotations <- tribble(
+  ~label, ~color, ~hjust, ~vjust, ~x, ~y, ~text_x, ~text_y, ~curvature, ~curve_x, ~curve_y,
+  "United States", "white", 0.5, 0.5, usa[1], usa[2], +2e5, -5e5, NA, NA, NA,
+  "Argentina", "#2F5C94", 0, 1, arg[1], arg[2], 1e6, -1.4e6, 0.3, 1e6, -1.4e6,
+  "Colombia", "#2F5C94", 1, 1, col[1], col[2], -1.5e6, -2e5, -0.3, -1.5e6, -2e5,
+  "Nepal", "#2F5C94", 0, 0, nep[1], nep[2], 5e5, 7e5, 0.1, 4e5, 6e5, 
+  "India", "#35809B", 0.5, 1, ind[1], ind[2], 1e6, -2.5e6, 0.3, 1e6, -2.4e6, 
+  "Pakistan", "#2F5C94", 0.5, 1, pak[1], pak[2], -5e5, -2.1e6, -0.1, -5e5, -2e6, 
+  "Germany", "#35809B", 0.5, 0, ger[1], ger[2], -1.2e6, 2.5e6, 0.2, -1.2e6, 2.4e6,
+  "Ireland", "#2F5C94", 1, 1, ire[1], ire[2], -1e6, -5e5, -0.2, -1e6, -5e5
+)
+
+curves <- annotations %>%
+  filter(label != "United States") %>%
+  pmap(function(label, color, hjust, vjust, 
+                 x, y, text_x, text_y, 
+                 curvature, curve_x, curve_y) {
+    annotate(geom = "curve", 
+             x = x + curve_x, 
+             y = y + curve_y, 
+             xend = x, 
+             yend = y, 
+             curvature = curvature, 
+             size = 0.3, 
+             arrow = arrow(length = unit(0.2, "lines")))
+  })
+
+
+base_map +
+  geom_text(data = annotations, 
+            mapping = aes(label = label, 
+            color = I(color),
+            hjust = hjust,
+            vjust = vjust,
+            x = x + text_x,
+            y = y + text_y),
+            size = 3) +
+  curves
+
+```
+
+```{r, include = FALSE, eval = FALSE}
+ggsave("images/day12.png", width = 8, height = 5, device = png)
+knitr::include_graphics("images/day12.png")
 ```
 
 
