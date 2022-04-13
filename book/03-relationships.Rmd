@@ -204,9 +204,9 @@ ggplot(happy_craft, aes(x = shops_per_M,
   guides(size = "none") +
   labs(title = "Do Yarn Shops Cause Happiness?",
        subtitle = "Data from Ravelry, Wikipedia & World Happiness Report | Plot by @lisadebruine") +
-  theme_classic(base_family = "Jost") +
+  theme_classic(base_family = "Jost", base_size = 13) +
   theme(
-    plot.title = element_text(face = "bold", color = "#EF6E62", size = 16),
+    plot.title = element_text(face = "bold", color = "#EF6E62", size = 20),
     plot.subtitle = element_text(face = "italic", color = "#404763"),
     legend.position = c(.73, .12),
     legend.key.width = unit(.07, "npc"),
