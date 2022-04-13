@@ -178,7 +178,7 @@ while (!is.null(dev.list())) dev.off()
 
 I recently discovered the `r pkg("waffle", "https://github.com/hrbrmstr/waffle/")` package for making waffle plots. Emily and I refuse to teach students on our [Applied Data Skills](https://psyteachr.github.io/ads-v1/) course how to make pie charts, and these are a sweet alternative. 
 
-```{r, message=FALSE}
+```{r, message=FALSE, cache=FALSE}
 #devtools::install_github("hrbrmstr/waffle")
 library(tidyverse)  # for data wrangling
 library(waffle)     # for pictograms
@@ -189,7 +189,7 @@ library(showtext)   # for fonts
 
 I'm never sure what I'm doing with fonts, but this procedure seems to work to install the FontAwesome fonts that you need for pictograms and also any other specialist fonts you'd like.
 
-```{r}
+```{r, cache = FALSE}
 waffle::install_fa_fonts()
 fontdir <- "/Library/Frameworks/R.framework/Versions/4.1/Resources/library/waffle/fonts/"
 font_add(family = waffle::fa5_brand,
@@ -301,7 +301,7 @@ ggplot(us_pets, aes(label = Pet, values = Number, color = Pet)) +
 
 Finally, use `theme()` to really customise the look. I adjusted the spacing between the items on the legend with `legend.spacing.y`, which requires the guides to be set `byrow` to work. 
 
-```{r pictogram-final, fig.cap = "Number of US households (in millions) with each of 8 common pet types.", fig.alt="Number of US households (in millions) with each of 8 common pet types.  Data from the American Pet Products Association (APPA) 2021-2022 National Pet Owners Survey. Dog=69, Cat=45.3, Freshwater fish=11.8, Bird=9.9, Small animal=6.2, Reptile=5.7, Horse=3.5, Saltwater fish=2.9", cache=FALSE}
+```{r pictogram-final, fig.cap = "Number of US households (in millions) with each of 8 common pet types.", fig.alt="Number of US households (in millions) with each of 8 common pet types.  Data from the American Pet Products Association (APPA) 2021-2022 National Pet Owners Survey. Dog=69, Cat=45.3, Freshwater fish=11.8, Bird=9.9, Small animal=6.2, Reptile=5.7, Horse=3.5, Saltwater fish=2.9"}
 
 ggplot(us_pets, aes(label = Pet, values = Number, color = Pet)) +
   geom_pictogram(size = 6.5) +

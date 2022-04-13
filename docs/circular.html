@@ -22,7 +22,10 @@
 <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.1.9000/transition.js"></script><script src="libs/bs3compat-0.3.1.9000/tabs.js"></script><script src="libs/bs3compat-0.3.1.9000/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script><script src="libs/plotly-binding-4.10.0/plotly.js"></script><script src="libs/typedarray-0.1/typedarray.min.js"></script><link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet">
 <script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script><link href="libs/plotly-htmlwidgets-css-2.5.1/plotly-htmlwidgets.css" rel="stylesheet">
-<script src="libs/plotly-main-2.5.1/plotly-latest.min.js"></script><!-- Global site tag (gtag.js) - Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=G-6NP3MF25W3"></script><script>
+<script src="libs/plotly-main-2.5.1/plotly-latest.min.js"></script><link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+<script src="libs/datatables-binding-0.20/datatables.js"></script><link href="libs/dt-core-1.11.3/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="libs/dt-core-1.11.3/css/jquery.dataTables.extra.css" rel="stylesheet">
+<script src="libs/dt-core-1.11.3/js/jquery.dataTables.min.js"></script><!-- Global site tag (gtag.js) - Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=G-6NP3MF25W3"></script><script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
@@ -103,14 +106,14 @@
 <span class="header-section-number">11</span> Circular<a class="anchor" aria-label="anchor" href="#circular"><i class="fas fa-link"></i></a>
 </h1>
 <p>I've never used <code><a href="https://rdrr.io/pkg/ggplot2/man/coord_polar.html">coord_polar()</a></code> before, but it seems pretty good for when you want to show values that vary a lot in magnitude between categories.</p>
-<div class="sourceCode" id="cb130"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb163"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span> <span class="co"># for wrangling data</span></code></pre></div>
 <div id="data-3" class="section level2" number="11.1">
 <h2>
 <span class="header-section-number">11.1</span> Data<a class="anchor" aria-label="anchor" href="#data-3"><i class="fas fa-link"></i></a>
 </h2>
 <p>I downloaded the <a href="https://www.ons.gov.uk/peoplepopulationandcommunity/culturalidentity/sexuality/bulletins/sexualidentityuk/2019">UK sexual orientation data</a> from the Office for National Statistics. It needs a little cleaning first. I'll leave it wide because I just want to plot the most recent year.</p>
-<div class="sourceCode" id="cb131"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb164"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">ukso</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/readr/man/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"data/uk_sexual-orientation_8c21318e.csv"</span>,
                  skip <span class="op">=</span> <span class="fl">3</span>, n_max <span class="op">=</span> <span class="fl">5</span>, 
                  show_col_types <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
@@ -252,7 +255,7 @@ Do not know/refuse
 <span class="header-section-number">11.2</span> Simple Polar Plot<a class="anchor" aria-label="anchor" href="#simple-polar-plot"><i class="fas fa-link"></i></a>
 </h2>
 <p>My first thought was to just add <code><a href="https://rdrr.io/pkg/ggplot2/man/coord_polar.html">coord_polar()</a></code> to a bar plot. Not quite. I kind of hate this plot style, but at least I know how to make one now.</p>
-<div class="sourceCode" id="cb132"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb165"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">ukso</span>, <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">`Sexual orientation`</span>, 
                  y <span class="op">=</span> <span class="va">`2019`</span>, 
                  fill <span class="op">=</span> <span class="va">`Sexual orientation`</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
@@ -265,7 +268,7 @@ Do not know/refuse
 <span class="header-section-number">11.3</span> Polar Y<a class="anchor" aria-label="anchor" href="#polar-y"><i class="fas fa-link"></i></a>
 </h2>
 <p>If you set <code>theta = "y"</code>, you get a different type of polar plot.</p>
-<div class="sourceCode" id="cb133"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb166"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">ukso</span>, <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">`Sexual orientation`</span>,
                  y <span class="op">=</span> <span class="va">`2019`</span>, 
                  fill <span class="op">=</span> <span class="va">`Sexual orientation`</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
@@ -280,7 +283,7 @@ Do not know/refuse
 </h2>
 <p>I reversed the order of the categories by setting <code>limits = rev</code> in <code><a href="https://rdrr.io/pkg/ggplot2/man/scale_discrete.html">scale_x_discrete()</a></code> and made some space in the middle by setting the <code>expand</code> argument to add 3 "columns" of space to the inside.</p>
 <p>I added <code><a href="https://rdrr.io/pkg/ggplot2/man/geom_text.html">geom_text()</a></code> to include the exactly values at the end of each bar. I had to use trial and error to get the angles to match. I also used <code><a href="https://rdrr.io/pkg/ggplot2/man/theme.html">theme()</a></code> to get rid of the y-axis.</p>
-<div class="sourceCode" id="cb134"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb167"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">ukso</span>, <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">`Sexual orientation`</span>, 
                  y <span class="op">=</span> <span class="va">`2019`</span>, 
                  fill <span class="op">=</span> <span class="va">`Sexual orientation`</span>, 
@@ -304,7 +307,7 @@ Do not know/refuse
 <span class="header-section-number">11.5</span> Theme<a class="anchor" aria-label="anchor" href="#theme"><i class="fas fa-link"></i></a>
 </h2>
 <p>Now I'll really customise the appearance. I found the <code><a href="https://rdrr.io/pkg/ggplot2/man/theme.html">theme()</a></code> function intimidating at first, but once you work with it for a bit and get your head around the <code>element_*</code> functions, it's straightforward and very powerful. I just wish I could figure out how to put the plot caption in the margin like I did for the legend.</p>
-<div class="sourceCode" id="cb135"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb168"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">rbcol</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"red3"</span>, 
            <span class="st">"darkgoldenrod1"</span>, 
            <span class="st">"springgreen3"</span>, 
@@ -582,7 +585,7 @@ $( document ).ready(function() {
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>30-day Chart Challenge</strong>: 2022" was written by Lisa DeBruine. It was last built on 2022-04-12.</p>
+    <p>"<strong>30-day Chart Challenge</strong>: 2022" was written by Lisa DeBruine. It was last built on 2022-04-14.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

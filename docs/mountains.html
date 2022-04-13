@@ -22,7 +22,10 @@
 <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.1.9000/transition.js"></script><script src="libs/bs3compat-0.3.1.9000/tabs.js"></script><script src="libs/bs3compat-0.3.1.9000/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script><script src="libs/plotly-binding-4.10.0/plotly.js"></script><script src="libs/typedarray-0.1/typedarray.min.js"></script><link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet">
 <script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script><link href="libs/plotly-htmlwidgets-css-2.5.1/plotly-htmlwidgets.css" rel="stylesheet">
-<script src="libs/plotly-main-2.5.1/plotly-latest.min.js"></script><!-- Global site tag (gtag.js) - Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=G-6NP3MF25W3"></script><script>
+<script src="libs/plotly-main-2.5.1/plotly-latest.min.js"></script><link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+<script src="libs/datatables-binding-0.20/datatables.js"></script><link href="libs/dt-core-1.11.3/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="libs/dt-core-1.11.3/css/jquery.dataTables.extra.css" rel="stylesheet">
+<script src="libs/dt-core-1.11.3/js/jquery.dataTables.min.js"></script><!-- Global site tag (gtag.js) - Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=G-6NP3MF25W3"></script><script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
@@ -104,7 +107,7 @@
 </h1>
 <p>Munros are the hills in Scotland over 3000 feet high. Many Scottish people are obsessed with <a href="https://www.visitscotland.com/see-do/active/walking/munro-bagging/">Munro bagging</a> — trying to see how many of the 282 Munros you can climb. I've lived in Scotland since 2003, but I still haven't been up a Munro!</p>
 <p>So I thought for the mountains prompt, I'd map all of the Munros in Scotland by height. Then someday, when I bag a munro, I can mark it on the map.</p>
-<div class="sourceCode" id="cb105"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb138"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>     <span class="co"># for data wrangling</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/">sf</a></span><span class="op">)</span>            <span class="co"># for maps</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ropenscilabs/rnaturalearth">rnaturalearth</a></span><span class="op">)</span> <span class="co"># for map coordinates</span>
@@ -121,7 +124,7 @@
 <span class="header-section-number">8.1</span> Data<a class="anchor" aria-label="anchor" href="#data-1"><i class="fas fa-link"></i></a>
 </h2>
 <p><a href="http://www.hills-database.co.uk/downloads.html">The Database of British and Irish Hills v17.3</a> has a table of the Munros, with columns for many years (I guess which hills are classified as Munros changes over time). Let's get just the current munros and fix some of the names.</p>
-<div class="sourceCode" id="cb106"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb139"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">munros</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/readr/man/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"data/munrotab_v8.0.1.csv"</span>,
                    show_col_types <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/filter.html">filter</a></span><span class="op">(</span><span class="va">`2021`</span> <span class="op">==</span> <span class="st">"MUN"</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
@@ -129,7 +132,7 @@
   <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/rename.html">rename</a></span><span class="op">(</span>height_m <span class="op">=</span> <span class="st">"Height (m)"</span>, 
          height_ft <span class="op">=</span> <span class="st">"Height\n(ft)"</span><span class="op">)</span></code></pre></div>
 <p>Make a quick histogram of their heights to get an overview of the data. I'd usually use the metric system, but since Munros are defined as hills over 3000 feet, I'll use feet.</p>
-<div class="sourceCode" id="cb107"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb140"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">munros</span>, <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">height_ft</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_histogram.html">geom_histogram</a></span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">100</span>, boundary <span class="op">=</span> <span class="fl">0</span>, 
                  color <span class="op">=</span> <span class="st">"black"</span>, fill <span class="op">=</span> <span class="st">"white"</span><span class="op">)</span></code></pre></div>
@@ -140,17 +143,17 @@
 <span class="header-section-number">8.2</span> Map of Scotland<a class="anchor" aria-label="anchor" href="#map-of-scotland"><i class="fas fa-link"></i></a>
 </h2>
 <p>Now I need a map of Scotland.</p>
-<div class="sourceCode" id="cb108"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb141"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">scotland_sf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rnaturalearth/man/ne_states.html">ne_states</a></span><span class="op">(</span>geounit <span class="op">=</span> <span class="st">"Scotland"</span>, 
                          returnclass <span class="op">=</span> <span class="st">"sf"</span><span class="op">)</span></code></pre></div>
 <p>The munro table locates the peaks using grid coordinates, and the map uses latitude and longitude. So I translated the grid coordinates to latitude and longitude using <a href="https://stackoverflow.com/questions/23017053/how-to-convert-uk-grid-reference-to-latitude-and-longitude-in-r">Stackoverflow code from hrbrmstr</a>.</p>
-<div class="sourceCode" id="cb109"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb142"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">latlon</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/purrr/man/map2.html">map2</a></span><span class="op">(</span><span class="va">munros</span><span class="op">$</span><span class="va">xcoord</span>, <span class="va">munros</span><span class="op">$</span><span class="va">ycoord</span>, <span class="va">os.grid.to.lat.lon</span><span class="op">)</span>
 
 <span class="va">munros</span><span class="op">$</span><span class="va">lat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/purrr/man/map.html">map_dbl</a></span><span class="op">(</span><span class="va">latlon</span>, <span class="va">`[[`</span>, <span class="fl">1</span><span class="op">)</span>
 <span class="va">munros</span><span class="op">$</span><span class="va">lon</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/purrr/man/map.html">map_dbl</a></span><span class="op">(</span><span class="va">latlon</span>, <span class="va">`[[`</span>, <span class="fl">2</span><span class="op">)</span></code></pre></div>
 <p>Then plot the latitude and longitude coordinates on the map, colored by height.</p>
-<div class="sourceCode" id="cb110"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb143"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggsf.html">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">scotland_sf</span>,
           mapping <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span><span class="op">)</span>,
@@ -167,7 +170,7 @@
 <span class="header-section-number">8.3</span> Make it prettier<a class="anchor" aria-label="anchor" href="#make-it-prettier"><i class="fas fa-link"></i></a>
 </h2>
 <p>There's no munros on the Northern Isles, so I've cropped them out of the map. I also made the colours better. I added a label to <code><a href="https://rdrr.io/pkg/ggplot2/man/geom_point.html">geom_point()</a></code>, which will produce a warning that it isn't used, but you'll see why in the next step.</p>
-<div class="sourceCode" id="cb111"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb144"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">munro_plot</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggsf.html">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">scotland_sf</span>,
           mapping <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span><span class="op">)</span>,
@@ -200,13 +203,13 @@
 </h2>
 <p>The <code class="package">plotly</code> package makes it pretty easy to make a ggplot interactive. Select an are to get a closer look, or hover over an individual munro to see why we added the unused <code>label</code> argument to <code><a href="https://rdrr.io/pkg/ggplot2/man/geom_point.html">geom_point()</a></code> above.</p>
 <p>I had to add some css to get the hover bar to stop acting wierd, but it's still not quite right.</p>
-<div class="sourceCode" id="cb112"><pre class="sourceCode default"><code class="sourceCode default"><span id="cb112-1"><a href="mountains.html#cb112-1" aria-hidden="true" tabindex="-1"></a>.js-plotly-plot .plotly .modebar { position: relative; top: -2em; }</span>
-<span id="cb112-2"><a href="mountains.html#cb112-2" aria-hidden="true" tabindex="-1"></a>.plotly.plot-container { padding-top: 2em; background-color: #B0E1FE;}</span></code></pre></div>
+<div class="sourceCode" id="cb145"><pre class="sourceCode default"><code class="sourceCode default"><span id="cb145-1"><a href="mountains.html#cb145-1" aria-hidden="true" tabindex="-1"></a>.js-plotly-plot .plotly .modebar { position: relative; top: -2em; }</span>
+<span id="cb145-2"><a href="mountains.html#cb145-2" aria-hidden="true" tabindex="-1"></a>.plotly.plot-container { padding-top: 2em; background-color: #B0E1FE;}</span></code></pre></div>
 <style>
 .js-plotly-plot .plotly .modebar { position: relative; top: -2em; }
 .plotly.plot-container { padding-top: 2em; background-color: #B0E1FE;}
 </style>
-<div class="sourceCode" id="cb113"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb146"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">plotly</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/plotly/man/ggplotly.html">ggplotly</a></span><span class="op">(</span>
   p <span class="op">=</span> <span class="va">munro_plot</span>, 
   tooltip <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"label"</span>, <span class="st">"colour"</span><span class="op">)</span>
@@ -443,7 +446,7 @@ $( document ).ready(function() {
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>30-day Chart Challenge</strong>: 2022" was written by Lisa DeBruine. It was last built on 2022-04-12.</p>
+    <p>"<strong>30-day Chart Challenge</strong>: 2022" was written by Lisa DeBruine. It was last built on 2022-04-14.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
