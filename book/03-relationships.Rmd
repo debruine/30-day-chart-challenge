@@ -221,11 +221,148 @@ knitr::include_graphics("images/day13.png")
 ```
 
 
-
-
 # 3-dimensional
 
+I love 3D and wish I had more time to work on the [webmorph](https://webmorph.org) 3D functions (I made the following gif using it).
+
+```{r spin, echo = FALSE}
+knitr::include_graphics("images/spin.gif")
+```
+
+But those are made with three.js and I was excited to play with `r pkg("rgl")` a bit.
+
+```{r}
+library(rgl)
+source("R/readOBJ.R")
+```
+
+## Load OBJ
+
+Load the 3D data from an OBJ file using `rgl::readOBJ()`. If you get the error "Error in order(vlinks[[i]][, 2]) : argument 1 is not a vector", this means a vertex was empty, which the function doesn't seem to be able to handle. I hacked the `readOBJ()` function a bit and fixed it, so check my github for this if you have the same problem.
+
+```{r}
+obj <- "data/lisa_neutral.obj"
+skin <- "data/lisa_neutral.png"
+
+objexample <- readOBJ(
+  obj,
+  material = list(color = "white",
+                  texture = skin))
+```
+
+Just to give you nightmares, this is what the skin looks like for a 3D face in 2D:
+
+```{r lisa-skin, echo = FALSE}
+knitr::include_graphics("data/lisa_neutral.png")
+```
+
+
+## Render scene
+
+Now clear a scene. You might need to install [XQuartz](https://www.xquartz.org/) if you're on a mac. If you're running this interactively, a small XQuartz window should pop up.
+
+```{r}
+clear3d(type = c("shapes", "lights"))
+```
+
+Add the face as a wireframe object.
+
+```{r}
+wire3d(objexample)
+```
+
+You can include this in a webpage with `rglwidget()`.
+
+```{r}
+rglwidget(width = 600, height = 800) 
+```
+
+
+## Give Up
+
+I tried to get it to display with the skin, but failed. Then after I rendered the book, I noticed the skin *was* showing in the book, just not in XQuartz while I was testing. But I was really tired at that point so I gave up and tried something else for today's theme.
+
+These objects are pretty big, so remove it when you're done.
+
+```{r}
+rm(objexample)
+```
+
+## Try Plotly Instead
+
+I know I can do this fast, so I'll make some 3-dimensional data from a multivariate normal distribution using `r pkg("faux")`, and 3D plot it using `r pkg("plotly")`.
+
+```{r}
+library(plotly)
+library(faux)
+library(dplyr)
+```
+
+### Simulate multivariate distribution
+
+In faux, you can set the correlations using a matrix, or just the upper right triangle values as a vector. So `c(.1, .2, .3)` would mean that $r_{xy} = .1$, $r_{xz} = .2$, and $r_{yz} = .3$.
+
+```{r}
+dat_ppp <- faux::rnorm_multi(
+  r = c(.9, .9, .9),
+  varnames = c("x", "y", "z")
+) %>%
+  mutate(cors = "+++")
+
+dat_nnp <- faux::rnorm_multi(
+  r = c(-.9, -.9, .9),
+  varnames = c("x", "y", "z")
+) %>%
+  mutate(cors = "--+")
+
+dat_pnn <- faux::rnorm_multi(
+  r = c(.9, -.9, -.9),
+  varnames = c("x", "y", "z")
+) %>%
+  mutate(cors = "+--")
+
+dat <- bind_rows(dat_ppp, dat_nnp, dat_pnn)
+```
+
+### Marker style
+
+Next, set up the marker style.
+
+```{r}
+#set up the marker style
+marker_style = list(
+    line = list(
+      color = "#444", 
+      width = 1
+    ), 
+    opacity = 0.5,
+    size = 3
+  )
+```
+
+
+### 3D Plot
+
+Finally, make the plot and add markers. These plots look cool, but I find them pretty hard for inference with data.
+
+```{r plotly-3d}
+# plot and add markers
+plot_ly(data = dat,
+        x = ~x, y = ~y, z = ~z, 
+        color = ~cors,
+        marker = marker_style) %>%
+  add_markers()
+```
+
 # Multivariate
+
+I wrote `r pkg("faux")` to make it easier to simulate multivariate normal distribution data with different patterns of correlations, because I was doing it manually using `mvrnorm()` so often. It's expanded to a whole package dedicated to making simulation easier, focussing on simulation from the kinds of parameters you might find in the descriptives table of a paper.
+
+```{r}
+library(faux)
+```
+
+
 
 # Environment
 

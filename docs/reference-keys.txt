@@ -100,6 +100,13 @@ correlations
 initial-plot
 customise-the-plot
 dimensional
+load-obj
+render-scene
+give-up
+try-plotly-instead
+simulate-multivariate-distribution
+marker-style
+d-plot
 multivariate
 environment
 connections
