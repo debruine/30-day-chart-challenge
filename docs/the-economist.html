@@ -107,7 +107,7 @@
 <span class="header-section-number">12</span> The Economist<a class="anchor" aria-label="anchor" href="#the-economist"><i class="fas fa-link"></i></a>
 </h1>
 <p>I hadn't realised The Economist do a <a href="https://www.economist.com/search?q=daily%20chart">daily chart</a>. They range from the simple and powerful to really complex visualisations. I won't show any here, as their website/blog licensing of a single chart for 1 month to an academic costs £159, but you can see the map I'm going to recreate here: <a href="https://www.economist.com/graphic-detail/2022/04/11/which-countries-offer-gender-neutral-passports">Which countries offer gender-neutral passports?</a></p>
-<div class="sourceCode" id="cb169"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb136"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>     <span class="co"># for data wrangling and visualisation</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/">sf</a></span><span class="op">)</span>            <span class="co"># for maps</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ropenscilabs/rnaturalearth">rnaturalearth</a></span><span class="op">)</span> <span class="co"># for map coordinates</span>
@@ -120,7 +120,7 @@
 <span class="header-section-number">12.1</span> Data<a class="anchor" aria-label="anchor" href="#data-4"><i class="fas fa-link"></i></a>
 </h2>
 <p>They don't give a data source beyond "Press reports; <em>The Economist</em>", but there aren't that many countries, so I can just create the data table myself, with the help of Wikipedia's article on <a href="https://en.wikipedia.org/wiki/Legal_recognition_of_non-binary_gender">legal recognition of non-binary gender</a>. I also added the year that the first non-gendered passport was issued.</p>
-<div class="sourceCode" id="cb170"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb137"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">nb_passports</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tibble/man/tribble.html">tribble</a></span><span class="op">(</span>
   <span class="op">~</span><span class="va">country</span>, <span class="op">~</span><span class="va">restriction</span>, <span class="op">~</span><span class="va">year</span>,
   <span class="st">"Argentina"</span>, <span class="st">"Self-declaration"</span>, <span class="fl">2021</span>,
@@ -149,7 +149,7 @@
 <span class="header-section-number">12.2</span> Map Setup<a class="anchor" aria-label="anchor" href="#map-setup"><i class="fas fa-link"></i></a>
 </h2>
 <p>I'll use the code from Day <a href="owid.html#owid">6</a> to make the map.</p>
-<div class="sourceCode" id="cb171"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb138"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># translate the coordinate reference system</span>
 <span class="va">crs</span> <span class="op">&lt;-</span> <span class="st">"+proj=wintri"</span>  <span class="co"># winkel tripel projection</span>
 <span class="va">world_wintri</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rnaturalearth/man/ne_countries.html">ne_countries</a></span><span class="op">(</span>returnclass <span class="op">=</span> <span class="st">"sf"</span>, scale <span class="op">=</span> <span class="st">"medium"</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
@@ -169,7 +169,7 @@
   ylim <span class="op">=</span> <span class="va">trans_coords</span><span class="op">[</span>,<span class="st">'Y'</span><span class="op">]</span>, 
   expand <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
 <p>Add the data</p>
-<div class="sourceCode" id="cb172"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb139"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">data_map</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">world_wintri</span>, <span class="va">nb_passports</span>, 
                           by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"geounit"</span> <span class="op">=</span> <span class="st">"country"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/select.html">select</a></span><span class="op">(</span>country <span class="op">=</span> <span class="va">geounit</span>, <span class="va">restriction</span>, <span class="va">year</span>, <span class="va">geometry</span><span class="op">)</span></code></pre></div>
@@ -179,13 +179,13 @@
 <span class="header-section-number">12.3</span> Map in Economist theme<a class="anchor" aria-label="anchor" href="#map-in-economist-theme"><i class="fas fa-link"></i></a>
 </h2>
 <p>I found the <a href="https://eng.m.fontke.com/font/17459412/download/">Econ Sans Cnd font</a> that matched The Economist plots. You can use Arial Narrow if you can't find this one.</p>
-<div class="sourceCode" id="cb173"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb140"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/sysfonts/man/font_add.html">font_add</a></span><span class="op">(</span>family <span class="op">=</span> <span class="st">"EconSans"</span>,
          regular <span class="op">=</span> <span class="st">"~/Library/Fonts/econsanscndreg-webfont.woff.ttf"</span>,
          bold <span class="op">=</span> <span class="st">"~/Library/Fonts/econsanscndmed-webfont.woff.ttf"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/showtext/man/showtext_auto.html">showtext_auto</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>Now build the plot without annotations and try to match the theme.</p>
-<div class="sourceCode" id="cb174"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb141"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">base_map</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">data_map</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggsf.html">geom_sf</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">0.5</span><span class="op">/</span><span class="va">.pt</span>,
           fill <span class="op">=</span> <span class="st">"#CECCBF"</span>,
@@ -218,7 +218,7 @@
 <span class="header-section-number">12.4</span> Get Centroids<a class="anchor" aria-label="anchor" href="#get-centroids"><i class="fas fa-link"></i></a>
 </h2>
 <p>Get the centre x- and y- coordinates from each country to plot the annotations.</p>
-<div class="sourceCode" id="cb175"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb142"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">get_centroid</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">geounit</span><span class="op">)</span> <span class="op">{</span>
   <span class="va">data_map</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
     <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/filter.html">filter</a></span><span class="op">(</span><span class="va">country</span> <span class="op">==</span> <span class="va">geounit</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
@@ -242,7 +242,7 @@
 <span class="header-section-number">12.5</span> Add Annotations<a class="anchor" aria-label="anchor" href="#add-annotations"><i class="fas fa-link"></i></a>
 </h2>
 <p>These needed a lot of trial-and-error.</p>
-<div class="sourceCode" id="cb176"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb143"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">base_map</span> <span class="op">+</span>
   <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/annotate.html">annotate</a></span><span class="op">(</span><span class="st">"text"</span>, label <span class="op">=</span> <span class="st">"United States"</span>, color <span class="op">=</span> <span class="st">"white"</span>, 
            hjust <span class="op">=</span> <span class="fl">0.5</span>, vjust <span class="op">=</span> <span class="fl">0.5</span>,
@@ -298,7 +298,7 @@
             arrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/arrow.html">arrow</a></span><span class="op">(</span>length <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="st">"lines"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="30DCC_files/figure-html/econ-annotate-1.png" width="100%" style="display: block; margin: auto;"></div>
 <p>I tried do this with a new data table containing each country's label, plus values for the text's color, hjust, vjust, x, y, and the curve's curvature, x, y, xend, and yend. However, you can't set curvature in the mapping, so I had to sort that with <code><a href="https://rdrr.io/pkg/purrr/man/map2.html">pmap()</a></code>.</p>
-<div class="sourceCode" id="cb177"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb144"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">annotations</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tibble/man/tribble.html">tribble</a></span><span class="op">(</span>
   <span class="op">~</span><span class="va">label</span>, <span class="op">~</span><span class="va">color</span>, <span class="op">~</span><span class="va">hjust</span>, <span class="op">~</span><span class="va">vjust</span>, <span class="op">~</span><span class="va">x</span>, <span class="op">~</span><span class="va">y</span>, <span class="op">~</span><span class="va">text_x</span>, <span class="op">~</span><span class="va">text_y</span>, <span class="op">~</span><span class="va">curvature</span>, <span class="op">~</span><span class="va">curve_x</span>, <span class="op">~</span><span class="va">curve_y</span>,
   <span class="st">"United States"</span>, <span class="st">"white"</span>, <span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="va">usa</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">usa</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, <span class="op">+</span><span class="fl">2e5</span>, <span class="op">-</span><span class="fl">5e5</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span>,
@@ -344,14 +344,14 @@
 <span class="header-section-number">12.6</span> Add red rectangle<a class="anchor" aria-label="anchor" href="#add-red-rectangle"><i class="fas fa-link"></i></a>
 </h2>
 <p>Last, we need to add the classic red rectangle to the top left of the plot. Save the plot as a PNG, then add the red rectangle using <code class="package">magick</code>.</p>
-<div class="sourceCode" id="cb178"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb145"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggsave.html">ggsave</a></span><span class="op">(</span><span class="st">"images/day12.png"</span>, width <span class="op">=</span> <span class="fl">8</span>, height <span class="op">=</span> <span class="fl">5</span>, device <span class="op">=</span> <span class="va">png</span>, bg <span class="op">=</span> <span class="st">"white"</span><span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb179"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb146"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">chart</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://docs.ropensci.org/magick/reference/editing.html">image_read</a></span><span class="op">(</span><span class="st">"images/day12.png"</span><span class="op">)</span>
 <span class="va">rect</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://docs.ropensci.org/magick/reference/editing.html">image_blank</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">20</span>, <span class="st">"#D9352C"</span><span class="op">)</span>
 <span class="va">img</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://docs.ropensci.org/magick/reference/composite.html">image_composite</a></span><span class="op">(</span><span class="va">chart</span>, <span class="va">rect</span>, offset <span class="op">=</span> <span class="st">"+180+0"</span><span class="op">)</span>
 <span class="fu"><a href="https://docs.ropensci.org/magick/reference/editing.html">image_write</a></span><span class="op">(</span><span class="va">img</span>, <span class="st">"images/day12.png"</span><span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb180"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb147"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/include_graphics.html">include_graphics</a></span><span class="op">(</span><span class="st">"images/day12.png"</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="images/day12.png" width="100%" style="display: block; margin: auto;"></div>
 
@@ -590,7 +590,7 @@ $( document ).ready(function() {
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>30-day Chart Challenge</strong>: 2022" was written by Lisa DeBruine. It was last built on 2022-04-14.</p>
+    <p>"<strong>30-day Chart Challenge</strong>: 2022" was written by Lisa DeBruine. It was last built on 2022-04-15.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

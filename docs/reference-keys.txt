@@ -108,6 +108,16 @@ simulate-multivariate-distribution
 marker-style
 d-plot
 multivariate
+simulate-data-1
+plot-individual-distributions
+age
+texts---poisson
+score
+plot-bivariate-distributions
+age-vs-texts
+score-vs-age
+texts-vs-score
+combine
 environment
 connections
 oecd

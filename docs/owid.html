@@ -106,7 +106,7 @@
 <h1>
 <span class="header-section-number">6</span> OWiD<a class="anchor" aria-label="anchor" href="#owid"><i class="fas fa-link"></i></a>
 </h1>
-<div class="sourceCode" id="cb109"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb76"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>     <span class="co"># for data wrangling and visualisation</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/">sf</a></span><span class="op">)</span>            <span class="co"># for maps</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ropenscilabs/rnaturalearth">rnaturalearth</a></span><span class="op">)</span> <span class="co"># for map coordinates</span>
@@ -129,14 +129,14 @@
 <span class="header-section-number">6.1</span> Data<a class="anchor" aria-label="anchor" href="#data"><i class="fas fa-link"></i></a>
 </h2>
 <p>I hate working with columns that have uppercase letters or spaces in the names, so I adjusted the column names when importing. I also found out later that this dataset labels South Sudan as "SSD", but the data from sf labels it as "SDS", so I'll fix it here.</p>
-<div class="sourceCode" id="cb110"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb77"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># data from https://ourworldindata.org/technology-adoption</span>
 <span class="va">data_orig</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/readr/man/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"data/share-of-individuals-using-the-internet.csv"</span>,
                       col_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"country"</span>, <span class="st">"code"</span>, <span class="st">"year"</span>, <span class="st">"it_net_users"</span><span class="op">)</span>,
                       skip <span class="op">=</span> <span class="fl">1</span>, show_col_types <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/mutate.html">mutate</a></span><span class="op">(</span>code <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/recode.html">recode</a></span><span class="op">(</span><span class="va">code</span>, SSD <span class="op">=</span> <span class="st">"SDS"</span>, .default <span class="op">=</span> <span class="va">code</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>There are a lot of missing years. I want them in the map explicitly as rows with it_net_users == NA, for reasons that will get clear later. Pivot wider, which will create a column for each year with NA as the value for any countries that don't have a row for that year, then pivot back longer.</p>
-<div class="sourceCode" id="cb111"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb78"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">data_na</span> <span class="op">&lt;-</span> <span class="va">data_orig</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span> 
   <span class="fu"><a href="https://rdrr.io/pkg/tidyr/man/pivot_wider.html">pivot_wider</a></span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">year</span>, 
               values_from <span class="op">=</span> <span class="va">it_net_users</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
@@ -150,7 +150,7 @@
 <span class="header-section-number">6.2</span> Map<a class="anchor" aria-label="anchor" href="#map"><i class="fas fa-link"></i></a>
 </h2>
 <p>Now I need some world map coordinates. The <code class="package">sf</code> and <code class="package">rnaturalearth</code> packages make this easy.</p>
-<div class="sourceCode" id="cb112"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb79"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># get the world map coordinates</span>
 <span class="va">world_sf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rnaturalearth/man/ne_countries.html">ne_countries</a></span><span class="op">(</span>returnclass <span class="op">=</span> <span class="st">"sf"</span>, scale <span class="op">=</span> <span class="st">"medium"</span><span class="op">)</span>
 
@@ -165,7 +165,7 @@
 </h2>
 <p>Here's a better projection. You have to use the <code><a href="https://rdrr.io/pkg/lwgeom/man/st_transform_proj.html">st_transform_proj()</a></code> function from <code class="package">lwgeom</code> to transform the coordinates. You need to add <code>coord_sf(datum = NULL)</code> to the plots to avoid an error message when <code class="package">sf</code> tries to plot the graticule. I also cropped the coordinates to remove giant Antarctica and centre the continents better.</p>
 <p>This is tricky, and I found tutorials by <a href="https://wilkelab.org/practicalgg/articles/Winkel_tripel.html">Claus Wilke</a> and the <a href="https://datascience.blog.wzb.eu/2019/04/30/zooming-in-on-maps-with-sf-and-ggplot2/">WZB Data Science Blog</a> really helpful.</p>
-<div class="sourceCode" id="cb113"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb80"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># translate the coordinate reference system</span>
 <span class="va">crs</span> <span class="op">&lt;-</span> <span class="st">"+proj=wintri"</span>  <span class="co"># winkel tripel projection</span>
 <span class="va">world_wintri</span> <span class="op">&lt;-</span> <span class="fu">lwgeom</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lwgeom/man/st_transform_proj.html">st_transform_proj</a></span><span class="op">(</span><span class="va">world_sf</span>, crs <span class="op">=</span> <span class="va">crs</span><span class="op">)</span>
@@ -196,12 +196,12 @@
 <span class="header-section-number">6.4</span> Data Map<a class="anchor" aria-label="anchor" href="#data-map"><i class="fas fa-link"></i></a>
 </h2>
 <p>Now to add the internet use data to the map data. I select down to the relevant columns to make visual inspection easier.</p>
-<div class="sourceCode" id="cb114"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb81"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">data_map_int</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">world_wintri</span>, <span class="va">data_na</span>, 
                           by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"gu_a3"</span> <span class="op">=</span> <span class="st">"code"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/select.html">select</a></span><span class="op">(</span><span class="va">country</span>, <span class="va">year</span>, code <span class="op">=</span> <span class="va">gu_a3</span>, <span class="va">it_net_users</span>, <span class="va">geometry</span><span class="op">)</span></code></pre></div>
 <p>Plot with facets by year. This takes a while to run, but it's useful to see what each frame will look like.</p>
-<div class="sourceCode" id="cb115"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb82"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">data_map_int</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggsf.html">geom_sf</a></span><span class="op">(</span>mapping <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">it_net_users</span><span class="op">)</span>,
           size <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span> <span class="op">+</span>
@@ -212,14 +212,14 @@
   <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"right"</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="30DCC_files/figure-html/owid-data-map-1.png" width="100%" style="display: block; margin: auto;"></div>
 <p>Where is the NA facet coming from? It must be regions that never have any data. I'll group by country and omit any that are entirely NA.</p>
-<div class="sourceCode" id="cb116"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb83"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># get data for countries with at least one valid year</span>
 <span class="va">data_map_int_valid</span> <span class="op">&lt;-</span> <span class="va">data_map_int</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/group_by.html">group_by</a></span><span class="op">(</span><span class="va">country</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/all.html">all</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">year</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/group_by.html">ungroup</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>Now let's retry the map, and switch the fill to a nicer viridis gradient. Set the na.value to red to more easily see where the missing data is.</p>
-<div class="sourceCode" id="cb117"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb84"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">data_map_int_valid</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggsf.html">geom_sf</a></span><span class="op">(</span>mapping <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">it_net_users</span><span class="op">)</span>,
           size <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span> <span class="op">+</span>
@@ -235,7 +235,7 @@
 <span class="header-section-number">6.5</span> Missing data<a class="anchor" aria-label="anchor" href="#missing-data"><i class="fas fa-link"></i></a>
 </h2>
 <p>We don't have data for a lot of countries in some years. I'm going to use the previous year's data where there is missing data. I'll also add a column for whether or not it's a filled value so I can indicate this on the map if I want.</p>
-<div class="sourceCode" id="cb118"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb85"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">data_map_int_no_missing</span> <span class="op">&lt;-</span> <span class="va">data_map_int_valid</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/mutate.html">mutate</a></span><span class="op">(</span>it_net_users_no_na <span class="op">=</span> <span class="va">it_net_users</span>,
          missing <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">it_net_users</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
@@ -244,7 +244,7 @@
   <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes_colour_fill_alpha.html">fill</a></span><span class="op">(</span><span class="va">it_net_users_no_na</span>, .direction <span class="op">=</span> <span class="st">"down"</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/group_by.html">ungroup</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>There's still one big persistently missing country in the middle of Africa.</p>
-<div class="sourceCode" id="cb119"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb86"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">data_map_int_no_missing</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggsf.html">geom_sf</a></span><span class="op">(</span>mapping <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">it_net_users_no_na</span><span class="op">)</span>,
           size <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span> <span class="op">+</span>
@@ -260,7 +260,7 @@
 <span class="header-section-number">6.6</span> South Sudan<a class="anchor" aria-label="anchor" href="#south-sudan"><i class="fas fa-link"></i></a>
 </h2>
 <p>South Sudan got independence from Sudan in 2011, so lets fill in the values for South Sudan from 1990 to 2012 using the values from Sudan. I found it wierdly hard to do this, and would appreciate if someone could show me a tidier way. Also, I'm sure it will come back to bite me, but I've named this data table <code>data_map_int_final</code>.</p>
-<div class="sourceCode" id="cb120"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb87"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sudan</span> <span class="op">&lt;-</span> <span class="va">data_map_int_no_missing</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/filter.html">filter</a></span><span class="op">(</span><span class="va">country</span> <span class="op">==</span> <span class="st">"Sudan"</span>,
          <span class="va">year</span> <span class="op">&lt;=</span> <span class="fl">2012</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></span>
@@ -280,7 +280,7 @@
 <span class="header-section-number">6.7</span> Single frame<a class="anchor" aria-label="anchor" href="#single-frame"><i class="fas fa-link"></i></a>
 </h2>
 <p>Now I want to set up what a single frame will look like in my animation. I'll filter the data down to the year 2019 and work on the plot until I'm happy.</p>
-<div class="sourceCode" id="cb121"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb88"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/filter.html">filter</a></span><span class="op">(</span><span class="va">data_map_int_final</span>, <span class="va">year</span> <span class="op">==</span> <span class="fl">2019</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggsf.html">geom_sf</a></span><span class="op">(</span>mapping <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">it_net_users_no_na</span><span class="op">/</span><span class="fl">100</span><span class="op">)</span>,
           size <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span> <span class="op">+</span>
@@ -313,7 +313,7 @@
 <h2>
 <span class="header-section-number">6.8</span> Animated plot<a class="anchor" aria-label="anchor" href="#animated-plot"><i class="fas fa-link"></i></a>
 </h2>
-<div class="sourceCode" id="cb122"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb89"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">anim</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">data_map_int_final</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggsf.html">geom_sf</a></span><span class="op">(</span>mapping <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">it_net_users_no_na</span><span class="op">/</span><span class="fl">100</span><span class="op">)</span>,
           size <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span> <span class="op">+</span>
@@ -342,11 +342,11 @@
   <span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://rdrr.io/pkg/gganimate/man/transition_time.html">transition_time</a></span><span class="op">(</span><span class="va">year</span><span class="op">)</span></code></pre></div>
 <p>It takes absolutely forever to create the animation (I think because it's unnecessarily tweening the shapes, but I don't have time to learn more about gganimate today), so run this once and set the code chunk to <code>eval = FALSE</code> and load the gif from file.</p>
-<div class="sourceCode" id="cb123"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb90"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/gganimate/man/anim_save.html">anim_save</a></span><span class="op">(</span><span class="st">"images/day6.gif"</span>, animation <span class="op">=</span> <span class="va">anim</span>, 
           nframes <span class="op">=</span> <span class="fl">30</span>, fps <span class="op">=</span> <span class="fl">4</span>, start_pause <span class="op">=</span> <span class="fl">6</span>, end_pause <span class="op">=</span> <span class="fl">6</span>, 
           width <span class="op">=</span> <span class="fl">8</span>, height <span class="op">=</span> <span class="fl">5</span>, units <span class="op">=</span> <span class="st">"in"</span>, res <span class="op">=</span> <span class="fl">150</span><span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb124"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb91"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/include_graphics.html">include_graphics</a></span><span class="op">(</span><span class="st">"images/day6.gif"</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="images/day6.gif" width="100%" style="display: block; margin: auto;"></div>
 
@@ -587,7 +587,7 @@ $( document ).ready(function() {
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>30-day Chart Challenge</strong>: 2022" was written by Lisa DeBruine. It was last built on 2022-04-14.</p>
+    <p>"<strong>30-day Chart Challenge</strong>: 2022" was written by Lisa DeBruine. It was last built on 2022-04-15.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

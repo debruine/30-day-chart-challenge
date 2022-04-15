@@ -107,7 +107,7 @@
 <span class="header-section-number">10</span> Experimental<a class="anchor" aria-label="anchor" href="#experimental"><i class="fas fa-link"></i></a>
 </h1>
 <p>Today I'm going to use faux to generate some simulated data for a factorial experimental design and make some plots.</p>
-<div class="sourceCode" id="cb154"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb121"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/debruine/faux">faux</a></span><span class="op">)</span>      <span class="co"># for data simulation</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>   <span class="co"># for plotting</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://patchwork.data-imaginist.com">patchwork</a></span><span class="op">)</span> <span class="co"># for multi-panel plots</span>
@@ -122,12 +122,12 @@
 <h3>
 <span class="header-section-number">10.1.1</span> One factor<a class="anchor" aria-label="anchor" href="#one-factor"><i class="fas fa-link"></i></a>
 </h3>
-<div class="sourceCode" id="cb155"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb122"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">b2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/faux/man/sim_design.html">sim_design</a></span><span class="op">(</span>between <span class="op">=</span> <span class="fl">2</span>, 
                  mu <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="30DCC_files/figure-html/exp-b2-sim-1.png" width="100%" style="display: block; margin: auto;"></div>
 <p>For within-subject designs, you have to specify the correlation between each level. If there are any within factors, the <code><a href="https://rdrr.io/pkg/faux/man/get_params.html">check_sim_stats()</a></code> table will include the sampled correlations. You can turn off the design plot with <code>plot = FALSE</code>.</p>
-<div class="sourceCode" id="cb156"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb123"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">w2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/faux/man/sim_design.html">sim_design</a></span><span class="op">(</span>within <span class="op">=</span> <span class="fl">2</span>, 
                  mu <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>,
                  sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">5</span><span class="op">)</span>,
@@ -206,7 +206,7 @@ W1b
 <span class="header-section-number">10.1.2</span> Two factors<a class="anchor" aria-label="anchor" href="#two-factors"><i class="fas fa-link"></i></a>
 </h3>
 <p>You can also give the factors names and labels. You can set the correlations separately for each between-subject cell.</p>
-<div class="sourceCode" id="cb157"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb124"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># df version uses row and column labels, </span>
 <span class="co"># so allows rows and columns to be out of order</span>
 <span class="va">mu</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>cat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.5</span><span class="op">)</span>,
@@ -220,8 +220,8 @@ W1b
                    r <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>cat <span class="op">=</span> <span class="fl">0</span>,
                             dog <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span>,
                    long <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-<div class="inline-figure"><img src="30DCC_files/figure-html/unnamed-chunk-64-1.png" width="100%" style="display: block; margin: auto;"></div>
-<div class="sourceCode" id="cb158"><pre class="downlit sourceCode r">
+<div class="inline-figure"><img src="30DCC_files/figure-html/unnamed-chunk-83-1.png" width="100%" style="display: block; margin: auto;"></div>
+<div class="sourceCode" id="cb125"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/faux/man/get_params.html">check_sim_stats</a></span><span class="op">(</span><span class="va">w2b2</span><span class="op">)</span></code></pre></div>
 <div class="kable-table">
 <div class="inline-table"><table class="table table-sm">
@@ -356,7 +356,7 @@ pm
 </h3>
 <p>Now it's time for the fun part: making plots! The <code><a href="https://r-spatial.github.io/sf/reference/plot.html">plot()</a></code> function makes it easy to plot data made with faux. See the <a href="https://debruine.github.io/faux/articles/plots.html">plotting vignette</a> for more details.</p>
 <p>The output is a ggplot, so you can add more ggplot options to it.</p>
-<div class="sourceCode" id="cb159"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb126"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html">plot</a></span><span class="op">(</span><span class="va">b2</span>, geoms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"violin"</span>, <span class="st">"box"</span><span class="op">)</span>, palette <span class="op">=</span> <span class="st">"Accent"</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Between-Subject Factor"</span><span class="op">)</span></code></pre></div>
 <div class="inline-figure"><img src="30DCC_files/figure-html/exp-b2-plot-1.png" width="100%" style="display: block; margin: auto;"></div>
@@ -366,7 +366,7 @@ pm
 <span class="header-section-number">10.2.2</span> Design Plots<a class="anchor" aria-label="anchor" href="#design-plots"><i class="fas fa-link"></i></a>
 </h3>
 <p>You can also plot the design (not the data). If you plot a violin, the shape will be estimated by simulating a very large sample with these parameters.</p>
-<div class="sourceCode" id="cb160"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb127"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/faux/man/get_design.html">get_design</a></span><span class="op">(</span><span class="va">w2</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/faux/man/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html">plot</a></span><span class="op">(</span>geoms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"violin"</span>, <span class="st">"pointrangeSD"</span><span class="op">)</span>, palette <span class="op">=</span> <span class="st">"Dark2"</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Within-Subject Factor"</span><span class="op">)</span></code></pre></div>
@@ -377,7 +377,7 @@ pm
 <span class="header-section-number">10.2.3</span> Combo Plots<a class="anchor" aria-label="anchor" href="#combo-plots"><i class="fas fa-link"></i></a>
 </h3>
 <p>Create a design plot for the main effects and interaction in <code>w2b2</code>. You can specify the order color, x, facet row(s), facet col(s) [this function needs a little work to be more intuitive]. Add a title and custom colours (you'll get a warning about the duplicate scale for fill; just ignore it).</p>
-<div class="sourceCode" id="cb161"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb128"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">geoms</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"violin"</span>, <span class="st">"pointrangeSD"</span><span class="op">)</span>
 <span class="va">b_colors</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/scale_manual.html">scale_color_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"red3"</span>, <span class="st">"dodgerblue3"</span><span class="op">)</span>, guide <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span>
 <span class="va">w_colors</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/scale_manual.html">scale_color_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"darkorchid"</span>, <span class="st">"darkorange"</span><span class="op">)</span>, guide <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span>
@@ -404,7 +404,7 @@ pm
   <span class="va">b_colors</span> <span class="op">+</span> <span class="va">b_fill</span> <span class="op">+</span>
   <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="cn">NULL</span>, title <span class="op">=</span> <span class="st">"Interaction between Pet Type and Time of Day"</span><span class="op">)</span></code></pre></div>
 <p>Combine with <code class="package">patchwork</code></p>
-<div class="sourceCode" id="cb162"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb129"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">layout</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"AB"</span>, <span class="st">"CC"</span>, <span class="st">"DD"</span>, sep <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span>
 <span class="va">plot_b2</span>  <span class="op">+</span> <span class="va">plot_w2</span> <span class="op">+</span> <span class="va">plot_w2b2</span> <span class="op">+</span> <span class="va">plot_b2w2</span> <span class="op">+</span>
   <span class="fu"><a href="https://rdrr.io/pkg/patchwork/man/plot_layout.html">plot_layout</a></span><span class="op">(</span>design <span class="op">=</span> <span class="va">layout</span><span class="op">)</span></code></pre></div>
@@ -649,7 +649,7 @@ $( document ).ready(function() {
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>30-day Chart Challenge</strong>: 2022" was written by Lisa DeBruine. It was last built on 2022-04-14.</p>
+    <p>"<strong>30-day Chart Challenge</strong>: 2022" was written by Lisa DeBruine. It was last built on 2022-04-15.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

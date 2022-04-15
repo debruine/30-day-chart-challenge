@@ -178,7 +178,7 @@ while (!is.null(dev.list())) dev.off()
 
 I recently discovered the `r pkg("waffle", "https://github.com/hrbrmstr/waffle/")` package for making waffle plots. Emily and I refuse to teach students on our [Applied Data Skills](https://psyteachr.github.io/ads-v1/) course how to make pie charts, and these are a sweet alternative. 
 
-```{r, message=FALSE, cache=FALSE}
+```{r, message=FALSE}
 #devtools::install_github("hrbrmstr/waffle")
 library(tidyverse)  # for data wrangling
 library(waffle)     # for pictograms
@@ -189,7 +189,7 @@ library(showtext)   # for fonts
 
 I'm never sure what I'm doing with fonts, but this procedure seems to work to install the FontAwesome fonts that you need for pictograms and also any other specialist fonts you'd like.
 
-```{r, cache = FALSE}
+```{r}
 waffle::install_fa_fonts()
 fontdir <- "/Library/Frameworks/R.framework/Versions/4.1/Resources/library/waffle/fonts/"
 font_add(family = waffle::fa5_brand,
